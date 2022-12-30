@@ -272,6 +272,7 @@ SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     }
 
 login(email);
+pronum(email);
 
     if ((tabprofil [pronum(email)][0] == nom)&&(tabprofil [pronum(email)][2] == email))
     {
@@ -377,6 +378,7 @@ login(email);
         }
     
         login(auth);
+   
         
         System.out.println("Entrez un email : ");
         try (Scanner scanner = new Scanner(System.in)) {
@@ -479,6 +481,7 @@ public Admin(String email,  String mdp, String role)
     Date date = new Date();
     SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
    
+    nbdepro();
     id= nbdepro()+1;
 
     System.out.println("Entrez un email : ");
@@ -700,7 +703,7 @@ SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     home();
 
     }
-   
+    home();
     }}
 
     
