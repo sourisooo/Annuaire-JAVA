@@ -340,7 +340,7 @@ login(email);
             bw.flush();
         }
         
-        bw.write(profil);
+        bw.append(profil);
         bw.flush();
     
         for(i=index+1;i<9999;i++) 
@@ -384,6 +384,8 @@ login(email);
 
         if (pronum(email)!=-1)
             {home();};
+            id(email,"");
+
              tabcompte [idnum(auth)][0] = email;
         }
      
@@ -422,7 +424,7 @@ login(email);
             bw.flush();
         }
         
-        bw.write(email+";"+mdp+";"+role);
+        bw.append(email+";"+mdp+";"+role);
         bw.flush();
     
         for(i=index+1;i<9999;i++) 
@@ -485,6 +487,7 @@ public Admin(String email,  String mdp, String role)
 
         if (pronum(email)!=-1)
         {home();};
+        id(email,"");
         tabprofil [id][2] = email;
     }
 
@@ -549,7 +552,7 @@ public Admin(String email,  String mdp, String role)
             bw.flush();
         }
         
-        bw.write(profil);
+        bw.append(profil);
         bw.flush();
     
         for(i=index+1;i<9999;i++) 
@@ -673,7 +676,7 @@ SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         bw.flush();
     }
     
-    bw.write(profil);
+    bw.append(profil);
     bw.flush();
 
     for(i=index+1;i<9999;i++) 
