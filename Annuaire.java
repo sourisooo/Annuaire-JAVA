@@ -3,7 +3,6 @@ package projetpoo;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,24 +11,18 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-import java.util.function.Function;
 
-import javax.lang.model.util.ElementScanner14;
 
-public class Annuaire {
-
-}
 
 class Particulier { String nom; String prénom; String email; String adressepostal; 
     String datedenaissance; String profill; String datedajout; String datedemodification;
      String mdp;
      String role;
 
-     String [][] tabprofil = new String[9999][8];
+     static String [][] tabprofil = new String[9999][8];
      String [][] tabcompte = new String[9999][3];
      String [] tabmail = new String [9999];
      String [] tabmdp = new String [9999];
@@ -37,6 +30,8 @@ class Particulier { String nom; String prénom; String email; String adressepost
      List<String> alist = new ArrayList<>();
      List<String> blist = new ArrayList<>();
      List<String> clist = new ArrayList<>();
+     List<String> zlist = new ArrayList<>();
+     String [] tabpro = new String [9999];
 
 
 public Particulier(String nom, String prénom, String email, String adressepostal, 
@@ -83,7 +78,7 @@ for (String str:tabmail) {
     clist.add(str);
  }
 
- if(alist.indexOf(mail)==blist.indexOf(mdp)&&alist.indexOf(mail)==clist.indexOf(mail))
+ if(alist.indexOf(mail)==blist.indexOf(mdp))
  
  {
  return true;
@@ -93,6 +88,23 @@ for (String str:tabmail) {
 
 public int idnum (String mail)
 {return alist.indexOf(mail);}
+
+public int pronum (String mail)
+{
+    int i=0;
+
+    for (i=0;i<9999;i++)
+    {
+        tabpro [i] = tabprofil [i][2]; 
+ 
+    }
+    
+    for (String str:tabpro) {
+        zlist.add(str);
+     }
+
+     return zlist.indexOf(mail);
+}
 
 
 public int nbdecpt () throws IOException
@@ -228,11 +240,6 @@ public void login(String email) throws IOException
 { 
 String mdp;
 
-    System.out.println("Entrez un email : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-             email = scanner.nextLine();
-        }
-     
         System.out.println("Entrez un mdp : ");
         try (Scanner scanner = new Scanner(System.in)) {
             mdp = scanner.nextLine();
@@ -254,68 +261,65 @@ int index;
 Date date = new Date();
 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
-
     System.out.println("Entrez un nom : ");
     try (Scanner scanner = new Scanner(System.in)) {
-         nom = scanner.nextLine();
-    }
- 
+    nom = scanner.nextLine();
+    } 
+
     System.out.println("Entrez un email : ");
     try (Scanner scanner = new Scanner(System.in)) {
         email = scanner.nextLine();
     }
 
 login(email);
-idnum(email);
 
-
-    if ((tabprofil [idnum(email)][0] == nom)&&(tabprofil [idnum(email)][2] == email))
+    if ((tabprofil [pronum(email)][0] == nom)&&(tabprofil [pronum(email)][2] == email))
     {
     
         System.out.println("Entrez un nom : ");
         try (Scanner scanner = new Scanner(System.in)) {
              nom = scanner.nextLine();
-             tabprofil [idnum(email)][0] = nom;
+             tabprofil [pronum(email)][0] = nom;
         }
      
         System.out.println("Entrez un prénom : ");
         try (Scanner scanner = new Scanner(System.in)) {
             prénom = scanner.nextLine();
-            tabprofil [idnum(email)][1] = prénom;
+            tabprofil [pronum(email)-1][1] = prénom;
         }
 
         System.out.println("Entrez un email : ");
         try (Scanner scanner = new Scanner(System.in)) {
             email = scanner.nextLine();
-            tabprofil [idnum(email)][2] = email;
+            tabprofil [pronum(email)-1][2] = email;
         }
     
         System.out.println("Entrez un adressepostal : ");
         try (Scanner scanner = new Scanner(System.in)) {
             adressepostal = scanner.nextLine();
-            tabprofil [idnum(email)][3] = adressepostal;
+            tabprofil [pronum(email)-1][3] = adressepostal;
         }
     
         System.out.println("Entrez une date de naissance : ");
         try (Scanner scanner = new Scanner(System.in)) {
             datedenaissance = scanner.nextLine();
-            tabprofil [idnum(email)][4] = datedenaissance;
+            tabprofil [pronum(email)-1][4] = datedenaissance;
         }
 
         System.out.println("Entrez un profill : ");
         try (Scanner scanner = new Scanner(System.in)) {
             profill = scanner.nextLine();
-        tabprofil [idnum(email)][5] = profill;
+        tabprofil [pronum(email)-1][5] = profill;
         }
 
             datedemodification = formatter.format(date);
-            tabprofil [idnum(email)][7] = datedemodification;
+            tabprofil [pronum(email)-1][7] = datedemodification;
          
     int j=0;
 
     for (j=0; j<8; j++)
-    {profil= profil + tabprofil[idnum(email)][j];}
-    index = idnum(email);
+    {profil= profil + tabprofil[pronum(email)][j];}
+    index = pronum(email);
 
     File r= new File("C:\\Users\\souri\\Desktop\\fichierprofils.txt"); 
 
@@ -326,13 +330,28 @@ idnum(email);
 
     int i=0;
 
-    for(i=index;i<index;i++) 
+    String data;
     
-    {
+        for(i=0;i<index;i++) 
+        
+        {   br.readLine();
+            data = br.readLine();
+            bw.append(new String(data));
+            bw.flush();
+        }
+        
         bw.write(profil);
         bw.flush();
-    }
     
+        for(i=index+1;i<9999;i++) 
+        
+        {   br.readLine();
+            data = br.readLine();
+            bw.append(new String(data));
+            bw.flush();
+        }
+
+    bw.flush();
     br.close();
     bw.close();
     r.delete();
@@ -348,8 +367,9 @@ idnum(email);
 
     public void creationcompte() throws IOException
     {String auth; String email; String mdp; String role; String id;
-    
-        id = String.valueOf(nbdecpt());
+    int index;
+
+        // id = String.valueOf(nbdecpt());
     
         System.out.println("Authentifiez votre email : ");
         try (Scanner scanner = new Scanner(System.in)) {
@@ -358,37 +378,73 @@ idnum(email);
     
         login(auth);
         
-    
         System.out.println("Entrez un email : ");
         try (Scanner scanner = new Scanner(System.in)) {
              email = scanner.nextLine();
-             tabcompte [nbdecpt()][0] = email;
+
+        if (pronum(email)!=-1)
+            {home();};
+             tabcompte [idnum(auth)][0] = email;
         }
      
         System.out.println("Entrez un mdp : ");
         try (Scanner scanner = new Scanner(System.in)) {
             mdp = scanner.nextLine();
-            tabcompte [nbdecpt()-1][1] = mdp;
+            tabcompte [idnum(auth)-1][1] = mdp;
         }
     
         System.out.println("Entrez un role : ");
         try (Scanner scanner = new Scanner(System.in)) {
             role = scanner.nextLine();
-            tabcompte [nbdecpt()-1][2] = role;}
+            tabcompte [idnum(auth)-1][2] = role;}
     
+            // tabcompte [idnum(auth)-1][3] = id;
     
-            tabcompte [nbdecpt()][3] = id;
+
+     index = idnum(auth);
+
+    File r= new File("C:\\Users\\souri\\Desktop\\fichiercompte.txt"); 
+
+    FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichiercompte.txt");
+    FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichiercompte2.txt");
+    BufferedReader br = new BufferedReader(fr);
+    BufferedWriter bw = new BufferedWriter(fw);
+
+    int i=0;
+
+    String data;
     
+        for(i=0;i<index;i++) 
         
-            FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichiercompte.txt"); 
-            BufferedWriter cp = new BufferedWriter(fw);
+        {   br.readLine();
+            data = br.readLine();
+            bw.append(new String(data));
+            bw.flush();
+        }
+        
+        bw.write(email+";"+mdp+";"+role);
+        bw.flush();
     
-            cp.write(email+";"+mdp+";"+role+";");
-            cp.newLine();
-            cp.flush();
-            cp.close();
-            home();
-    }
+        for(i=index+1;i<9999;i++) 
+        
+        {   br.readLine();
+            data = br.readLine();
+            bw.append(new String(data));
+            bw.flush();
+        }
+
+    bw.flush();
+    br.close();
+    bw.close();
+    r.delete();
+   
+    Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichiercompte2.txt");
+    Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichiercompte.txt");
+  
+    Files.move(source, target);
+    home();
+    
+        }
 
 
 }
@@ -396,21 +452,19 @@ idnum(email);
 
 class Admin extends Particulier {
 
-public Admin(String nom, String prénom, String email, String adressepostal, 
-String datedenaissance, String profill, String datedajout, String datedemodification)
+public Admin(String email,  String mdp, String role)
 
 {
-    super( nom,  prénom, email,  adressepostal,
-     datedenaissance,  profill,  datedajout,  datedemodification);
+    super( email, mdp, role);
 
-     String mdp, role;
+    
 }
 
     public void creationprofil() throws IOException
      {  String auth;
         String nom; String prénom; String email; String adressepostal; 
         String datedenaissance; String profill; String datedajout; String datedemodification;
-        int id;
+        int id; String profil; int index;
 
         System.out.println("Authentifiez votre email : ");
         try (Scanner scanner = new Scanner(System.in)) {
@@ -425,57 +479,98 @@ String datedenaissance, String profill, String datedajout, String datedemodifica
    
     id= nbdepro()+1;
 
+    System.out.println("Entrez un email : ");
+    try (Scanner scanner = new Scanner(System.in)) {
+        email = scanner.nextLine();
+
+        if (pronum(email)!=-1)
+        {home();};
+        tabprofil [id][2] = email;
+    }
+
         System.out.println("Entrez un nom : ");
         try (Scanner scanner = new Scanner(System.in)) {
              nom = scanner.nextLine();
-             tabprofil [id][0] = nom;
+             tabprofil [id-1][0] = nom;
         }
      
         System.out.println("Entrez un prénom : ");
         try (Scanner scanner = new Scanner(System.in)) {
             prénom = scanner.nextLine();
-            tabprofil [id][1] = prénom;
+            tabprofil [id-1][1] = prénom;
         }
 
-        System.out.println("Entrez un email : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            email = scanner.nextLine();
-            tabprofil [id][2] = email;
-        }
-    
         System.out.println("Entrez un adressepostal : ");
         try (Scanner scanner = new Scanner(System.in)) {
             adressepostal = scanner.nextLine();
-            tabprofil [id][3] = adressepostal;
+            tabprofil [id-1][3] = adressepostal;
         }
     
         System.out.println("Entrez une date de naissance : ");
         try (Scanner scanner = new Scanner(System.in)) {
             datedenaissance = scanner.nextLine();
-            tabprofil [id][4] = datedenaissance;
+            tabprofil [id-1][4] = datedenaissance;
         }
 
         System.out.println("Entrez un profill : ");
         try (Scanner scanner = new Scanner(System.in)) {
             profill = scanner.nextLine();
-        tabprofil [id][5] = profill;
+        tabprofil [id-1][5] = profill;
         }
 
             datedajout = formatter.format(date);
-            tabprofil [id][6] = datedajout;
+            tabprofil [id-1][6] = datedajout;
             datedemodification = "";
-            tabprofil [id][7] = "";
+            tabprofil [id-1][7] = "";
          
-          
-        FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil.txt"); 
-        BufferedWriter cc = new BufferedWriter(fw);
+        int j=0;
+        profil = "";
 
-        cc.write(nom+";"+prénom+";"+email+";"+adressepostal+";"+datedenaissance+";"+";"+profill+";"+datedajout+";"+datedemodification);
-        cc.newLine();
-        cc.flush();
-        cc.close();
-        creationcompte();
+        for (j=0; j<8; j++)
+        {profil= profil + tabprofil[id][j];}
+        index = id;
     
+        File r= new File("C:\\Users\\souri\\Desktop\\fichierprofils.txt"); 
+    
+        FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichierprofils.txt");
+        FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
+        BufferedReader br = new BufferedReader(fr);
+        BufferedWriter bw = new BufferedWriter(fw);
+    
+        int i=0;
+    
+        String data;
+    
+        for(i=0;i<index;i++) 
+        
+        {   br.readLine();
+            data = br.readLine();
+            bw.append(new String(data));
+            bw.flush();
+        }
+        
+        bw.write(profil);
+        bw.flush();
+    
+        for(i=index+1;i<9999;i++) 
+        
+        {  br.readLine();
+            data = br.readLine();
+            bw.append(new String(data));
+            bw.flush();
+        }
+    
+        bw.flush();
+        br.close();
+        bw.close();
+        r.delete();
+       
+        Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
+        Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
+      
+        Files.move(source, target);
+        creationcompte();
+        
     }
 
 
@@ -568,13 +663,29 @@ SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     BufferedReader br = new BufferedReader(fr);
     BufferedWriter bw = new BufferedWriter(fw);
 
-    for(i=index;i<index+1;i++) 
+    String data;
     
-    {
-        bw.write(profil);
+    for(i=0;i<index;i++) 
+    
+    {   br.readLine();
+        data = br.readLine();
+        bw.append(new String(data));
         bw.flush();
     }
     
+    bw.write(profil);
+    bw.flush();
+
+    for(i=index+1;i<9999;i++) 
+    
+    {   
+        br.readLine();
+        data = br.readLine();
+        bw.append(new String(data));
+        bw.flush();
+    }
+
+    bw.flush();
     br.close();
     bw.close();
     r.delete();
@@ -593,6 +704,9 @@ SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 public void home() throws IOException
 {
 String choix;
+tabcompte [0][0] = "admin@cnam.fr";
+tabcompte [0][1] = "admin";
+tabcompte [0][2] = "admin";
 
 System.out.println("Bienvenue dans l’Annuaire NFA032");
 System.out.println("Administrateur :");
@@ -623,11 +737,18 @@ recherche();
 case "3":  
 modifierprofil();
 }
+
 }
-
-
 
 
 }
 
     
+public class Annuaire {
+    public static void main(String[] args) throws IOException {
+Admin admin= new Admin("admin@cnam.fr", "admin", "admin");
+
+admin.home();
+
+}
+}
