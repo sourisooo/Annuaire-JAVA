@@ -17,6 +17,7 @@ import java.util.Scanner;
 
 
 
+
 class Particulier { String nom; String prénom; String email; String adressepostal; 
     String datedenaissance; String profill; String datedajout; String datedemodification;
      String mdp;
@@ -633,6 +634,9 @@ SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         System.out.println("Entrez un email : ");
         try (Scanner scanner = new Scanner(System.in)) {
             email = scanner.nextLine();
+            pronum(email);
+            if (pronum(email)!=-1)
+            {modifierprofil();};
             tabprofil [i][2] = email;
         }
     
