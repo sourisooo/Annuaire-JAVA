@@ -5,9 +5,6 @@ import java.io.BufferedWriter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -111,11 +108,10 @@ public int pronum (String mail)
 
 
 public int nbdecpt () throws IOException
-{ String compte; String profil;
+{ String compte;
    int compteur=0;
 
   compte = "C:\\Users\\souri\\Desktop\\fichiercompte.txt";
-  profil = "C:\\Users\\souri\\Desktop\\fichierprofil.txt";
 
     FileReader fr = new FileReader(compte);
     BufferedReader br = new BufferedReader(fr);
@@ -136,10 +132,9 @@ ligne = br.readLine();
     
 
     public int nbdepro () throws IOException
-    { String compte; String profil;
+    {  String profil;
        int compteur=0;
     
-      compte = "C:\\Users\\souri\\Desktop\\fichiercompte.txt";
       profil = "C:\\Users\\souri\\Desktop\\fichierprofil.txt";
     
         FileReader fr = new FileReader(profil);
@@ -312,45 +307,14 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
     {profil= profil + tabprofil[pronum(temp.get(1))][j];}
     index = pronum(temp.get(1));
 
-    Path r= Paths.get("C:\\Users\\souri\\Desktop\\fichierprofils.txt"); 
-
-    FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichierprofils.txt");
-    FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
-    BufferedReader br = new BufferedReader(fr);
+   
+    FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
     BufferedWriter bw = new BufferedWriter(fw);
 
-    int i=0;
-
-    String data;
-    
-        for(i=0;i<index;i++) 
-        
-        {   br.readLine();
-            data = br.readLine();
-            bw.append(new String(data));
-            bw.flush();
-        }
-        
-        bw.append(profil);
-        bw.flush();
-    
-        for(i=index+1;i<9999;i++) 
-        
-        {   br.readLine();
-            data = br.readLine();
-            bw.append(new String(data));
-            bw.flush();
-        }
-
+    bw.write(profil, index, index);
     bw.flush();
-    br.close();
     bw.close();
-    (r.toFile()).delete();
-   
-    Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
-    Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
-  
-    Files.move(source, target);
+    
     temp.clear();
     queryprocess.clear();
     home();
@@ -382,45 +346,13 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
 
      index = idnum(temp.get(0));
 
-    Path r= Paths.get("C:\\Users\\souri\\Desktop\\fichiercompte.txt"); 
+     FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichiercompte.txt");
+     BufferedWriter bw = new BufferedWriter(fw);
+ 
+     bw.write((temp.get(1)+";"+temp.get(2)+";"+temp.get(3)), index, index);
+     bw.flush();
+     bw.close();
 
-    FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichiercompte.txt");
-    FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichiercompte2.txt");
-    BufferedReader br = new BufferedReader(fr);
-    BufferedWriter bw = new BufferedWriter(fw);
-
-    int i=0;
-
-    String data;
-    
-        for(i=0;i<index;i++) 
-        
-        {   br.readLine();
-            data = br.readLine();
-            bw.append(new String(data));
-            bw.flush();
-        }
-        
-        bw.append(temp.get(1)+";"+temp.get(2)+";"+temp.get(3));
-        bw.flush();
-    
-        for(i=index+1;i<9999;i++) 
-        
-        {   br.readLine();
-            data = br.readLine();
-            bw.append(new String(data));
-            bw.flush();
-        }
-
-    bw.flush();
-    br.close();
-    bw.close();
-    (r.toFile()).delete();
-   
-    Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichiercompte2.txt");
-    Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichiercompte.txt");
-  
-    Files.move(source, target);
     temp.clear();
     home();
     
@@ -493,45 +425,13 @@ public Admin(String email,  String mdp, String role)
         {profil= profil + tabprofil[id][j];}
         index = id;
     
-        Path r= Paths.get("C:\\Users\\souri\\Desktop\\fichierprofils.txt"); 
-    
-        FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichierprofils.txt");
-        FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
-        BufferedReader br = new BufferedReader(fr);
+        FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofils.txt");
         BufferedWriter bw = new BufferedWriter(fw);
     
-        int i=0;
-    
-        String data;
-    
-        for(i=0;i<index;i++) 
-        
-        {   br.readLine();
-            data = br.readLine();
-            bw.append(new String(data));
-            bw.flush();
-        }
-        
-        bw.append(profil);
+        bw.write(profil, index, index);
         bw.flush();
-    
-        for(i=index+1;i<9999;i++) 
-        
-        {  br.readLine();
-            data = br.readLine();
-            bw.append(new String(data));
-            bw.flush();
-        }
-    
-        bw.flush();
-        br.close();
         bw.close();
-        (r.toFile()).delete();
-       
-        Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
-        Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
-      
-        Files.move(source, target);
+
         temp.clear();
         queryprocess.clear();
         creationcompte();
@@ -592,44 +492,13 @@ public Admin(String email,  String mdp, String role)
          {profil= profil + tabprofil[i][j];}
          index = i;
     
-    Path r= Paths.get("C:\\Users\\souri\\Desktop\\fichierprofils.txt"); 
+         FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofils.txt");
+         BufferedWriter bw = new BufferedWriter(fw);
+     
+         bw.write(profil, index, index);
+         bw.flush();
+         bw.close();
 
-    FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichierprofils.txt");
-    FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
-    BufferedReader br = new BufferedReader(fr);
-    BufferedWriter bw = new BufferedWriter(fw);
-
-    String data;
-    
-    for(i=0;i<index;i++) 
-    
-    {   br.readLine();
-        data = br.readLine();
-        bw.append(new String(data));
-        bw.flush();
-    }
-    
-    bw.append(profil);
-    bw.flush();
-
-    for(i=index+1;i<9999;i++) 
-    
-    {   
-        br.readLine();
-        data = br.readLine();
-        bw.append(new String(data));
-        bw.flush();
-    }
-
-    bw.flush();
-    br.close();
-    bw.close();
-    (r.toFile()).delete();
-   
-    Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
-    Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
-  
-    Files.move(source, target);
     temp.clear();
     queryprocess.clear();
     home();
