@@ -239,7 +239,7 @@ BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 System.out.print("Enter your"+typeof);
  
 String name = reader.readLine();
-temp.add(name);
+queryprocess.add(name);
 
 
 
