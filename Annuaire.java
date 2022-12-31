@@ -2,22 +2,17 @@ package projetpoo;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
-
-
 
 
 class Particulier { String nom; String prénom; String email; String adressepostal; 
@@ -25,7 +20,7 @@ class Particulier { String nom; String prénom; String email; String adressepost
      String mdp;
      String role;
 
-     static String [][] tabprofil = new String[9999][8];
+    String [][] tabprofil = new String[9999][8];
      String [][] tabcompte = new String[9999][3];
      String [] tabmail = new String [9999];
      String [] tabmdp = new String [9999];
@@ -89,9 +84,11 @@ for (String str:tabmail) {
 
  return false;}
 
+
 public int idnum (String mail)
 {id(mail,"");
 return alist.indexOf(mail);}
+
 
 public int pronum (String mail)
 {
@@ -161,14 +158,27 @@ ligne = br.readLine();
         }
 
 
+public void rech(int para, String motRechercher) throws IOException
+{int i =0;
+ int j =0;
 
+    for(i=0; i<9999;i++)
+    {
+    if (tabprofil [i][para] == motRechercher)
+    {
+    
+    for (j=0; j<8; j++)
+    {System.out.println(tabprofil [i][j]);}
+    
+    }
+    else
+    i++;
+    }
+    
+}
 
 public void recherche() throws IOException
 {
-
-int para;
-int i=0;
-int j=0;
 
 System.out.println("Entrez un type de recherche : ");
 Scanner scanner = new Scanner(System.in);
@@ -176,28 +186,15 @@ String typeRechercher = scanner.nextLine();
 System.out.println("Entrez le mot recherché : ");
 String motRechercher = scanner.nextLine();
 
-switch (typeRechercher) {
-    case "nom":  
-    para = 0;
-    case "email":  
-    para = 1;
-    case "profil":  
-    para = 2;
+    switch (typeRechercher) {
+        case "nom":
+        rech(0, motRechercher);
+        case "email":
+        rech(1, motRechercher);
+        case "profil":
+        rech(2, motRechercher);
 
-
-for(i=0; i<9999;i++)
-{
-if (tabprofil [i][para] == motRechercher)
-{
-
-for (j=0; j<8; j++)
-{System.out.println(tabprofil [i][j]);}
-
-}
-else
-i++;
-}
-}
+    }
 
 scanner.close();
 home();
@@ -236,7 +233,7 @@ recherche();
 case "2.C":  
 recherche();
 case "3":  
-home();
+modifierprofil();
 }
 }
 
@@ -256,9 +253,9 @@ String mdp;
 
 
 public void modifierprofil() throws IOException 
-{String recherche; String nom; String prénom; String email; String adressepostal; 
-    String datedenaissance; String profill; String datedajout; String datedemodification;
-    BufferedWriter cc; BufferedReader bfcc; String ligne;
+{String nom; String prénom; String email; String adressepostal; 
+    String datedenaissance; String profill;  String datedemodification;
+   
 
 String profil="";
 int index;
@@ -375,10 +372,9 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
 
 
     public void creationcompte() throws IOException
-    {String auth; String email; String mdp; String role; String id;
+    {String auth; String email; String mdp; String role;
     int index;
 
-        // id = String.valueOf(nbdecpt());
     
         System.out.println("Authentifiez votre email : ");
         try (Scanner scanner = new Scanner(System.in)) {
@@ -410,8 +406,6 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
         try (Scanner scanner = new Scanner(System.in)) {
             role = scanner.nextLine();
             tabcompte [idnum(auth)-1][2] = role;}
-    
-            // tabcompte [idnum(auth)-1][3] = id;
     
 
      index = idnum(auth);
@@ -476,7 +470,7 @@ public Admin(String email,  String mdp, String role)
     public void creationprofil() throws IOException
      {  String auth;
         String nom; String prénom; String email; String adressepostal; 
-        String datedenaissance; String profill; String datedajout; String datedemodification;
+        String datedenaissance; String profill; String datedajout;
         int id; String profil; int index;
 
         System.out.println("Authentifiez votre email : ");
@@ -487,12 +481,11 @@ public Admin(String email,  String mdp, String role)
         id(auth,"");
         login(auth);
 
-
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
    
-    nbdepro();
-    id= nbdepro()+1;
+        nbdepro();
+        id= nbdepro();
 
     System.out.println("Entrez un email : ");
     try (Scanner scanner = new Scanner(System.in)) {
@@ -591,25 +584,23 @@ public Admin(String email,  String mdp, String role)
 
 
     public void modifierprofil() throws IOException 
-{String recherche; String nom; String prénom; String email; String adressepostal; 
-    String datedenaissance; String profill; String datedajout; String datedemodification;
-    BufferedWriter cc; BufferedReader bfcc; String ligne; String auth;
+{ String nom; String prénom; String email; String adressepostal; 
+    String datedenaissance; String profill; String datedemodification;
+     String auth;
 
-String profil="";
-int index;
+    String profil="";
+    int index;
 
-System.out.println("Authentifiez votre email : ");
-try (Scanner scanner = new Scanner(System.in)) {
+    System.out.println("Authentifiez votre email : ");
+    try (Scanner scanner = new Scanner(System.in)) {
     auth = scanner.nextLine();
-}
+    }
 
-id(auth,"");
-login(auth);
+    id(auth,"");
+    login(auth);
 
-
-LocalDate date = LocalDate.now();
-DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
+    LocalDate date = LocalDate.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     System.out.println("Entrez un nom : ");
     try (Scanner scanner = new Scanner(System.in)) {
@@ -718,7 +709,9 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
 
     }
     home();
-    }}
+    }
+    home();
+    }
 
     
 public void home() throws IOException
@@ -739,9 +732,9 @@ System.out.println("2.B. Par email");
 System.out.println("2.C. Par profil");
 System.out.println("3. Modifier mes informations personnelles");
 System.out.println("Faites votre choix : ");
-try (Scanner scanner = new Scanner(System.in)) {
-    choix = scanner.nextLine();
-}
+Scanner scanner = new Scanner(System.in);
+choix = scanner.nextLine();
+scanner.close();
 
 switch (choix) {
 case "1.A":  
