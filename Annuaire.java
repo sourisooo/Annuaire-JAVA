@@ -10,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -88,7 +90,8 @@ for (String str:tabmail) {
  return false;}
 
 public int idnum (String mail)
-{return alist.indexOf(mail);}
+{id(mail,"");
+return alist.indexOf(mail);}
 
 public int pronum (String mail)
 {
@@ -259,8 +262,11 @@ public void modifierprofil() throws IOException
 
 String profil="";
 int index;
-Date date = new Date();
-SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+LocalDate date = LocalDate.now();
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+
 
     System.out.println("Entrez un nom : ");
     try (Scanner scanner = new Scanner(System.in)) {
@@ -272,8 +278,9 @@ SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         email = scanner.nextLine();
     }
 
-login(email);
-pronum(email);
+    id(email,"");
+    login(email);
+    pronum(email);
 
     if ((tabprofil [pronum(email)][0] == nom)&&(tabprofil [pronum(email)][2] == email))
     {
@@ -314,7 +321,7 @@ pronum(email);
         tabprofil [pronum(email)-1][5] = profill;
         }
 
-            datedemodification = formatter.format(date);
+            datedemodification = date.format(formatter);
             tabprofil [pronum(email)-1][7] = datedemodification;
          
     int j=0;
@@ -323,7 +330,7 @@ pronum(email);
     {profil= profil + tabprofil[pronum(email)][j];}
     index = pronum(email);
 
-    File r= new File("C:\\Users\\souri\\Desktop\\fichierprofils.txt"); 
+    Path r= Paths.get("C:\\Users\\souri\\Desktop\\fichierprofils.txt"); 
 
     FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichierprofils.txt");
     FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
@@ -356,7 +363,7 @@ pronum(email);
     bw.flush();
     br.close();
     bw.close();
-    r.delete();
+    (r.toFile()).delete();
    
     Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
     Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
@@ -377,7 +384,8 @@ pronum(email);
         try (Scanner scanner = new Scanner(System.in)) {
             auth = scanner.nextLine();
         }
-    
+
+        id(auth,"");
         login(auth);
    
         
@@ -408,7 +416,7 @@ pronum(email);
 
      index = idnum(auth);
 
-    File r= new File("C:\\Users\\souri\\Desktop\\fichiercompte.txt"); 
+    Path r= Paths.get("C:\\Users\\souri\\Desktop\\fichiercompte.txt"); 
 
     FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichiercompte.txt");
     FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichiercompte2.txt");
@@ -441,7 +449,7 @@ pronum(email);
     bw.flush();
     br.close();
     bw.close();
-    r.delete();
+    (r.toFile()).delete();
    
     Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichiercompte2.txt");
     Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichiercompte.txt");
@@ -475,12 +483,13 @@ public Admin(String email,  String mdp, String role)
         try (Scanner scanner = new Scanner(System.in)) {
             auth = scanner.nextLine();
         }
-    
+        
+        id(auth,"");
         login(auth);
 
 
-    Date date = new Date();
-    SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        LocalDate date = LocalDate.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
    
     nbdepro();
     id= nbdepro()+1;
@@ -525,7 +534,7 @@ public Admin(String email,  String mdp, String role)
         tabprofil [id-1][5] = profill;
         }
 
-            datedajout = formatter.format(date);
+            datedajout = date.format(formatter);
             tabprofil [id-1][6] = datedajout;
             datedemodification = "";
             tabprofil [id-1][7] = "";
@@ -537,7 +546,7 @@ public Admin(String email,  String mdp, String role)
         {profil= profil + tabprofil[id][j];}
         index = id;
     
-        File r= new File("C:\\Users\\souri\\Desktop\\fichierprofils.txt"); 
+        Path r= Paths.get("C:\\Users\\souri\\Desktop\\fichierprofils.txt"); 
     
         FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichierprofils.txt");
         FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
@@ -570,7 +579,7 @@ public Admin(String email,  String mdp, String role)
         bw.flush();
         br.close();
         bw.close();
-        r.delete();
+        (r.toFile()).delete();
        
         Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
         Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
@@ -594,11 +603,12 @@ try (Scanner scanner = new Scanner(System.in)) {
     auth = scanner.nextLine();
 }
 
+id(auth,"");
 login(auth);
 
 
-Date date = new Date();
-SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+LocalDate date = LocalDate.now();
+DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
 
     System.out.println("Entrez un nom : ");
@@ -658,7 +668,7 @@ SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
         tabprofil [i][5] = profill;
         }
 
-            datedemodification = formatter.format(date);
+            datedemodification = date.format(formatter);
             tabprofil [i][7] = datedemodification;
          
 
@@ -666,7 +676,7 @@ SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     {profil= profil + tabprofil[i][j];}
     index = i;
 
-    File r= new File("C:\\Users\\souri\\Desktop\\fichierprofils.txt"); 
+    Path r= Paths.get("C:\\Users\\souri\\Desktop\\fichierprofils.txt"); 
 
     FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichierprofils.txt");
     FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
@@ -698,7 +708,7 @@ SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
     bw.flush();
     br.close();
     bw.close();
-    r.delete();
+    (r.toFile()).delete();
    
     Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
     Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
