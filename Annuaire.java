@@ -2,9 +2,11 @@ package projetpoo;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.Console;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -173,28 +175,80 @@ public void rech(int para, String motRechercher) throws IOException
     }    
 }
 
-public String ask(String typeof)
+public void ask(String typeof) throws IOException
 {
-    System.out.println("Entrez"+typeof+" : ");
-    Scanner scanner = new Scanner(System.in);
-    typeof = scanner.nextLine();
-    temp.add(typeof);
-    scanner.close();
-    return typeof;
+    // System.out.println("Entrez"+typeof+" : ");
+    // Scanner scanner = new Scanner(System.in);
+    // typeof = scanner.nextLine();
+    // temp.add(typeof);
+    // scanner.close();
+
+////////////////////////////////////////////////////////
+
+    // Console console = System.console();
+    // if (console == null) {
+    //     System.out.println("No console: non-interactive mode!");
+    //     System.exit(0);
+    // }
+     
+    // System.out.print("Enter your"+typeof);
+    // String username = console.readLine();
+    // temp.add(username);
+
+    // String passport = console.readLine("Enter your  "+typeof, 2);
+    // temp.add(passport);
+
+/////////////////////////////////////////////////////////
+
+BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+System.out.print("Enter your"+typeof);
+ 
+String name = reader.readLine();
+temp.add(name);
+
+
 }
 
-public String askList(String typeof)
+public void askList(String typeof) throws IOException
 {
-    System.out.println("Entrez"+typeof+" : ");
-    Scanner scanner = new Scanner(System.in);
-    typeof = scanner.nextLine();
-    queryprocess.add(typeof);
-    scanner.close();
-    return typeof;
+    // System.out.println("Entrez"+typeof+" : ");
+    // Scanner scanner = new Scanner(System.in);
+    // typeof = scanner.nextLine();
+    // queryprocess.add(typeof);
+    // scanner.close();
+
+    //////////////////////////////////////////////////////////////
+
+    // Console console = System.console();
+    // if (console == null) {
+    //     System.out.println("No console: non-interactive mode!");
+    //     System.exit(0);
+    // }
+
+    // System.out.print("Enter your: "+typeof);
+    // String username = console.readLine();
+    // temp.add(username);
+
+        // String passport = console.readLine("Enter your : "+typeof, 2);
+    // queryprocess.add(passport);
+
+
+//////////////////////////////////////////////////////////////////
+
+BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+System.out.print("Enter your"+typeof);
+ 
+String name = reader.readLine();
+temp.add(name);
+
+
+
 }
 
 public void recherche() throws IOException
-{
+{   
+    temp.clear();
+    queryprocess.clear();
     ask("typeRechercher");
     ask("motRechercher");
 
@@ -216,7 +270,6 @@ public void recherche() throws IOException
 
 public void home() throws IOException
 {
-String choix;
 temp.clear();
 queryprocess.clear();
 
@@ -231,11 +284,9 @@ System.out.println("2.B. Par email");
 System.out.println("2.C. Par profil");
 System.out.println("3. Modifier mes informations personnelles");
 System.out.println("Faites votre choix : ");
-try (Scanner scanner = new Scanner(System.in)) {
-    choix = scanner.nextLine();
-}
+ask("choix");
 
-switch (choix) {
+switch (temp.get(0)) {
 case "1.A":  
 System.out.println("Vous ne disposez pas des habilitations requises.");
 home();
@@ -254,8 +305,9 @@ modifierprofil();
 }
 
 public void login(String email) throws IOException
-{ 
-        if (id(email, ask("mdp"))==false)
+{       
+        ask("mdp");
+        if (id(email, temp.get(0))==false)
 
         temp.clear();
         {home();}
@@ -266,14 +318,18 @@ public void login(String email) throws IOException
 public void modifierprofil() throws IOException 
 {  String datedemodification;
    
-String profil="";
-int index;
+    String profil="";
+    int index;
+
+    temp.clear();
+    queryprocess.clear();
 
 LocalDate date = LocalDate.now();
 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
     ask("nom");
-    id(ask("email"),"");
+    ask("mail");
+    id(temp.get(1),"");
     login(temp.get(1));
     pronum(temp.get(1));
 
@@ -325,6 +381,9 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
     public void creationcompte() throws IOException
     { int index;
 
+        temp.clear();
+        queryprocess.clear();
+
        ask("email");
         id(temp.get(0),"");
         login(temp.get(0));
@@ -375,6 +434,9 @@ public Admin(String email,  String mdp, String role)
     public void creationprofil() throws IOException
      {   String datedajout;
         int id; String profil; int index;
+
+        temp.clear();
+        queryprocess.clear();
 
         ask("email");
         
@@ -444,6 +506,9 @@ public Admin(String email,  String mdp, String role)
      
     String profil="";
     int index;
+
+    temp.clear();
+    queryprocess.clear();
 
     ask("email");
     id(temp.get(0),"");
@@ -520,7 +585,6 @@ public Admin(String email,  String mdp, String role)
     
 public void home() throws IOException
 {
-String choix;
 tabcompte [0][0] = "admin@cnam.fr";
 tabcompte [0][1] = "admin";
 tabcompte [0][2] = "admin";
@@ -538,11 +602,9 @@ System.out.println("2.B. Par email");
 System.out.println("2.C. Par profil");
 System.out.println("3. Modifier mes informations personnelles");
 System.out.println("Faites votre choix : ");
-Scanner scanner = new Scanner(System.in);
-choix = scanner.nextLine();
-scanner.close();
+ask("choix");
 
-switch (choix) {
+switch (temp.get(0)) {
 case "1.A":  
 creationcompte();
 case "1.B":  
