@@ -30,6 +30,8 @@ class Particulier { String nom; String prénom; String email; String adressepost
      List<String> clist = new ArrayList<>();
      List<String> zlist = new ArrayList<>();
      String [] tabpro = new String [9999];
+     List<String> temp = new ArrayList<>();
+     List<String> queryprocess = new ArrayList<>();
 
 
 public Particulier(String nom, String prénom, String email, String adressepostal, 
@@ -173,36 +175,55 @@ public void rech(int para, String motRechercher) throws IOException
     }
     else
     i++;
-    }
-    
+    }    
+}
+
+public String ask(String typeof)
+{
+    System.out.println("Entrez"+typeof+" : ");
+    Scanner scanner = new Scanner(System.in);
+    typeof = scanner.nextLine();
+    temp.add(typeof);
+    scanner.close();
+    return typeof;
+}
+
+public String askList(String typeof)
+{
+    System.out.println("Entrez"+typeof+" : ");
+    Scanner scanner = new Scanner(System.in);
+    typeof = scanner.nextLine();
+    queryprocess.add(typeof);
+    scanner.close();
+    return typeof;
 }
 
 public void recherche() throws IOException
 {
+    ask("typeRechercher");
+    ask("motRechercher");
 
-System.out.println("Entrez un type de recherche : ");
-Scanner scanner = new Scanner(System.in);
-String typeRechercher = scanner.nextLine();
-System.out.println("Entrez le mot recherché : ");
-String motRechercher = scanner.nextLine();
-
-    switch (typeRechercher) {
+    switch (temp.get(0)) 
+    {
         case "nom":
-        rech(0, motRechercher);
+        rech(0, temp.get(1));
         case "email":
-        rech(1, motRechercher);
+        rech(1, temp.get(1));
         case "profil":
-        rech(2, motRechercher);
+        rech(2, temp.get(1));
 
     }
 
-scanner.close();
-home();
+    temp.clear();
+    home();
+
 }
 
 public void home() throws IOException
 {
 String choix;
+temp.clear();
+queryprocess.clear();
 
 System.out.println("Bienvenue dans l’Annuaire NFA032");
 System.out.println("Administrateur :");
@@ -239,93 +260,57 @@ modifierprofil();
 
 public void login(String email) throws IOException
 { 
-String mdp;
+        if (id(email, ask("mdp"))==false)
 
-        System.out.println("Entrez un mdp : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            mdp = scanner.nextLine();
-        }
-
-        if (id(email, mdp)==false)
+        temp.clear();
         {home();}
 }
 
 
 
 public void modifierprofil() throws IOException 
-{String nom; String prénom; String email; String adressepostal; 
-    String datedenaissance; String profill;  String datedemodification;
+{  String datedemodification;
    
-
 String profil="";
 int index;
 
 LocalDate date = LocalDate.now();
 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
+    ask("nom");
+    id(ask("email"),"");
+    login(temp.get(1));
+    pronum(temp.get(1));
 
-
-    System.out.println("Entrez un nom : ");
-    try (Scanner scanner = new Scanner(System.in)) {
-    nom = scanner.nextLine();
-    } 
-
-    System.out.println("Entrez un email : ");
-    try (Scanner scanner = new Scanner(System.in)) {
-        email = scanner.nextLine();
-    }
-
-    id(email,"");
-    login(email);
-    pronum(email);
-
-    if ((tabprofil [pronum(email)][0] == nom)&&(tabprofil [pronum(email)][2] == email))
+    if ((tabprofil [pronum(temp.get(1))][0] == temp.get(0))&&(tabprofil [pronum(temp.get(1))][2] == temp.get(1)))
     {
     
-        System.out.println("Entrez un nom : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-             nom = scanner.nextLine();
-             tabprofil [pronum(email)][0] = nom;
-        }
-     
-        System.out.println("Entrez un prénom : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            prénom = scanner.nextLine();
-            tabprofil [pronum(email)-1][1] = prénom;
-        }
-
-        System.out.println("Entrez un email : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            email = scanner.nextLine();
-            tabprofil [pronum(email)-1][2] = email;
-        }
-    
-        System.out.println("Entrez un adressepostal : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            adressepostal = scanner.nextLine();
-            tabprofil [pronum(email)-1][3] = adressepostal;
-        }
-    
-        System.out.println("Entrez une date de naissance : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            datedenaissance = scanner.nextLine();
-            tabprofil [pronum(email)-1][4] = datedenaissance;
-        }
-
-        System.out.println("Entrez un profill : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            profill = scanner.nextLine();
-        tabprofil [pronum(email)-1][5] = profill;
-        }
-
+        askList("nom");
+        tabprofil [pronum(temp.get(1))][0] = queryprocess.get(0);
+        
+        askList("prénom");
+        tabprofil [pronum(temp.get(1))-1][1] = queryprocess.get(1);
+       
+        askList("email");
+        tabprofil [pronum(temp.get(1))-1][2] = queryprocess.get(2);
+        
+        askList("adressepostal");
+        tabprofil [pronum(temp.get(1))-1][3] = queryprocess.get(3);
+        
+        askList("datedenaissance");
+        tabprofil [pronum(temp.get(1))-1][4] = queryprocess.get(4);
+        
+        askList("profill");
+        tabprofil [pronum(temp.get(1))-1][5] = queryprocess.get(5);
+        
             datedemodification = date.format(formatter);
-            tabprofil [pronum(email)-1][7] = datedemodification;
+            tabprofil [pronum(temp.get(1))-1][7] = datedemodification;
          
     int j=0;
 
     for (j=0; j<8; j++)
-    {profil= profil + tabprofil[pronum(email)][j];}
-    index = pronum(email);
+    {profil= profil + tabprofil[pronum(temp.get(1))][j];}
+    index = pronum(temp.get(1));
 
     Path r= Paths.get("C:\\Users\\souri\\Desktop\\fichierprofils.txt"); 
 
@@ -366,49 +351,36 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
     Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
   
     Files.move(source, target);
+    temp.clear();
+    queryprocess.clear();
     home();
 
     }}
 
 
     public void creationcompte() throws IOException
-    {String auth; String email; String mdp; String role;
-    int index;
+    { int index;
 
-    
-        System.out.println("Authentifiez votre email : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            auth = scanner.nextLine();
-        }
-
-        id(auth,"");
-        login(auth);
+       ask("email");
+        id(temp.get(0),"");
+        login(temp.get(0));
    
-        
-        System.out.println("Entrez un email : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-             email = scanner.nextLine();
-
-        if (pronum(email)!=-1)
+        ask("email");
+       
+        if (pronum(temp.get(1))!=-1)
             {home();};
-            id(email,"");
+            id(temp.get(1),"");
 
-             tabcompte [idnum(auth)][0] = email;
-        }
-     
-        System.out.println("Entrez un mdp : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            mdp = scanner.nextLine();
-            tabcompte [idnum(auth)-1][1] = mdp;
-        }
-    
-        System.out.println("Entrez un role : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            role = scanner.nextLine();
-            tabcompte [idnum(auth)-1][2] = role;}
+            tabcompte [idnum(temp.get(0))][0] = temp.get(1);
+        
+            ask("mdp");
+            tabcompte [idnum(temp.get(0))-1][1] = temp.get(2);
+        
+            ask("role");
+            tabcompte [idnum(temp.get(0))-1][2] = temp.get(3);;
     
 
-     index = idnum(auth);
+     index = idnum(temp.get(0));
 
     Path r= Paths.get("C:\\Users\\souri\\Desktop\\fichiercompte.txt"); 
 
@@ -429,7 +401,7 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
             bw.flush();
         }
         
-        bw.append(email+";"+mdp+";"+role);
+        bw.append(temp.get(1)+";"+temp.get(2)+";"+temp.get(3));
         bw.flush();
     
         for(i=index+1;i<9999;i++) 
@@ -449,6 +421,7 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
     Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichiercompte.txt");
   
     Files.move(source, target);
+    temp.clear();
     home();
     
         }
@@ -468,18 +441,13 @@ public Admin(String email,  String mdp, String role)
 }
 
     public void creationprofil() throws IOException
-     {  String auth;
-        String nom; String prénom; String email; String adressepostal; 
-        String datedenaissance; String profill; String datedajout;
+     {   String datedajout;
         int id; String profil; int index;
 
-        System.out.println("Authentifiez votre email : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            auth = scanner.nextLine();
-        }
+        ask("email");
         
-        id(auth,"");
-        login(auth);
+        id(temp.get(0),"");
+        login(temp.get(0));
 
         LocalDate date = LocalDate.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
@@ -487,46 +455,32 @@ public Admin(String email,  String mdp, String role)
         nbdepro();
         id= nbdepro();
 
-    System.out.println("Entrez un email : ");
-    try (Scanner scanner = new Scanner(System.in)) {
-        email = scanner.nextLine();
+        askList("email");
 
-        if (pronum(email)!=-1)
+        if (pronum(queryprocess.get(0))!=-1)
         {home();};
-        id(email,"");
-        tabprofil [id][2] = email;
-    }
-
-        System.out.println("Entrez un nom : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-             nom = scanner.nextLine();
-             tabprofil [id-1][0] = nom;
-        }
-     
-        System.out.println("Entrez un prénom : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            prénom = scanner.nextLine();
-            tabprofil [id-1][1] = prénom;
-        }
-
-        System.out.println("Entrez un adressepostal : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            adressepostal = scanner.nextLine();
-            tabprofil [id-1][3] = adressepostal;
-        }
+        id(queryprocess.get(0),"");
+        tabprofil [id][2] = queryprocess.get(0);
     
-        System.out.println("Entrez une date de naissance : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            datedenaissance = scanner.nextLine();
-            tabprofil [id-1][4] = datedenaissance;
-        }
+        askList("nom");
+             tabprofil [id-1][0] = queryprocess.get(1);
+        
+    
+        askList("prénom");
+            tabprofil [id-1][1] = queryprocess.get(2);
+        
 
-        System.out.println("Entrez un profill : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            profill = scanner.nextLine();
-        tabprofil [id-1][5] = profill;
-        }
+        askList("adressepostal");
+            tabprofil [id-1][3] = queryprocess.get(3);
+        
+    
+        askList("datedenaissance");
+            tabprofil [id-1][4] = queryprocess.get(4);
+        
 
+        askList("profill");
+        tabprofil [id-1][5] = queryprocess.get(5);
+        
             datedajout = date.format(formatter);
             tabprofil [id-1][6] = datedajout;
             datedemodification = "";
@@ -578,95 +532,66 @@ public Admin(String email,  String mdp, String role)
         Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
       
         Files.move(source, target);
+        temp.clear();
+        queryprocess.clear();
         creationcompte();
         
     }
 
 
     public void modifierprofil() throws IOException 
-{ String nom; String prénom; String email; String adressepostal; 
-    String datedenaissance; String profill; String datedemodification;
-     String auth;
-
+{  String datedemodification;
+     
     String profil="";
     int index;
 
-    System.out.println("Authentifiez votre email : ");
-    try (Scanner scanner = new Scanner(System.in)) {
-    auth = scanner.nextLine();
-    }
-
-    id(auth,"");
-    login(auth);
+    ask("email");
+    id(temp.get(0),"");
+    login(temp.get(0));
 
     LocalDate date = LocalDate.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-    System.out.println("Entrez un nom : ");
-    try (Scanner scanner = new Scanner(System.in)) {
-         nom = scanner.nextLine();
-    }
+    ask("nom");
+    ask("email");
  
-    System.out.println("Entrez un email : ");
-    try (Scanner scanner = new Scanner(System.in)) {
-        email = scanner.nextLine();
-    }
-
     int i=0;
     int j=0;
 
     for(i=0; i<9999;i++)
     {
-    if ((tabprofil [i][0] == nom)&&(tabprofil [i][2] == email))
+    if ((tabprofil [i][0] == temp.get(1))&&(tabprofil [i][2] == temp.get(2)))
     {
-    
-        System.out.println("Entrez un nom : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-             nom = scanner.nextLine();
-             tabprofil [i][0] = nom;
-        }
-     
-        System.out.println("Entrez un prénom : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            prénom = scanner.nextLine();
-            tabprofil [i][1] = prénom;
-        }
+            askList("nom");
+            tabprofil [i][0] = queryprocess.get(0);
+        
+            askList("prénom");
+            tabprofil [i][1] = queryprocess.get(1);
+        
+            askList("email");
+            pronum(queryprocess.get(2));
 
-        System.out.println("Entrez un email : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            email = scanner.nextLine();
-            pronum(email);
-            if (pronum(email)!=-1)
+            if (pronum(queryprocess.get(2))!=-1)
             {modifierprofil();};
-            tabprofil [i][2] = email;
-        }
-    
-        System.out.println("Entrez un adressepostal : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            adressepostal = scanner.nextLine();
-            tabprofil [i][3] = adressepostal;
-        }
-    
-        System.out.println("Entrez une date de naissance : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            datedenaissance = scanner.nextLine();
-            tabprofil [i][4] = datedenaissance;
-        }
-
-        System.out.println("Entrez un profill : ");
-        try (Scanner scanner = new Scanner(System.in)) {
-            profill = scanner.nextLine();
-        tabprofil [i][5] = profill;
-        }
-
+            tabprofil [i][2] = queryprocess.get(2);
+        
+            askList("adressepostal");
+            tabprofil [i][3] = queryprocess.get(3);
+        
+            askList("datedenaissance");
+            tabprofil [i][4] = queryprocess.get(4);
+        
+            askList("profill");
+             tabprofil [i][5] = queryprocess.get(5);
+        
             datedemodification = date.format(formatter);
             tabprofil [i][7] = datedemodification;
          
 
-    for (j=0; j<8; j++)
-    {profil= profil + tabprofil[i][j];}
-    index = i;
-
+        for (j=0; j<8; j++)
+         {profil= profil + tabprofil[i][j];}
+         index = i;
+    
     Path r= Paths.get("C:\\Users\\souri\\Desktop\\fichierprofils.txt"); 
 
     FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichierprofils.txt");
@@ -705,12 +630,22 @@ public Admin(String email,  String mdp, String role)
     Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
   
     Files.move(source, target);
+    temp.clear();
+    queryprocess.clear();
     home();
 
     }
+
+    temp.clear();
+    queryprocess.clear();
     home();
+
     }
+
+    temp.clear();
+    queryprocess.clear();
     home();
+
     }
 
     
@@ -720,6 +655,8 @@ String choix;
 tabcompte [0][0] = "admin@cnam.fr";
 tabcompte [0][1] = "admin";
 tabcompte [0][2] = "admin";
+temp.clear();
+queryprocess.clear();
 
 System.out.println("Bienvenue dans l’Annuaire NFA032");
 System.out.println("Administrateur :");
