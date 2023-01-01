@@ -19,7 +19,7 @@ class Particulier { String nom; String prénom; String email; String adressepost
      String mdp;
      String role;
 
-    String [][] tabprofil = new String[9999][8];
+     String [][] tabprofil = new String[9999][8];
      String [][] tabcompte = new String[9999][3];
      String [] tabmail = new String [9999];
      String [] tabmdp = new String [9999];
@@ -31,6 +31,7 @@ class Particulier { String nom; String prénom; String email; String adressepost
      String [] tabpro = new String [9999];
      List<String> temp = new ArrayList<>();
      List<String> queryprocess = new ArrayList<>();
+     List<Boolean> idtemp = new ArrayList<>();
 
 
 public Particulier(String nom, String prénom, String email, String adressepostal, 
@@ -78,16 +79,26 @@ for (String str:tabmail) {
  }
 
  if(alist.indexOf(mail)==blist.indexOf(mdp))
- 
- {
- return true;
- }
 
- return false;}
+    idtemp.add(true);
+    return idtemp.get(0);
+
+}
 
 
 public int idnum (String mail)
-{id(mail,"");
+{
+    int i=0;
+
+for (i=0;i<9999;i++)
+{
+    tabmail [i] = tabcompte [i][0]; 
+}
+
+for (String str:tabmail) {
+    alist.add(str);
+ }
+
 return alist.indexOf(mail);}
 
 
@@ -201,7 +212,7 @@ public void ask(String typeof) throws IOException
 /////////////////////////////////////////////////////////
 
 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-System.out.print("Enter your"+typeof);
+System.out.print("Enter your    "+typeof+"    ");
  
 String name = reader.readLine();
 temp.add(name);
@@ -236,7 +247,7 @@ public void askList(String typeof) throws IOException
 //////////////////////////////////////////////////////////////////
 
 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-System.out.print("Enter your"+typeof);
+System.out.print("Enter your    "+typeof+ "    ");
  
 String name = reader.readLine();
 queryprocess.add(name);
@@ -249,8 +260,8 @@ public void recherche() throws IOException
 {   
     temp.clear();
     queryprocess.clear();
-    ask("typeRechercher");
-    ask("motRechercher");
+    ask("type de recherche");
+    ask("mail recherché");
 
     switch (temp.get(0)) 
     {
@@ -272,6 +283,7 @@ public void home() throws IOException
 {
 temp.clear();
 queryprocess.clear();
+idtemp.clear();
 
 System.out.println("Bienvenue dans l’Annuaire NFA032");
 System.out.println("Administrateur :");
@@ -308,9 +320,9 @@ public void login(String email) throws IOException
 {       
         ask("mdp");
         if (id(email, temp.get(0))==false)
-
-        temp.clear();
         {home();}
+        // temp.clear();
+       
 }
 
 
@@ -373,6 +385,7 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
     
     temp.clear();
     queryprocess.clear();
+    idtemp.clear();
     home();
 
     }}
@@ -383,36 +396,40 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
 
         temp.clear();
         queryprocess.clear();
+        idtemp.clear();
 
-       ask("email");
-        id(temp.get(0),"");
+       ask("authentification email");
+        // id(temp.get(0),"");
         login(temp.get(0));
    
         ask("email");
        
-        if (pronum(temp.get(1))!=-1)
+        if (idnum(temp.get(2))!=-1)
             {home();};
-            id(temp.get(1),"");
+            // id(temp.get(1),"");
 
-            tabcompte [idnum(temp.get(0))][0] = temp.get(1);
+            tabcompte [nbdecpt()][0] = temp.get(2);
         
             ask("mdp");
-            tabcompte [idnum(temp.get(0))-1][1] = temp.get(2);
+            tabcompte [nbdecpt()][1] = temp.get(3);
         
             ask("role");
-            tabcompte [idnum(temp.get(0))-1][2] = temp.get(3);;
+            tabcompte [nbdecpt()][2] = temp.get(4);;
     
 
-     index = idnum(temp.get(0));
+     index = nbdecpt();
 
      FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichiercompte.txt");
      BufferedWriter bw = new BufferedWriter(fw);
  
-     bw.write((temp.get(1)+";"+temp.get(2)+";"+temp.get(3)), index, index);
+     bw.append((temp.get(2)+";"+temp.get(3)+";"+temp.get(4)),nbdecpt()+1,nbdecpt()+1);
      bw.flush();
      bw.close();
 
+     System.out.println("Adding done for   "+(temp.get(2)+";"+temp.get(3)+";"+temp.get(4)));
+
     temp.clear();
+    idtemp.clear();
     home();
     
         }
@@ -437,8 +454,9 @@ public Admin(String email,  String mdp, String role)
 
         temp.clear();
         queryprocess.clear();
+        idtemp.clear();
 
-        ask("email");
+        ask("authentification email");
         
         id(temp.get(0),"");
         login(temp.get(0));
@@ -496,6 +514,7 @@ public Admin(String email,  String mdp, String role)
 
         temp.clear();
         queryprocess.clear();
+        idtemp.clear();
         creationcompte();
         
     }
@@ -509,16 +528,17 @@ public Admin(String email,  String mdp, String role)
 
     temp.clear();
     queryprocess.clear();
+    idtemp.clear();
 
-    ask("email");
+    ask("authentification mail");
     id(temp.get(0),"");
     login(temp.get(0));
 
     LocalDate date = LocalDate.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
 
-    ask("nom");
-    ask("email");
+    ask("nom du compte à modifier");
+    ask("email du compte à modifier");
  
     int i=0;
     int j=0;
@@ -566,18 +586,21 @@ public Admin(String email,  String mdp, String role)
 
     temp.clear();
     queryprocess.clear();
+    idtemp.clear();
     home();
 
     }
 
     temp.clear();
     queryprocess.clear();
+    idtemp.clear();
     home();
 
     }
 
     temp.clear();
     queryprocess.clear();
+    idtemp.clear();
     home();
 
     }
@@ -585,11 +608,14 @@ public Admin(String email,  String mdp, String role)
     
 public void home() throws IOException
 {
-tabcompte [0][0] = "admin@cnam.fr";
+tabcompte [0][0] = "admin";
 tabcompte [0][1] = "admin";
 tabcompte [0][2] = "admin";
+tabprofil [0][0] = "init";
+
 temp.clear();
 queryprocess.clear();
+idtemp.clear();
 
 System.out.println("Bienvenue dans l’Annuaire NFA032");
 System.out.println("Administrateur :");
@@ -627,7 +653,7 @@ modifierprofil();
     
 public class Annuaire {
     public static void main(String[] args) throws IOException {
-Admin admin= new Admin("admin@cnam.fr", "admin", "admin");
+Admin admin= new Admin("admin", "admin", "admin");
 
 admin.home();
 
