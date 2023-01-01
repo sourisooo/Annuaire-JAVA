@@ -7,6 +7,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -543,89 +546,144 @@ public Admin(String email,  String mdp, String role)
 
 
     public void modifierprofil() throws IOException 
-{  String datedemodification;
-     
-    String profil="";
-    int index;
-
-    temp.clear();
-    queryprocess.clear();
-    idtemp.clear();
-
-    ask("authentification mail");
-    id(temp.get(0),"");
-    login(temp.get(0));
-
-    LocalDate date = LocalDate.now();
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
-    ask("nom du compte à modifier");
-    ask("email du compte à modifier");
- 
-    int i=0;
-    int j=0;
-
-    for(i=0; i<9999;i++)
-    {
-    if ((tabprofil [i][0] == temp.get(1))&&(tabprofil [i][2] == temp.get(2)))
-    {
-            askList("nom");
-            tabprofil [i][0] = queryprocess.get(0);
-        
-            askList("prénom");
-            tabprofil [i][1] = queryprocess.get(1);
-        
-            askList("email");
-            pronum(queryprocess.get(2));
-
-            if (pronum(queryprocess.get(2))!=-1)
-            {modifierprofil();};
-            tabprofil [i][2] = queryprocess.get(2);
-        
-            askList("adressepostal");
-            tabprofil [i][3] = queryprocess.get(3);
-        
-            askList("datedenaissance");
-            tabprofil [i][4] = queryprocess.get(4);
-        
-            askList("profill");
-             tabprofil [i][5] = queryprocess.get(5);
-        
-            datedemodification = date.format(formatter);
-            tabprofil [i][7] = datedemodification;
+    {  String datedemodification;
          
-
-        for (j=0; j<8; j++)
-         {profil= profil + tabprofil[i][j];}
-         index = i;
+        String profil="";
+        String oldprofil="";
+        int index;
     
-         FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofils.txt");
-         BufferedWriter bw = new BufferedWriter(fw);
+        temp.clear();
+        queryprocess.clear();
+        idtemp.clear();
+    
+        ask("authentification mail");
+        // id(temp.get(0),"");
+        login(temp.get(0));
+    
+        LocalDateTime date = LocalDateTime.now();
+    
+        ask("nom du compte à modifier");
+        ask("email du compte à modifier");
      
-         bw.write(profil, index, index);
-         bw.flush();
-         bw.close();
+        int i=0;
+        int j=0;
+    
+        for(i=0; i<9999;i++)
+        {
 
-    temp.clear();
-    queryprocess.clear();
-    idtemp.clear();
-    home();
+            if ((tabprofil [i][0])!=null)
 
-    }
+            { if ((tabprofil [i][2])!=null)
 
-    temp.clear();
-    queryprocess.clear();
-    idtemp.clear();
-    home();
+            {
 
-    }
+        if (((tabprofil [i][0]).equals(temp.get(2)))&&((tabprofil [i][2]).equals(temp.get(3))))
+        {
+                askList("nom");
+                temp.add(tabprofil [i][0]);
+                tabprofil [i][0] = queryprocess.get(0);
+            
+                askList("prénom");
+                temp.add(tabprofil [i][1]);
+                tabprofil [i][1] = queryprocess.get(1);
+            
+                askList("email");
+                temp.add(tabprofil [i][2]);
+                pronum(queryprocess.get(2));
+    
+                if (pronum(queryprocess.get(2))!=-1)
+                {modifierprofil();};
+                tabprofil [i][2] = queryprocess.get(2);
+            
+                askList("adressepostal");
+                temp.add(tabprofil [i][3]);
+                tabprofil [i][3] = queryprocess.get(3);
+            
+                askList("datedenaissance");
+                temp.add(tabprofil [i][4]);
+                tabprofil [i][4] = queryprocess.get(4);
+            
+                askList("profill");
+                temp.add(tabprofil [i][5]);
+                 tabprofil [i][5] = queryprocess.get(5);
+            
+                temp.add(tabprofil [i][6]);
 
-    temp.clear();
-    queryprocess.clear();
-    idtemp.clear();
-    home();
+                datedemodification = date.toString();
+                temp.add(tabprofil [i][7]);
+                tabprofil [i][7] = datedemodification;
+             
+    
+            for (j=0; j<8; j++)
+             {profil= profil + tabprofil[i][j]+";";}
+             index = i;
 
-    }
+            oldprofil="";
+
+             for (j=4; j<12; j++)
+             {oldprofil= oldprofil + temp.get(j)+";";}
+           
+         
+             Path r =  Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt"); 
+             FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
+             FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
+             BufferedReader br = new BufferedReader(fr);
+             BufferedWriter bw = new BufferedWriter(fw);
+          
+             String ligne = br.readLine();
+         
+             while(ligne != null) {
+             
+             if (ligne.equals(oldprofil))
+         
+         {
+             String replace = ligne.replace(oldprofil, profil);
+             bw.write(replace);
+             bw.newLine();
+             bw.flush();
+         }
+         
+         else
+         {
+             bw.write(ligne);
+             bw.newLine();
+         }
+         
+             ligne = br.readLine();
+             
+             }
+         
+             br.close();
+             bw.close();
+             (r.toFile()).delete();
+           
+            
+             Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
+             Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
+           
+             
+               Files.move(source, target);
+
+
+                        }
+                        
+                        System.out.println("this profil has been modified "+oldprofil);
+                        System.out.println(profil+" is the new profil");
+                        
+
+        }
+    
+        temp.clear();
+        queryprocess.clear();
+        idtemp.clear();
+    
+        }}
+    
+        temp.clear();
+        queryprocess.clear();
+        idtemp.clear();
+    
+        }
 
     
 public void home() throws IOException
