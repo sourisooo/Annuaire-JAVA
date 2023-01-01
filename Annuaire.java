@@ -8,6 +8,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ class Particulier { String nom; String prénom; String email; String adressepost
      List<String> temp = new ArrayList<>();
      List<String> queryprocess = new ArrayList<>();
      List<Boolean> idtemp = new ArrayList<>();
+
 
 
 public Particulier(String nom, String prénom, String email, String adressepostal, 
@@ -169,22 +171,35 @@ ligne = br.readLine();
 
 
 public void rech(int para, String motRechercher) throws IOException
-{int i =0;
- int j =0;
+{   int i =0;
+    int j =0;
+   
+       for(i=0; i<10;i++)
+       {
 
-    for(i=0; i<9999;i++)
-    {
-    if (tabprofil [i][para] == motRechercher)
-    {
-    
-    for (j=0; j<8; j++)
-    {System.out.println(tabprofil [i][j]);}
-    
-    }
-    else
-    i++;
-    }    
-}
+           if ((tabprofil [i][para])!=null)
+
+   {
+       if ((tabprofil [i][para]).equals(motRechercher))
+       {
+       
+       for (j=0; j<8; j++)
+       {System.out.print(tabprofil [i][j]+" ");}
+
+       }
+       else
+       System.out.println("3RIEN");
+   
+   } 
+
+       }    
+
+       ask("Again? Y or N  ");
+       if (temp.get(2).equals("Y"))
+       {recherche();}
+       home();
+   }
+
 
 public void ask(String typeof) throws IOException
 {
@@ -258,8 +273,10 @@ queryprocess.add(name);
 
 public void recherche() throws IOException
 {   
+ 
     temp.clear();
     queryprocess.clear();
+
     ask("type de recherche");
     ask("mail recherché");
 
@@ -267,14 +284,16 @@ public void recherche() throws IOException
     {
         case "nom":
         rech(0, temp.get(1));
+        break;
         case "email":
-        rech(1, temp.get(1));
-        case "profil":
         rech(2, temp.get(1));
+        break;
+        case "profil":
+        rech(5, temp.get(1));
+        break;
 
     }
 
-    temp.clear();
     home();
 
 }
@@ -341,7 +360,7 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
 
     ask("nom");
     ask("mail");
-    id(temp.get(1),"");
+    // id(temp.get(1),"");
     login(temp.get(1));
     pronum(temp.get(1));
 
@@ -419,10 +438,11 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
 
      index = nbdecpt();
 
-     FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichiercompte.txt");
+     FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichiercompte.txt", true);
      BufferedWriter bw = new BufferedWriter(fw);
  
-     bw.append((temp.get(2)+";"+temp.get(3)+";"+temp.get(4)),nbdecpt()+1,nbdecpt()+1);
+     bw.newLine();
+     bw.write(temp.get(2)+";"+temp.get(3)+";"+temp.get(4));
      bw.flush();
      bw.close();
 
@@ -458,13 +478,11 @@ public Admin(String email,  String mdp, String role)
 
         ask("authentification email");
         
-        id(temp.get(0),"");
+        // id(temp.get(0),"");
         login(temp.get(0));
 
-        LocalDate date = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-   
-        nbdepro();
+        LocalDateTime date = LocalDateTime.now();
+     
         id= nbdepro();
 
         askList("email");
@@ -475,46 +493,50 @@ public Admin(String email,  String mdp, String role)
         tabprofil [id][2] = queryprocess.get(0);
     
         askList("nom");
-             tabprofil [id-1][0] = queryprocess.get(1);
+             tabprofil [id][0] = queryprocess.get(1);
         
     
         askList("prénom");
-            tabprofil [id-1][1] = queryprocess.get(2);
+            tabprofil [id][1] = queryprocess.get(2);
         
 
         askList("adressepostal");
-            tabprofil [id-1][3] = queryprocess.get(3);
+            tabprofil [id][3] = queryprocess.get(3);
         
     
         askList("datedenaissance");
-            tabprofil [id-1][4] = queryprocess.get(4);
+            tabprofil [id][4] = queryprocess.get(4);
         
 
         askList("profill");
-        tabprofil [id-1][5] = queryprocess.get(5);
+        tabprofil [id][5] = queryprocess.get(5);
         
-            datedajout = date.format(formatter);
-            tabprofil [id-1][6] = datedajout;
+            datedajout = date.toString();
+            tabprofil [id][6] = datedajout;
             datedemodification = "";
-            tabprofil [id-1][7] = "";
+            tabprofil [id][7] = "";
          
         int j=0;
         profil = "";
 
         for (j=0; j<8; j++)
-        {profil= profil + tabprofil[id][j];}
+        {profil= profil + tabprofil[id][j]+";";}
         index = id;
     
-        FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofils.txt");
+        FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil.txt", true);
         BufferedWriter bw = new BufferedWriter(fw);
     
-        bw.write(profil, index, index);
+        bw.newLine();
+        bw.write(profil);
         bw.flush();
         bw.close();
 
         temp.clear();
         queryprocess.clear();
         idtemp.clear();
+
+        System.out.println("This profil has been created:  "+profil);
+
         creationcompte();
         
     }
@@ -611,7 +633,10 @@ public void home() throws IOException
 tabcompte [0][0] = "admin";
 tabcompte [0][1] = "admin";
 tabcompte [0][2] = "admin";
-tabprofil [0][0] = "init";
+tabprofil [0][0] = "par";
+tabprofil [0][1] = "par";
+tabprofil [0][2] = "par";
+
 
 temp.clear();
 queryprocess.clear();
