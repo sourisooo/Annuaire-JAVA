@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Scanner;
 import static java.nio.file.StandardCopyOption.*;
 
+
 class Particulier { String nom; String prénom; String email; String adressepostal; 
     String datedenaissance; String profill; String datedajout; String datedemodification;
      String mdp;
@@ -174,7 +175,7 @@ public void rech(int para, String motRechercher) throws IOException
 {   int i =0;
     int j =0;
    
-       for(i=0; i<10;i++)
+       for(i=0; i<9999;i++)
        {
 
            if ((tabprofil [i][para])!=null)
@@ -194,7 +195,7 @@ public void rech(int para, String motRechercher) throws IOException
 
        }    
 
-       ask("Again? Y or N  ");
+       ask("Again? Y or N ");
        if (temp.get(2).equals("Y"))
        {recherche();}
        try {
@@ -232,7 +233,7 @@ public void ask(String typeof) throws IOException
 /////////////////////////////////////////////////////////
 
 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-System.out.print("Enter your    "+typeof+"    ");
+System.out.print("Enter your "+typeof+" ");
  
 String name = reader.readLine();
 temp.add(name);
@@ -267,7 +268,7 @@ public void askList(String typeof) throws IOException
 //////////////////////////////////////////////////////////////////
 
 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-System.out.print("Enter your    "+typeof+ "    ");
+System.out.print("Enter your "+typeof+ " ");
  
 String name = reader.readLine();
 queryprocess.add(name);
@@ -282,8 +283,8 @@ public void recherche() throws IOException
     temp.clear();
     queryprocess.clear();
 
-    ask("type de recherche");
-    ask("mail recherché");
+    ask("Choose //nom//email//profil: ");
+    ask("Find this word: ");
 
     switch (temp.get(0)) 
     {
@@ -349,7 +350,7 @@ modifierprofil();
 public void login(String email) throws IOException
 {       
          
-        ask("mdp");
+        ask("mdp(admin)");
         id(email,temp.get(0));
         
         int i =0;
@@ -406,8 +407,8 @@ try { if (idmdp.get(email).equals(""));
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             String date = now.format(formatter);
     
-        ask("nom");
-        ask("mail");
+        ask("Name of profil to modify: ");
+        ask("Mail of profil to modify: ");
        
         pronum(temp.get(1));
     
@@ -426,15 +427,15 @@ try { if (idmdp.get(email).equals(""));
     
             if (((tabprofil [i][0]).equals(temp.get(0)))&&((tabprofil [i][2]).equals(temp.get(1))))
             {
-                    askList("nom");
+                    askList("new nom");
                     temp.add(tabprofil [i][0]);
                     tabprofil [i][0] = queryprocess.get(0);
                 
-                    askList("prénom");
+                    askList("new prénom");
                     temp.add(tabprofil [i][1]);
                     tabprofil [i][1] = queryprocess.get(1);
                 
-                    askList("email");
+                    askList("new email");
                     temp.add(tabprofil [i][2]);
                     pronum(queryprocess.get(2));
         
@@ -442,15 +443,15 @@ try { if (idmdp.get(email).equals(""));
                     {modifierprofil();};
                     tabprofil [i][2] = queryprocess.get(2);
                 
-                    askList("adressepostal");
+                    askList("new adressepostal");
                     temp.add(tabprofil [i][3]);
                     tabprofil [i][3] = queryprocess.get(3);
                 
-                    askList("datedenaissance");
+                    askList("new datedenaissance");
                     temp.add(tabprofil [i][4]);
                     tabprofil [i][4] = queryprocess.get(4);
                 
-                    askList("profill");
+                    askList("new profill");
                     temp.add(tabprofil [i][5]);
                      tabprofil [i][5] = queryprocess.get(5);
                 
@@ -511,12 +512,12 @@ try { if (idmdp.get(email).equals(""));
                  
                    Files.move(source, target);
     
-                   System.out.println("this profil has been TRUELY modified "+oldprofil);
-    
+                   System.out.println("This profil has been TRUELY modified at: "+r+" "+oldprofil);
+                   System.out.println(profil+" is now the new profil. ");
+
                             }
                             
-                            System.out.println("this profil has been modified "+oldprofil);
-                            System.out.println(profil+" is the new profil");
+                            // System.out.println("this profil has been modified "+oldprofil);
                             
     
             }
@@ -553,11 +554,11 @@ try { if (idmdp.get(email).equals(""));
         queryprocess.clear();
         idtemp.clear();
 
-       ask("authentification email");
+       ask("Authentification email(admin): ");
     
         login(temp.get(0));
    
-        ask("email");
+        ask("Email of the account currently created: ");
        
         if (idnum(temp.get(2))!=-1)
             {home();};
@@ -573,7 +574,8 @@ try { if (idmdp.get(email).equals(""));
     
 
      index = nbdecpt();
-
+    
+     Path r = Paths.get("C:\\Users\\Public\\fichiercompte.txt");
      FileWriter fw = new FileWriter("C:\\Users\\Public\\fichiercompte.txt", true);
      BufferedWriter bw = new BufferedWriter(fw);
  
@@ -582,7 +584,7 @@ try { if (idmdp.get(email).equals(""));
      bw.flush();
      bw.close();
 
-     System.out.println("Adding done for   "+(temp.get(2)+";"+temp.get(3)+";"+temp.get(4)));
+     System.out.println("Adding done for "+(temp.get(2)+";"+temp.get(3)+";"+temp.get(4))+" at"+r+" .");
 
     temp.clear();
     idtemp.clear();
@@ -617,7 +619,7 @@ public Admin(String email,  String mdp, String role)
         queryprocess.clear();
         idtemp.clear();
 
-        ask("authentification email");
+        ask("Authentification email(admin)");
         
         login(temp.get(0));
 
@@ -627,7 +629,7 @@ public Admin(String email,  String mdp, String role)
      
         id= nbdepro();
 
-        askList("email");
+        askList("Email of the profil currently created");
 
         if (pronum(queryprocess.get(0))!=-1)
         {home();};
@@ -653,10 +655,13 @@ public Admin(String email,  String mdp, String role)
         askList("profill");
         tabprofil [id][5] = queryprocess.get(5);
         
-            datedajout = date.toString();
-            tabprofil [id][6] = datedajout;
-            datedemodification = "";
-            tabprofil [id][7] = "";
+            // datedajout = date.toString();
+            // tabprofil [id][6] = datedajout;
+
+            tabprofil [id][6] = null;
+
+            datedemodification = null;
+            tabprofil [id][7] = null;
          
         int j=0;
         profil = "";
@@ -673,18 +678,17 @@ public Admin(String email,  String mdp, String role)
         bw.flush();
         bw.close();
 
-        temp.clear();
-        queryprocess.clear();
-        idtemp.clear();
-
-        System.out.println("This profil has been created:  "+profil);
-
-
+    
         Path source = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
-        Path target = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
+        Path target = Paths.get("C:\\Users\\Public\\profilcopyForModification2.txt");
 
         Files.copy(source, target, REPLACE_EXISTING);
 
+        System.out.println("This profil has been created: "+profil+" at"+source);
+
+        temp.clear();
+        queryprocess.clear();
+        idtemp.clear();
 
         try {
             Thread.sleep(1000);
@@ -699,7 +703,7 @@ public Admin(String email,  String mdp, String role)
 
     public void modifierprofil() throws IOException 
     {  String datedemodification;
-         
+        
         String profil="";
         String oldprofil="";
         int index;
@@ -708,7 +712,7 @@ public Admin(String email,  String mdp, String role)
         queryprocess.clear();
         idtemp.clear();
     
-        ask("authentification mail");
+        ask("Authentification mail(admin): ");
         // id(temp.get(0),"");
         login(temp.get(0));
     
@@ -716,9 +720,9 @@ public Admin(String email,  String mdp, String role)
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         String date = now.format(formatter);
     
-        ask("nom du compte à modifier");
-        ask("email du compte à modifier");
-     
+        ask("Name of the profil to modify");
+        ask("Email of the profil to modify");
+   
         int i=0;
         int j=0;
     
@@ -733,15 +737,15 @@ public Admin(String email,  String mdp, String role)
 
         if (((tabprofil [i][0]).equals(temp.get(2)))&&((tabprofil [i][2]).equals(temp.get(3))))
         {
-                askList("nom");
+                askList("new nom");
                 temp.add(tabprofil [i][0]);
                 tabprofil [i][0] = queryprocess.get(0);
             
-                askList("prénom");
+                askList("new prénom");
                 temp.add(tabprofil [i][1]);
                 tabprofil [i][1] = queryprocess.get(1);
             
-                askList("email");
+                askList("new email");
                 temp.add(tabprofil [i][2]);
                 pronum(queryprocess.get(2));
     
@@ -749,23 +753,28 @@ public Admin(String email,  String mdp, String role)
                 {modifierprofil();};
                 tabprofil [i][2] = queryprocess.get(2);
             
-                askList("adressepostal");
+                askList("new adressepostal");
                 temp.add(tabprofil [i][3]);
                 tabprofil [i][3] = queryprocess.get(3);
             
-                askList("datedenaissance");
+                askList("new datedenaissance");
                 temp.add(tabprofil [i][4]);
                 tabprofil [i][4] = queryprocess.get(4);
             
-                askList("profill");
+                askList("new profill");
                 temp.add(tabprofil [i][5]);
                  tabprofil [i][5] = queryprocess.get(5);
             
+
+                 tabprofil [i][6] = null;
                 temp.add(tabprofil [i][6]);
 
-                datedemodification = date.toString();
+                // datedemodification = date.toString();
+                tabprofil [i][7] = null;
                 temp.add(tabprofil [i][7]);
-                tabprofil [i][7] = datedemodification;
+                // tabprofil [i][7] = datedemodification;
+
+                
              
     
             for (j=0; j<8; j++)
@@ -776,11 +785,22 @@ public Admin(String email,  String mdp, String role)
 
              for (j=4; j<12; j++)
              {oldprofil= oldprofil + temp.get(j)+";";}
-           
+
+            //  for (j=0; j<6; j++)
+            //  {profilcheck= profilcheck + tabprofil[i][j]+";";}
+            //  index = i;
+
+            // oldprofilcheck="";
+
+            //  for (j=4; j<10; j++)
+            //  {oldprofilcheck= oldprofilcheck + temp.get(j)+";";}
+
+ 
          
              Path r =  Paths.get("C:\\Users\\Public\\fichierprofil.txt"); 
+             Path w =  Paths.get("C:\\Users\\Public\\profilcopyForModification2.txt"); 
              FileReader fr = new FileReader("C:\\Users\\Public\\fichierprofil.txt");
-             FileWriter fw = new FileWriter("C:\\Users\\Public\\profilcopyForModification.txt");
+             FileWriter fw = new FileWriter("C:\\Users\\Public\\profilcopyForModification2.txt");
              BufferedReader br = new BufferedReader(fr);
              BufferedWriter bw = new BufferedWriter(fw);
           
@@ -806,34 +826,48 @@ public Admin(String email,  String mdp, String role)
              ligne = br.readLine();
              
              }
-         
+             
+             bw.flush();
              br.close();
              bw.close();
              (r.toFile()).delete();
            
-            
-             Path source = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
+             Files.isReadable(r);
+             Files.isWritable(r);
+             System.out.println(Files.isReadable(r));
+             System.out.println(Files.isWritable(r));
+
+             Files.isReadable(w);
+             Files.isWritable(w);
+             System.out.println(Files.isReadable(w));
+             System.out.println(Files.isWritable(w));
+
+
+            //  File newF = new File("C:\\Users\\Public\\fichierprofil.txt");
+             Path source = Paths.get("C:\\Users\\Public\\profilcopyForModification2.txt");
              Path target = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
-           
-             
+
+            //  Files.createNewFile("C:\\Users\\Public\\fichierprofil.txt");
+   
+            //  Files.copy(source, target);
                Files.move(source, target);
 
                
-               File profilcopyForModification = new File("C:\\Users\\Public\\profilcopyForModification.txt");
+            //    File profilcopyForModification = new File("C:\\Users\\Public\\profilcopyForModification.txt");
 
-               Path source2 = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
-              Path target2 = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
+            //    Path source2 = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
+            //   Path target2 = Paths.get("C:\\Users\\Public\\profilcopyForModification2.txt");
 
-            Files.copy(source2, target2, REPLACE_EXISTING);
+            // Files.copy(source2, target2, REPLACE_EXISTING);
 
 
-               System.out.println("this profil has been TRUELY modified "+oldprofil);
-
+               System.out.println("This profil has been TRUELY modified: "+oldprofil);
+               System.out.println(profil+" is the new profil! Please check at: "+source);
 
                         }
                         
-                        System.out.println("this profil has been modified "+oldprofil);
-                        System.out.println(profil+" is the new profil");
+                        // System.out.println("this profil has been modified "+oldprofil);
+                       
                         
 
         }
@@ -896,27 +930,27 @@ public Admin(String email,  String mdp, String role)
             FileWriter icfw = new FileWriter(compte);
             BufferedWriter icbw = new BufferedWriter(icfw);
         
-            icbw.write("admin;admin;admin");
+            icbw.write("admin;admin;admin;");
             icbw.newLine();
-            icbw.write("particulier;particulier;particulier");
+            icbw.write("particulier;particulier;particulier;");
             icbw.flush();
             icbw.close();
             
             FileWriter ipfw = new FileWriter(profil);
             BufferedWriter ipbw = new BufferedWriter(ipfw);
         
-            ipbw.write("par;par;par;null;null;null;null;null");
-            ipbw.newLine();
-            ipbw.flush();
-            ipbw.close();
+            // ipbw.write("par;par;par;null;null;null;null;null;");
+            // ipbw.newLine();
+            // ipbw.flush();
+            // ipbw.close();
         
             FileWriter cfw = new FileWriter(profilcopyForModification);
             BufferedWriter cbw = new BufferedWriter(cfw);
         
-            cbw.write("par;par;par;null;null;null;null;null");
-            cbw.newLine();
-            cbw.flush();
-            cbw.close();
+            // cbw.write("par;par;par;null;null;null;null;null;");
+            // cbw.newLine();
+            // cbw.flush();
+            // cbw.close();
         
         }
 
@@ -927,9 +961,9 @@ public void home() throws IOException
 tabcompte [0][0] = "admin";
 tabcompte [0][1] = "admin";
 tabcompte [0][2] = "admin";
-tabprofil [0][0] = "par";
-tabprofil [0][1] = "par";
-tabprofil [0][2] = "par";
+// tabprofil [0][0] = "par";
+// tabprofil [0][1] = "par";
+// tabprofil [0][2] = "par";
 
 temp.clear();
 queryprocess.clear();
@@ -945,7 +979,7 @@ System.out.println("2.A Par nom");
 System.out.println("2.B. Par email");
 System.out.println("2.C. Par profil");
 System.out.println("3. Modifier mes informations personnelles");
-System.out.println("Faites votre choix : ");
+System.out.println("Faites votre choix : /ex: 3, 2.A, 1.B ");
 ask("choix");
 
 switch (temp.get(0)) {
