@@ -220,7 +220,12 @@ public void rech(int para, String motRechercher) throws IOException
        ask("Again? Y or N  ");
        if (temp.get(2).equals("Y"))
        {recherche();}
-       home();
+       try {
+        Thread.sleep(1000);
+    } catch (InterruptedException e) {
+          home();
+    }
+    home();
    }
 
 
@@ -323,6 +328,11 @@ public void recherche() throws IOException
 
 public void home() throws IOException
 {
+
+    tabprofil [0][0] = "par";
+    tabprofil [0][1] = "par";
+    tabprofil [0][2] = "par";
+
 temp.clear();
 queryprocess.clear();
 idtemp.clear();
@@ -415,74 +425,175 @@ try { if (idmdp.get(email).equals(""));
         }
 
         
-        temp.clear();
+        // temp.clear();
     }
 
 
 
-public void modifierprofil() throws IOException 
-{  String datedemodification;
-   
-    String profil="";
-    int index;
-
-    temp.clear();
-    queryprocess.clear();
-
-LocalDate date = LocalDate.now();
-DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-
-    ask("nom");
-    ask("mail");
-    // id(temp.get(1),"");
-    login(temp.get(1));
-    pronum(temp.get(1));
-
-    if ((tabprofil [pronum(temp.get(1))][0] == temp.get(0))&&(tabprofil [pronum(temp.get(1))][2] == temp.get(1)))
-    {
-    
-        askList("nom");
-        
-        tabprofil [pronum(temp.get(1))][0] = queryprocess.get(0);
-        
-        askList("prénom");
-        tabprofil [pronum(temp.get(1))-1][1] = queryprocess.get(1);
+    public void modifierprofil() throws IOException 
+    {  String datedemodification;
        
-        askList("email");
-        tabprofil [pronum(temp.get(1))-1][2] = queryprocess.get(2);
-        
-        askList("adressepostal");
-        tabprofil [pronum(temp.get(1))-1][3] = queryprocess.get(3);
-        
-        askList("datedenaissance");
-        tabprofil [pronum(temp.get(1))-1][4] = queryprocess.get(4);
-        
-        askList("profill");
-        tabprofil [pronum(temp.get(1))-1][5] = queryprocess.get(5);
-        
-            datedemodification = date.format(formatter);
-            tabprofil [pronum(temp.get(1))-1][7] = datedemodification;
-         
-    int j=0;
-
-    for (j=0; j<8; j++)
-    {profil= profil + tabprofil[pronum(temp.get(1))][j];}
-    index = pronum(temp.get(1));
-
-   
-    FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
-    BufferedWriter bw = new BufferedWriter(fw);
-
-    bw.write(profil, index, index);
-    bw.flush();
-    bw.close();
+        String profil="";
+        String oldprofil="";
+        int index;
     
-    temp.clear();
-    queryprocess.clear();
-    idtemp.clear();
-    home();
-
-    }}
+        temp.clear();
+        queryprocess.clear();
+        idtemp.clear();
+    
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String date = now.format(formatter);
+    
+        ask("nom");
+        ask("mail");
+        // id(temp.get(1),"");
+        // login(temp.get(1));
+        pronum(temp.get(1));
+    
+        // if ((tabprofil [pronum(temp.get(1))][0] == temp.get(0))&&(tabprofil [pronum(temp.get(1))][2] == temp.get(1)))
+        // {
+        
+            // askList("nom");
+            // temp.add(tabprofil [pronum(temp.get(1))][0]);
+            // tabprofil [pronum(temp.get(1))][0] = queryprocess.get(0);
+        
+            // askList("prénom");
+            // temp.add(tabprofil [pronum(temp.get(1))][1]);
+            // tabprofil [pronum(temp.get(1))][1] = queryprocess.get(1);
+        
+            int i=0;
+            int j=0;
+        
+            for(i=0; i<9999;i++)
+            {
+    
+                if ((tabprofil [i][0]).equals(tabprofil [pronum(temp.get(1))][0]))
+    
+                { if ((tabprofil [i][2]).equals(tabprofil [pronum(temp.get(1))][2]))
+    
+                {
+    
+            if (((tabprofil [i][0]).equals(temp.get(0)))&&((tabprofil [i][2]).equals(temp.get(1))))
+            {
+                    askList("nom");
+                    temp.add(tabprofil [i][0]);
+                    tabprofil [i][0] = queryprocess.get(0);
+                
+                    askList("prénom");
+                    temp.add(tabprofil [i][1]);
+                    tabprofil [i][1] = queryprocess.get(1);
+                
+                    askList("email");
+                    temp.add(tabprofil [i][2]);
+                    pronum(queryprocess.get(2));
+        
+                    if (pronum(queryprocess.get(2))!=-1)
+                    {modifierprofil();};
+                    tabprofil [i][2] = queryprocess.get(2);
+                
+                    askList("adressepostal");
+                    temp.add(tabprofil [i][3]);
+                    tabprofil [i][3] = queryprocess.get(3);
+                
+                    askList("datedenaissance");
+                    temp.add(tabprofil [i][4]);
+                    tabprofil [i][4] = queryprocess.get(4);
+                
+                    askList("profill");
+                    temp.add(tabprofil [i][5]);
+                     tabprofil [i][5] = queryprocess.get(5);
+                
+                    temp.add(tabprofil [i][6]);
+    
+                    datedemodification = date.toString();
+                    temp.add(tabprofil [i][7]);
+                    tabprofil [i][7] = datedemodification;
+                 
+        
+                for (j=0; j<8; j++)
+                 {profil= profil + tabprofil[i][j]+";";}
+                 index = i;
+    
+                oldprofil="";
+    
+                 for (j=2; j<10; j++)
+                 {oldprofil= oldprofil + temp.get(j)+";";}
+               
+             
+                 Path r =  Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt"); 
+                 FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
+                 FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
+                 BufferedReader br = new BufferedReader(fr);
+                 BufferedWriter bw = new BufferedWriter(fw);
+              
+                 String ligne = br.readLine();
+             
+                 while(ligne != null) {
+                 
+                 if (ligne.equals(oldprofil))
+             
+             {
+                 String replace = ligne.replace(oldprofil, profil);
+                 bw.write(replace);
+                 bw.newLine();
+                 bw.flush();
+             }
+             
+             else
+             {
+                 bw.write(ligne);
+                 bw.newLine();
+             }
+             
+                 ligne = br.readLine();
+                 
+                 }
+             
+                 br.close();
+                 bw.close();
+                 (r.toFile()).delete();
+               
+                
+                 Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
+                 Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
+               
+                 
+                   Files.move(source, target);
+    
+                   System.out.println("this profil has been TRUELY modified "+oldprofil);
+    
+                            }
+                            
+                            System.out.println("this profil has been modified "+oldprofil);
+                            System.out.println(profil+" is the new profil");
+                            
+    
+            }
+        
+            temp.clear();
+            queryprocess.clear();
+            idtemp.clear();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                  home();
+            }
+            home();
+        
+            }}
+        
+            temp.clear();
+            queryprocess.clear();
+            idtemp.clear();
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                  home();
+            }
+            home();
+    
+       }
 
 
     public void creationcompte() throws IOException
@@ -525,6 +636,11 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
 
     temp.clear();
     idtemp.clear();
+    try {
+        Thread.sleep(1000);
+    } catch (InterruptedException e) {
+          home();
+    }
     home();
     
         }
@@ -556,7 +672,9 @@ public Admin(String email,  String mdp, String role)
         // id(temp.get(0),"");
         login(temp.get(0));
 
-        LocalDateTime date = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = now.format(formatter);
      
         id= nbdepro();
 
@@ -612,6 +730,12 @@ public Admin(String email,  String mdp, String role)
 
         System.out.println("This profil has been created:  "+profil);
 
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            creationcompte();
+        }
+
         creationcompte();
         
     }
@@ -632,7 +756,9 @@ public Admin(String email,  String mdp, String role)
         // id(temp.get(0),"");
         login(temp.get(0));
     
-        LocalDateTime date = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = now.format(formatter);
     
         ask("nom du compte à modifier");
         ask("email du compte à modifier");
@@ -736,6 +862,7 @@ public Admin(String email,  String mdp, String role)
              
                Files.move(source, target);
 
+               System.out.println("this profil has been TRUELY modified "+oldprofil);
 
                         }
                         
@@ -748,12 +875,19 @@ public Admin(String email,  String mdp, String role)
         temp.clear();
         queryprocess.clear();
         idtemp.clear();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+              home();
+        }
+        home();
     
         }}
     
         temp.clear();
         queryprocess.clear();
         idtemp.clear();
+        home();
     
         }
 
@@ -808,9 +942,11 @@ modifierprofil();
     
 public class Annuaire {
     public static void main(String[] args) throws IOException {
-Admin admin= new Admin("admin", "admin", "admin");
+// Admin admin= new Admin("admin", "admin", "admin");
+Particulier part= new Particulier("par", "par", "par");
 
-admin.home();
+// admin.home();
+part.home();
 
 }
 }
