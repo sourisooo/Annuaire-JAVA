@@ -3,6 +3,7 @@ package projetpoo;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.Console;
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -367,6 +368,7 @@ case "3":
 modifierprofil();
 }
 }
+
 
 public void login(String email) throws IOException
 {       
@@ -892,6 +894,43 @@ public Admin(String email,  String mdp, String role)
         }
 
     
+        public void init() throws IOException
+
+        {
+        
+            File compte = new File("C:\\fichiercompte.txt");
+            File profil = new File("C:\\fichierprofil.txt");
+            File profilcopyForModification = new File("C:\\profilcopyForModification.txt");
+        
+            FileWriter icfw = new FileWriter(compte);
+            BufferedWriter icbw = new BufferedWriter(icfw);
+        
+            icbw.write("admin;admin;admin");
+            icbw.newLine();
+            icbw.write("particulier;particulier;particulier");
+            icbw.flush();
+            icbw.close();
+        
+            FileWriter ipfw = new FileWriter(profil);
+            BufferedWriter ipbw = new BufferedWriter(ipfw);
+        
+            ipbw.write("par;par;par;null;null;null;null;null");
+            ipbw.newLine();
+            ipbw.flush();
+            ipbw.close();
+        
+            FileWriter cfw = new FileWriter(profilcopyForModification);
+            BufferedWriter cbw = new BufferedWriter(cfw);
+        
+            cbw.write("par;par;par;null;null;null;null;null");
+            cbw.newLine();
+            cbw.flush();
+            cbw.close();
+        
+        }
+
+
+
 public void home() throws IOException
 {
 tabcompte [0][0] = "admin";
@@ -900,7 +939,6 @@ tabcompte [0][2] = "admin";
 tabprofil [0][0] = "par";
 tabprofil [0][1] = "par";
 tabprofil [0][2] = "par";
-
 
 temp.clear();
 queryprocess.clear();
@@ -935,17 +973,22 @@ modifierprofil();
 }
 
 }
-
-
 }
+
+
+
+
+
 
     
 public class Annuaire {
     public static void main(String[] args) throws IOException {
-// Admin admin= new Admin("admin", "admin", "admin");
+
+Admin admin= new Admin("admin", "admin", "admin");
 Particulier part= new Particulier("par", "par", "par");
 
-// admin.home();
+admin.init();
+admin.home();
 part.home();
 
 }
