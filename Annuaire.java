@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
@@ -36,6 +37,7 @@ class Particulier { String nom; String prénom; String email; String adressepost
      List<String> temp = new ArrayList<>();
      List<String> queryprocess = new ArrayList<>();
      List<Boolean> idtemp = new ArrayList<>();
+     HashMap<String, String> idmdp = new HashMap<String, String>();
 
 
 
@@ -60,7 +62,7 @@ public Particulier(String email, String mdp, String role)
     this.role = role;
 }
 
-public boolean id (String mail, String mdp)
+public void id (String mail, String mdp)
 {
 int i=0;
 
@@ -83,10 +85,28 @@ for (String str:tabmail) {
     clist.add(str);
  }
 
- if(alist.indexOf(mail)==blist.indexOf(mdp))
+//  if(((alist.indexOf(mail))==(blist.indexOf(mdp)))&&((alist.indexOf(mail))!=1))
 
-    idtemp.add(true);
-    return idtemp.get(0);
+// {
+//     idtemp.add(true);
+//     idtemp.add(true);
+//     // System.out.println(idtemp.get(0));
+//     // System.out.println(mail);
+//     // System.out.println(mdp);
+//     // System.out.println(alist.indexOf(mail));
+//     // System.out.println(blist.indexOf(mdp));
+//     // System.out.println(alist.indexOf(mail));
+
+//     // System.out.println(idtemp.get(0));
+//     // System.out.println(idtemp.get(1));
+// }
+
+// else  {
+    
+//         idtemp.add(false);
+//         idtemp.add(false);
+
+// }
 
 }
 
@@ -340,12 +360,63 @@ modifierprofil();
 
 public void login(String email) throws IOException
 {       
+        // idnum(email);
+  
+    //     if (alist.indexOf(email)!=-1)
+        
+    // {   
         ask("mdp");
-        if (id(email, temp.get(0))==false)
-        {home();}
-        // temp.clear();
-       
+        id(email,temp.get(0));
+        
+        int i =0;
+
+        for (i=0; i<20;i++)
+
+        {
+            idmdp.put(alist.get(i),blist.get(i));            
+        }
+
+        System.out.println(idmdp.get(email));
+      
+
+try { if (idmdp.get(email).equals(""));
+    
+} catch (Exception e) {
+    home();
 }
+        
+        System.out.println("sucess to reach your mail!");
+       
+
+        if((alist.indexOf(email))==(blist.indexOf(temp.get(1))))
+
+        {
+            // idtemp.add(true);
+            // idtemp.add(true);
+            System.out.println("sucess to match datas!");
+            // System.out.println(idtemp.get(0));
+            // System.out.println(mail);
+            // System.out.println(mdp);
+            // System.out.println(alist.indexOf(mail));
+            // System.out.println(blist.indexOf(mdp));
+            // System.out.println(alist.indexOf(mail));
+        
+            // System.out.println(idtemp.get(0));
+            // System.out.println(idtemp.get(1));
+        }
+        
+        else  {
+
+            home();
+            // System.out.println("homeelse");
+                // idtemp.add(false);
+                // idtemp.add(false);
+        
+        }
+
+        
+        temp.clear();
+    }
 
 
 
@@ -371,6 +442,7 @@ DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss")
     {
     
         askList("nom");
+        
         tabprofil [pronum(temp.get(1))][0] = queryprocess.get(0);
         
         askList("prénom");
