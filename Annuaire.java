@@ -41,6 +41,7 @@ class Particulier { String nom; String prénom; String email; String adressepost
      List<String> queryprocess = new ArrayList<>();
      List<Boolean> idtemp = new ArrayList<>();
      HashMap<String, String> idmdp = new HashMap<String, String>();
+     
 
 
 
@@ -173,6 +174,33 @@ ligne = br.readLine();
         }
 
 
+        public void rechindex(int para, String motRechercher) throws IOException
+        {   int i =0;
+         
+           
+               for(i=0; i<9999;i++)
+               {
+        
+                   if ((tabprofil [i][para])!=null)
+        
+           {
+               if ((tabprofil [i][para]).equals(motRechercher))
+               {
+               
+                temp.add(Integer.toString(i));
+        
+               }
+               else
+               System.out.println("3RIEN");
+           
+           } 
+        
+               }    
+        
+           }
+
+
+
 public void rech(int para, String motRechercher) throws IOException
 {   int i =0;
     int j =0;
@@ -207,6 +235,7 @@ public void rech(int para, String motRechercher) throws IOException
     }
     home();
    }
+
 
 
 public void ask(String typeof) throws IOException
@@ -305,6 +334,9 @@ public void recherche() throws IOException
     home();
 
 }
+
+
+
 
 public void home() throws IOException
 {
@@ -708,6 +740,7 @@ public Admin(String email,  String mdp, String role)
         String oldprofil="";
         int index;
         int incr;
+        int j;
     
         temp.clear();
         queryprocess.clear();
@@ -723,93 +756,62 @@ public Admin(String email,  String mdp, String role)
         ask("Name of the profil to modify");
         ask("Email of the profil to modify");
    
-        int i=0;
-        int j=0;
+        rechindex(2,temp.get(3));
         
-
-        System.out.println(tabprofil [0][0]);
-        System.out.println(tabprofil [2][0]);
-        System.out.println(tabprofil [0][2]);
-        System.out.println(tabprofil [2][2]);
-        
-        pronum("testdur");
-
-         incr = zlist.indexOf("testdur");
-
-         System.out.println(incr);
-
-            if ((tabprofil [incr][0])!=null)
-
-
-            { if ((tabprofil [incr][2])!=null)
-
-                
-            {
-
-                
-        if ((tabprofil [incr][0]).equals(temp.get(2)))
-        
+    
+            if ((tabprofil [Integer.parseInt(temp.get(4))][2])!=null)
+ 
+    {
+        if ((tabprofil [Integer.parseInt(temp.get(4))][2]).equals(temp.get(3)))
         {
-
-            if ((tabprofil [incr][2]).equals(temp.get(3)))
-
-       
-        {       
-
-            for(i=0; i<15;i++)
-            {
-
-            System.out.println("doubles check ok");
-            System.out.println(tabprofil [0][0]!=null);
-            System.out.println(tabprofil [2][0]!=null);
-
+            System.out.println("PASS");
                 askList("new nom");
-                temp.add(tabprofil [i][0]);
-                tabprofil [i][0] = queryprocess.get(0);
+                temp.add(tabprofil [Integer.parseInt(temp.get(4))][0]);
+                tabprofil [Integer.parseInt(temp.get(4))][0] = queryprocess.get(0);
             
                 askList("new prénom");
-                temp.add(tabprofil [i][1]);
-                tabprofil [i][1] = queryprocess.get(1);
+                temp.add(tabprofil [Integer.parseInt(temp.get(4))][1]);
+                tabprofil [Integer.parseInt(temp.get(4))][1] = queryprocess.get(1);
             
                 askList("new email");
-                temp.add(tabprofil [i][2]);
+                temp.add(tabprofil [Integer.parseInt(temp.get(4))][2]);
                 pronum(queryprocess.get(2));
     
                 if (pronum(queryprocess.get(2))!=-1)
                 {modifierprofil();};
-                tabprofil [i][2] = queryprocess.get(2);
+                tabprofil [Integer.parseInt(temp.get(4))][2] = queryprocess.get(2);
 
                 askList("new adressepostal");
-                temp.add(tabprofil [i][3]);
-                tabprofil [i][3] = queryprocess.get(3);
+                temp.add(tabprofil [Integer.parseInt(temp.get(4))][3]);
+                tabprofil [Integer.parseInt(temp.get(4))][3] = queryprocess.get(3);
             
                 askList("new datedenaissance");
-                temp.add(tabprofil [i][4]);
-                tabprofil [i][4] = queryprocess.get(4);
+                temp.add(tabprofil [Integer.parseInt(temp.get(4))][4]);
+                tabprofil [Integer.parseInt(temp.get(4))][4] = queryprocess.get(4);
             
                 askList("new profill");
-                temp.add(tabprofil [i][5]);
-                 tabprofil [i][5] = queryprocess.get(5);
+                temp.add(tabprofil [Integer.parseInt(temp.get(4))][5]);
+                 tabprofil [Integer.parseInt(temp.get(4))][5] = queryprocess.get(5);
             
                  
                 //  tabprofil [i][6] = null;
-                temp.add(tabprofil [i][6]);
+                temp.add(tabprofil [Integer.parseInt(temp.get(4))][6]);
 
                 datedemodification = date.toString();
                 // tabprofil [i][7] = null;
                 
-                temp.add(tabprofil [i][7]);
-                tabprofil [i][7] = datedemodification;
+                temp.add(tabprofil [Integer.parseInt(temp.get(4))][7]);
+                tabprofil [Integer.parseInt(temp.get(4))][7] = datedemodification;
                 
                
                 
             for (j=0; j<8; j++)
-             {profil= profil + tabprofil[i][j]+";";}
-             index = i;
+             {profil= profil + tabprofil[Integer.parseInt(temp.get(4))][j]+";";}
+             index = Integer.parseInt(temp.get(4));
 
             oldprofil="";
 
-             for (j=4; j<12; j++)
+             for (j=5; j<13; j++)
              {oldprofil= oldprofil + temp.get(j)+";";}
 
         
@@ -857,13 +859,15 @@ public Admin(String email,  String mdp, String role)
                System.out.println("This profil has been TRUELY modified: "+oldprofil);
                System.out.println(profil+" is the new profil! Please check at: "+source);
 
-                        }
+                        
                         
                         // System.out.println("this profil has been modified "+oldprofil);
-                       
+                    }
                         
-
-        }   }
+                    }
+                    else
+                    System.out.println("3RIEN");
+        
     
         temp.clear();
         queryprocess.clear();
@@ -875,9 +879,8 @@ public Admin(String email,  String mdp, String role)
         }
         home();
     
-        }
-    }
     
+
         temp.clear();
         queryprocess.clear();
         idtemp.clear();
