@@ -127,7 +127,7 @@ public int nbdecpt () throws IOException
 { String compte;
    int compteur=0;
 
-  compte = "C:\\Users\\souri\\Desktop\\fichiercompte.txt";
+  compte = "C:\\Users\\Public\\fichiercompte.txt";
 
     FileReader fr = new FileReader(compte);
     BufferedReader br = new BufferedReader(fr);
@@ -151,7 +151,7 @@ ligne = br.readLine();
     {  String profil;
        int compteur=0;
     
-      profil = "C:\\Users\\souri\\Desktop\\fichierprofil.txt";
+      profil = "C:\\Users\\Public\\fichierprofil.txt";
     
         FileReader fr = new FileReader(profil);
         BufferedReader br = new BufferedReader(fr);
@@ -472,9 +472,9 @@ try { if (idmdp.get(email).equals(""));
                  {oldprofil= oldprofil + temp.get(j)+";";}
                
              
-                 Path r =  Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt"); 
-                 FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
-                 FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\profilcopyForModification.txt");
+                 Path r =  Paths.get("C:\\Users\\Public\\fichierprofil.txt"); 
+                 FileReader fr = new FileReader("C:\\Users\\Public\\fichierprofil.txt");
+                 FileWriter fw = new FileWriter("C:\\Users\\Public\\profilcopyForModification.txt");
                  BufferedReader br = new BufferedReader(fr);
                  BufferedWriter bw = new BufferedWriter(fw);
               
@@ -501,19 +501,18 @@ try { if (idmdp.get(email).equals(""));
                  
                  }
              
-                 br.close();
-                 bw.close();
-                 (r.toFile()).delete();
-               
-                
-                 Path source = Paths.get("C:\\Users\\souri\\Desktop\\profilcopyForModification.txt");
-                 Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
-               
-                 
-                   Files.move(source, target);
-    
-                   System.out.println("This profil has been TRUELY modified at: "+r+" "+oldprofil);
-                   System.out.println(profil+" is now the new profil. ");
+                bw.flush();
+                br.close();
+                bw.close();
+
+            Path source = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
+            Path target = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
+
+            Files.copy(source, target, REPLACE_EXISTING);
+
+            System.out.println("This profil has been TRUELY modified: "+oldprofil);
+            System.out.println(profil+" is the new profil! Please check at: "+source);
+
 
                             }
                             
@@ -575,8 +574,8 @@ try { if (idmdp.get(email).equals(""));
 
      index = nbdecpt();
     
-     Path r = Paths.get("C:\\Users\\souri\\Desktop\\fichiercompte.txt");
-     FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichiercompte.txt", true);
+     Path r = Paths.get("C:\\Users\\Public\\fichiercompte.txt");
+     FileWriter fw = new FileWriter("C:\\Users\\Public\\fichiercompte.txt", true);
      BufferedWriter bw = new BufferedWriter(fw);
  
      bw.newLine();
@@ -655,10 +654,10 @@ public Admin(String email,  String mdp, String role)
         askList("profill");
         tabprofil [id][5] = queryprocess.get(5);
         
-            // datedajout = date.toString();
-            // tabprofil [id][6] = datedajout;
+            datedajout = date.toString();
+            tabprofil [id][6] = datedajout;
 
-            tabprofil [id][6] = null;
+            // tabprofil [id][6] = null;
 
             datedemodification = null;
             tabprofil [id][7] = null;
@@ -670,7 +669,7 @@ public Admin(String email,  String mdp, String role)
         {profil= profil + tabprofil[id][j]+";";}
         index = id;
     
-        FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil.txt", true);
+        FileWriter fw = new FileWriter("C:\\Users\\Public\\fichierprofil.txt", true);
         BufferedWriter bw = new BufferedWriter(fw);
     
         bw.newLine();
@@ -679,8 +678,8 @@ public Admin(String email,  String mdp, String role)
         bw.close();
 
         
-        Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
-        Path target = Paths.get("C:\\Users\\souri\\Desktop\\profilcopyForModification.txt");
+        Path source = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
+        Path target = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
 
         Files.copy(source, target, REPLACE_EXISTING);
         // Files.move(source, target);
@@ -767,17 +766,16 @@ public Admin(String email,  String mdp, String role)
                  tabprofil [i][5] = queryprocess.get(5);
             
 
-                 tabprofil [i][6] = null;
+                //  tabprofil [i][6] = null;
                 temp.add(tabprofil [i][6]);
 
-                // datedemodification = date.toString();
-                tabprofil [i][7] = null;
+                datedemodification = date.toString();
+                // tabprofil [i][7] = null;
+                
+                tabprofil [i][7] = datedemodification;
                 temp.add(tabprofil [i][7]);
-                // tabprofil [i][7] = datedemodification;
 
                 
-             
-    
             for (j=0; j<8; j++)
              {profil= profil + tabprofil[i][j]+";";}
              index = i;
@@ -787,21 +785,11 @@ public Admin(String email,  String mdp, String role)
              for (j=4; j<12; j++)
              {oldprofil= oldprofil + temp.get(j)+";";}
 
-            //  for (j=0; j<6; j++)
-            //  {profilcheck= profilcheck + tabprofil[i][j]+";";}
-            //  index = i;
-
-            // oldprofilcheck="";
-
-            //  for (j=4; j<10; j++)
-            //  {oldprofilcheck= oldprofilcheck + temp.get(j)+";";}
-
- 
          
-             Path r =  Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt"); 
-             Path w =  Paths.get("C:\\Users\\souri\\Desktop\\profilcopyForModification.txt"); 
-             FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
-             FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\profilcopyForModification.txt");
+             Path r =  Paths.get("C:\\Users\\Public\\fichierprofil.txt"); 
+             Path w =  Paths.get("C:\\Users\\Public\\profilcopyForModification.txt"); 
+             FileReader fr = new FileReader("C:\\Users\\Public\\fichierprofil.txt");
+             FileWriter fw = new FileWriter("C:\\Users\\Public\\profilcopyForModification.txt");
              BufferedReader br = new BufferedReader(fr);
              BufferedWriter bw = new BufferedWriter(fw);
           
@@ -831,37 +819,13 @@ public Admin(String email,  String mdp, String role)
              bw.flush();
              br.close();
              bw.close();
-            //  (r.toFile()).deleteOnExit();
-           
-             Files.isReadable(r);
-             Files.isWritable(r);
-             System.out.println(Files.isReadable(r));
-             System.out.println(Files.isWritable(r));
+         
 
-             Files.isReadable(w);
-             Files.isWritable(w);
-             System.out.println(Files.isReadable(w));
-             System.out.println(Files.isWritable(w));
+             Path source = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
+             Path target = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
 
-
-            //  File newF = new File("C:\\Users\\Public\\fichierprofil.txt");
-             Path source = Paths.get("C:\\Users\\souri\\Desktop\\profilcopyForModification.txt");
-             Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
-
-            //  Files.createNewFile("C:\\Users\\Public\\fichierprofil.txt");
-   
              Files.copy(source, target, REPLACE_EXISTING);
-            //    Files.move(source, target);
-
-               
-            //    File profilcopyForModification = new File("C:\\Users\\Public\\profilcopyForModification.txt");
-
-            //    Path source2 = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
-            //   Path target2 = Paths.get("C:\\Users\\Public\\profilcopyForModification2.txt");
-
-            // Files.copy(source2, target2, REPLACE_EXISTING);
-
-
+       
                System.out.println("This profil has been TRUELY modified: "+oldprofil);
                System.out.println(profil+" is the new profil! Please check at: "+source);
 
@@ -898,22 +862,14 @@ public Admin(String email,  String mdp, String role)
         }
 
 
-        // public String setPath() throws IOException
-
-        // {
-        //     ask("path for your files: ");
-        //     if
-
-
-        // }
 
         public void suppressfiles()
 
         {
 
-            Path compte = Paths.get("C:\\Users\\souri\\Desktop\\fichiercompte.txt");
-            Path profil = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
-            Path profilcopyForModification = Paths.get("C:\\Users\\souri\\Desktop\\profilcopyForModification.txt");
+            Path compte = Paths.get("C:\\Users\\Public\\fichiercompte.txt");
+            Path profil = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
+            Path profilcopyForModification = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
 
             try {
                 (compte.toFile()).delete();
@@ -933,9 +889,9 @@ public Admin(String email,  String mdp, String role)
             
             suppressfiles();
 
-            File compte = new File("C:\\Users\\souri\\Desktop\\fichiercompte.txt");
-            File profil = new File("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
-            File profilcopyForModification = new File("C:\\Users\\souri\\Desktop\\profilcopyForModification.txt");
+            File compte = new File("C:\\Users\\Public\\fichiercompte.txt");
+            File profil = new File("C:\\Users\\Public\\fichierprofil.txt");
+            File profilcopyForModification = new File("C:\\Users\\Public\\profilcopyForModification.txt");
         
             FileWriter icfw = new FileWriter(compte);
             BufferedWriter icbw = new BufferedWriter(icfw);
