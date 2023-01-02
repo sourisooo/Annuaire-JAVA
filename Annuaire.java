@@ -11,14 +11,13 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
-
+import static java.nio.file.StandardCopyOption.*;
 
 class Particulier { String nom; String prénom; String email; String adressepostal; 
     String datedenaissance; String profill; String datedajout; String datedemodification;
@@ -86,29 +85,6 @@ for (String str:tabmail) {
     clist.add(str);
  }
 
-//  if(((alist.indexOf(mail))==(blist.indexOf(mdp)))&&((alist.indexOf(mail))!=1))
-
-// {
-//     idtemp.add(true);
-//     idtemp.add(true);
-//     // System.out.println(idtemp.get(0));
-//     // System.out.println(mail);
-//     // System.out.println(mdp);
-//     // System.out.println(alist.indexOf(mail));
-//     // System.out.println(blist.indexOf(mdp));
-//     // System.out.println(alist.indexOf(mail));
-
-//     // System.out.println(idtemp.get(0));
-//     // System.out.println(idtemp.get(1));
-// }
-
-// else  {
-    
-//         idtemp.add(false);
-//         idtemp.add(false);
-
-// }
-
 }
 
 
@@ -150,7 +126,7 @@ public int nbdecpt () throws IOException
 { String compte;
    int compteur=0;
 
-  compte = "C:\\Users\\souri\\Desktop\\fichiercompte.txt";
+  compte = "C:\\Users\\Public\\fichiercompte.txt";
 
     FileReader fr = new FileReader(compte);
     BufferedReader br = new BufferedReader(fr);
@@ -174,7 +150,7 @@ ligne = br.readLine();
     {  String profil;
        int compteur=0;
     
-      profil = "C:\\Users\\souri\\Desktop\\fichierprofil.txt";
+      profil = "C:\\Users\\Public\\fichierprofil.txt";
     
         FileReader fr = new FileReader(profil);
         BufferedReader br = new BufferedReader(fr);
@@ -372,11 +348,7 @@ modifierprofil();
 
 public void login(String email) throws IOException
 {       
-        // idnum(email);
-  
-    //     if (alist.indexOf(email)!=-1)
-        
-    // {   
+         
         ask("mdp");
         id(email,temp.get(0));
         
@@ -403,31 +375,18 @@ try { if (idmdp.get(email).equals(""));
         if((alist.indexOf(email))==(blist.indexOf(temp.get(1))))
 
         {
-            // idtemp.add(true);
-            // idtemp.add(true);
+         
             System.out.println("sucess to match datas!");
-            // System.out.println(idtemp.get(0));
-            // System.out.println(mail);
-            // System.out.println(mdp);
-            // System.out.println(alist.indexOf(mail));
-            // System.out.println(blist.indexOf(mdp));
-            // System.out.println(alist.indexOf(mail));
-        
-            // System.out.println(idtemp.get(0));
-            // System.out.println(idtemp.get(1));
+   
         }
         
         else  {
 
             home();
-            // System.out.println("homeelse");
-                // idtemp.add(false);
-                // idtemp.add(false);
-        
+      
         }
 
         
-        // temp.clear();
     }
 
 
@@ -449,21 +408,10 @@ try { if (idmdp.get(email).equals(""));
     
         ask("nom");
         ask("mail");
-        // id(temp.get(1),"");
-        // login(temp.get(1));
+       
         pronum(temp.get(1));
     
-        // if ((tabprofil [pronum(temp.get(1))][0] == temp.get(0))&&(tabprofil [pronum(temp.get(1))][2] == temp.get(1)))
-        // {
-        
-            // askList("nom");
-            // temp.add(tabprofil [pronum(temp.get(1))][0]);
-            // tabprofil [pronum(temp.get(1))][0] = queryprocess.get(0);
-        
-            // askList("prénom");
-            // temp.add(tabprofil [pronum(temp.get(1))][1]);
-            // tabprofil [pronum(temp.get(1))][1] = queryprocess.get(1);
-        
+     
             int i=0;
             int j=0;
         
@@ -523,9 +471,9 @@ try { if (idmdp.get(email).equals(""));
                  {oldprofil= oldprofil + temp.get(j)+";";}
                
              
-                 Path r =  Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt"); 
-                 FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
-                 FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
+                 Path r =  Paths.get("C:\\Users\\Public\\fichierprofil.txt"); 
+                 FileReader fr = new FileReader("C:\\Users\\Public\\fichierprofil.txt");
+                 FileWriter fw = new FileWriter("C:\\Users\\Public\\profilcopyForModification.txt");
                  BufferedReader br = new BufferedReader(fr);
                  BufferedWriter bw = new BufferedWriter(fw);
               
@@ -557,8 +505,8 @@ try { if (idmdp.get(email).equals(""));
                  (r.toFile()).delete();
                
                 
-                 Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
-                 Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
+                 Path source = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
+                 Path target = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
                
                  
                    Files.move(source, target);
@@ -606,14 +554,14 @@ try { if (idmdp.get(email).equals(""));
         idtemp.clear();
 
        ask("authentification email");
-        // id(temp.get(0),"");
+    
         login(temp.get(0));
    
         ask("email");
        
         if (idnum(temp.get(2))!=-1)
             {home();};
-            // id(temp.get(1),"");
+         
 
             tabcompte [nbdecpt()][0] = temp.get(2);
         
@@ -626,7 +574,7 @@ try { if (idmdp.get(email).equals(""));
 
      index = nbdecpt();
 
-     FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichiercompte.txt", true);
+     FileWriter fw = new FileWriter("C:\\Users\\Public\\fichiercompte.txt", true);
      BufferedWriter bw = new BufferedWriter(fw);
  
      bw.newLine();
@@ -671,7 +619,6 @@ public Admin(String email,  String mdp, String role)
 
         ask("authentification email");
         
-        // id(temp.get(0),"");
         login(temp.get(0));
 
         LocalDateTime now = LocalDateTime.now();
@@ -718,7 +665,7 @@ public Admin(String email,  String mdp, String role)
         {profil= profil + tabprofil[id][j]+";";}
         index = id;
     
-        FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil.txt", true);
+        FileWriter fw = new FileWriter("C:\\Users\\Public\\fichierprofil.txt", true);
         BufferedWriter bw = new BufferedWriter(fw);
     
         bw.newLine();
@@ -732,8 +679,15 @@ public Admin(String email,  String mdp, String role)
 
         System.out.println("This profil has been created:  "+profil);
 
+
+        Path source = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
+        Path target = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
+
+        Files.copy(source, target, REPLACE_EXISTING);
+
+
         try {
-            Thread.sleep(1500);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             creationcompte();
         }
@@ -824,9 +778,9 @@ public Admin(String email,  String mdp, String role)
              {oldprofil= oldprofil + temp.get(j)+";";}
            
          
-             Path r =  Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt"); 
-             FileReader fr = new FileReader("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
-             FileWriter fw = new FileWriter("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
+             Path r =  Paths.get("C:\\Users\\Public\\fichierprofil.txt"); 
+             FileReader fr = new FileReader("C:\\Users\\Public\\fichierprofil.txt");
+             FileWriter fw = new FileWriter("C:\\Users\\Public\\profilcopyForModification.txt");
              BufferedReader br = new BufferedReader(fr);
              BufferedWriter bw = new BufferedWriter(fw);
           
@@ -858,13 +812,23 @@ public Admin(String email,  String mdp, String role)
              (r.toFile()).delete();
            
             
-             Path source = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil2.txt");
-             Path target = Paths.get("C:\\Users\\souri\\Desktop\\fichierprofil.txt");
+             Path source = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
+             Path target = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
            
              
                Files.move(source, target);
 
+               
+               File profilcopyForModification = new File("C:\\Users\\Public\\profilcopyForModification.txt");
+
+               Path source2 = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
+              Path target2 = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
+
+            Files.copy(source2, target2, REPLACE_EXISTING);
+
+
                System.out.println("this profil has been TRUELY modified "+oldprofil);
+
 
                         }
                         
@@ -889,18 +853,45 @@ public Admin(String email,  String mdp, String role)
         temp.clear();
         queryprocess.clear();
         idtemp.clear();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+              home();
+        }
         home();
     
+        }
+
+
+        public void suppressfiles()
+
+        {
+
+            Path compte = Paths.get("C:\\Users\\Public\\fichiercompte.txt");
+            Path profil = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
+            Path profilcopyForModification = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
+
+            try {
+                (compte.toFile()).delete();
+                (profil.toFile()).delete();
+                (profilcopyForModification.toFile()).delete();
+            } catch (Exception e) {
+                System.out.println("Cant reach files");
+            }
+           
+
         }
 
     
         public void init() throws IOException
 
         {
-        
-            File compte = new File("C:\\fichiercompte.txt");
-            File profil = new File("C:\\fichierprofil.txt");
-            File profilcopyForModification = new File("C:\\profilcopyForModification.txt");
+            
+            suppressfiles();
+
+            File compte = new File("C:\\Users\\Public\\fichiercompte.txt");
+            File profil = new File("C:\\Users\\Public\\fichierprofil.txt");
+            File profilcopyForModification = new File("C:\\Users\\Public\\profilcopyForModification.txt");
         
             FileWriter icfw = new FileWriter(compte);
             BufferedWriter icbw = new BufferedWriter(icfw);
@@ -910,7 +901,7 @@ public Admin(String email,  String mdp, String role)
             icbw.write("particulier;particulier;particulier");
             icbw.flush();
             icbw.close();
-        
+            
             FileWriter ipfw = new FileWriter(profil);
             BufferedWriter ipbw = new BufferedWriter(ipfw);
         
@@ -976,10 +967,6 @@ modifierprofil();
 }
 
 
-
-
-
-
     
 public class Annuaire {
     public static void main(String[] args) throws IOException {
@@ -989,7 +976,7 @@ Particulier part= new Particulier("par", "par", "par");
 
 admin.init();
 admin.home();
-part.home();
+// part.home();
 
 }
 }
