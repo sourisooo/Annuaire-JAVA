@@ -11,9 +11,11 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
@@ -306,10 +308,6 @@ public void recherche() throws IOException
 
 public void home() throws IOException
 {
-
-    tabprofil [0][0] = "par";
-    tabprofil [0][1] = "par";
-    tabprofil [0][2] = "par";
 
 temp.clear();
 queryprocess.clear();
@@ -622,9 +620,8 @@ public Admin(String email,  String mdp, String role)
         
         login(temp.get(0));
 
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String date = now.format(formatter);
+        SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+         Date date = new Date();
      
         id= nbdepro();
 
@@ -653,11 +650,14 @@ public Admin(String email,  String mdp, String role)
 
         askList("profill");
         tabprofil [id][5] = queryprocess.get(5);
-        
-            datedajout = date.toString();
-            tabprofil [id][6] = datedajout;
 
-            // tabprofil [id][6] = null;
+            
+
+            // datedajout = date.toString();
+            // tabprofil [id][6] = datedajout;
+          
+
+            tabprofil [id][6] = null;
 
             datedemodification = null;
             tabprofil [id][7] = null;
@@ -707,6 +707,7 @@ public Admin(String email,  String mdp, String role)
         String profil="";
         String oldprofil="";
         int index;
+        int incr;
     
         temp.clear();
         queryprocess.clear();
@@ -716,27 +717,52 @@ public Admin(String email,  String mdp, String role)
         // id(temp.get(0),"");
         login(temp.get(0));
     
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String date = now.format(formatter);
+        SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
     
         ask("Name of the profil to modify");
         ask("Email of the profil to modify");
    
         int i=0;
         int j=0;
-    
-        for(i=0; i<9999;i++)
-        {
+        
 
-            if ((tabprofil [i][0])!=null)
+        System.out.println(tabprofil [0][0]);
+        System.out.println(tabprofil [2][0]);
+        System.out.println(tabprofil [0][2]);
+        System.out.println(tabprofil [2][2]);
+        
+        pronum("testdur");
 
-            { if ((tabprofil [i][2])!=null)
+         incr = zlist.indexOf("testdur");
 
+         System.out.println(incr);
+
+            if ((tabprofil [incr][0])!=null)
+
+
+            { if ((tabprofil [incr][2])!=null)
+
+                
             {
 
-        if (((tabprofil [i][0]).equals(temp.get(2)))&&((tabprofil [i][2]).equals(temp.get(3))))
+                
+        if ((tabprofil [incr][0]).equals(temp.get(2)))
+        
         {
+
+            if ((tabprofil [incr][2]).equals(temp.get(3)))
+
+       
+        {       
+
+            for(i=0; i<15;i++)
+            {
+
+            System.out.println("doubles check ok");
+            System.out.println(tabprofil [0][0]!=null);
+            System.out.println(tabprofil [2][0]!=null);
+
                 askList("new nom");
                 temp.add(tabprofil [i][0]);
                 tabprofil [i][0] = queryprocess.get(0);
@@ -752,7 +778,7 @@ public Admin(String email,  String mdp, String role)
                 if (pronum(queryprocess.get(2))!=-1)
                 {modifierprofil();};
                 tabprofil [i][2] = queryprocess.get(2);
-            
+
                 askList("new adressepostal");
                 temp.add(tabprofil [i][3]);
                 tabprofil [i][3] = queryprocess.get(3);
@@ -765,16 +791,17 @@ public Admin(String email,  String mdp, String role)
                 temp.add(tabprofil [i][5]);
                  tabprofil [i][5] = queryprocess.get(5);
             
-
+                 
                 //  tabprofil [i][6] = null;
                 temp.add(tabprofil [i][6]);
 
                 datedemodification = date.toString();
                 // tabprofil [i][7] = null;
                 
-                tabprofil [i][7] = datedemodification;
                 temp.add(tabprofil [i][7]);
-
+                tabprofil [i][7] = datedemodification;
+                
+               
                 
             for (j=0; j<8; j++)
              {profil= profil + tabprofil[i][j]+";";}
@@ -785,7 +812,8 @@ public Admin(String email,  String mdp, String role)
              for (j=4; j<12; j++)
              {oldprofil= oldprofil + temp.get(j)+";";}
 
-         
+        
+
              Path r =  Paths.get("C:\\Users\\Public\\fichierprofil.txt"); 
              Path w =  Paths.get("C:\\Users\\Public\\profilcopyForModification.txt"); 
              FileReader fr = new FileReader("C:\\Users\\Public\\fichierprofil.txt");
@@ -835,7 +863,7 @@ public Admin(String email,  String mdp, String role)
                        
                         
 
-        }
+        }   }
     
         temp.clear();
         queryprocess.clear();
@@ -847,7 +875,8 @@ public Admin(String email,  String mdp, String role)
         }
         home();
     
-        }}
+        }
+    }
     
         temp.clear();
         queryprocess.clear();
@@ -886,7 +915,13 @@ public Admin(String email,  String mdp, String role)
         public void init() throws IOException
 
         {
-            
+            tabcompte [0][0] = "admin";
+            tabcompte [0][1] = "admin";
+            tabcompte [0][2] = "admin";
+            tabprofil [0][0] = "par";
+            tabprofil [0][1] = "par";
+            tabprofil [0][2] = "par";
+        
             suppressfiles();
 
             File compte = new File("C:\\Users\\Public\\fichiercompte.txt");
@@ -905,7 +940,7 @@ public Admin(String email,  String mdp, String role)
             FileWriter ipfw = new FileWriter(profil);
             BufferedWriter ipbw = new BufferedWriter(ipfw);
         
-            // ipbw.write("par;par;par;null;null;null;null;null;");
+            ipbw.write("par;par;par;null;null;null;null;null;");
             ipbw.newLine();
             ipbw.flush();
             ipbw.close();
@@ -913,7 +948,7 @@ public Admin(String email,  String mdp, String role)
             FileWriter cfw = new FileWriter(profilcopyForModification);
             BufferedWriter cbw = new BufferedWriter(cfw);
         
-            // cbw.write("par;par;par;null;null;null;null;null;");
+            cbw.write("par;par;par;null;null;null;null;null;");
             cbw.newLine();
             cbw.flush();
             cbw.close();
@@ -924,13 +959,7 @@ public Admin(String email,  String mdp, String role)
 
 public void home() throws IOException
 {
-tabcompte [0][0] = "admin";
-tabcompte [0][1] = "admin";
-tabcompte [0][2] = "admin";
-// tabprofil [0][0] = "par";
-// tabprofil [0][1] = "par";
-// tabprofil [0][2] = "par";
-
+  
 temp.clear();
 queryprocess.clear();
 idtemp.clear();
