@@ -39,8 +39,6 @@ class Particulier { String nom; String prénom; String email; String adressepost
      HashMap<String, String> idmdp = new HashMap<String, String>();
      
 
-
-
 public Particulier(String nom, String prénom, String email, String adressepostal, 
 String datedenaissance, String profill, String datedajout, String datedemodification)
     {
@@ -196,12 +194,17 @@ ligne = br.readLine();
             tabcompte [0][0] = "admin";
             tabcompte [0][1] = "admin";
             tabcompte [0][2] = "admin";
+            // tabcompte [1][0] = "adminb";
+            // tabcompte [2][1] = "adminb";
+            // tabcompte [3][2] = "adminb";
             tabcompte [1][0] = "par";
             tabcompte [1][1] = "par";
             tabcompte [1][2] = "par";
             tabprofil [0][0] = "par";
             tabprofil [0][1] = "par";
             tabprofil [0][2] = "par";
+            idmdp.putIfAbsent("admin","admin");
+            idmdp.putIfAbsent("par","par");
         
             suppressfiles();
 
@@ -249,8 +252,9 @@ ligne = br.readLine();
            {
                if ((tabprofil [i][para]).equals(motRechercher))
                {
-               
+                
                 temp.add(Integer.toString(i));
+                // temp.add(Integer.toString(i));
         
                }
                else
@@ -378,25 +382,25 @@ public void recherche() throws IOException
 
 public void home() throws IOException
 {
+    
     id("", "");
     idnum("");
     pronum("");
     temp.clear();
     queryprocess.clear();
     idtemp.clear();
+     
+    System.out.println("Bienvenue dans l-Annuaire NFA032");
+    System.out.println("1.A. Ajouter un Admin// Add an Account");
+    System.out.println("1.B. Ajouter un particulier// Add an Account and Profile");
+    System.out.println("Rechercher un ou des particuliers// Seek profile");
+    System.out.println("2.A Par nom");
+    System.out.println("2.B. Par email");
+    System.out.println("2.C. Par profil");
+    System.out.println("3. Modifier mes informations personnelles// Modify a profile");
+    System.out.println("Faites votre choix : /ex: 3, 2.A, 1.B ");
 
-System.out.println("Bienvenue dans l’Annuaire NFA032");
-System.out.println("Administrateur :");
-System.out.println("1.A. Ajouter un Admin");
-System.out.println("1.B. Ajouter un particulier");
-System.out.println("Particulier :");
-System.out.println("Rechercher un ou des particuliers");
-System.out.println("2.A Par nom");
-System.out.println("2.B. Par email");
-System.out.println("2.C. Par profil");
-System.out.println("3. Modifier mes informations personnelles");
-System.out.println("Faites votre choix : ");
-ask("choix");
+    ask("choix");
 
 switch (temp.get(0)) {
 case "1.A":  
@@ -419,45 +423,69 @@ modifierprofil();
 
 public void login(String email) throws IOException
 {       
-         
-        ask("mdp(admin)");
-        id(email,temp.get(0));
-        
-        int i =0;
-
-        for (i=0; i<9999;i++)
-
-        {
-            idmdp.put(alist.get(i),blist.get(i));            
-        }
-
-        System.out.println(idmdp.get(email));
-      
-
-try { if (idmdp.get(email).equals(""));
     
-} catch (Exception e) {
-    home();
-}
-        
-        System.out.println("sucess to reach your mail!");
-       
-
-        if((alist.indexOf(email))==(blist.indexOf(temp.get(1))))
-
-        {
+        ask("mdp(admin)");
+          
+        int i =0;
          
-            System.out.println("sucess to match datas!");
-   
-        }
+           
+               for(i=0; i<9999;i++)
+               {
         
-        else  {
+                  try {
+                    
+           {
+               if ((tabcompte[i][0]).equals(email))
+               {
+              
+                temp.add(Integer.toString(i));
 
-            home();
-      
-        }
-
+                // System.out.println("success");
+                // temp.add("Succes");
         
+               }
+               else
+               System.out.println("3RIENIF");
+           
+           } 
+
+        } catch (Exception e) {
+            int k =9999;
+            System.out.println("Skipping current line...Please wait..."+(k-i));
+          }
+
+
+               }  
+
+
+        // System.out.println(temp.get(0)+" pprint0");
+        // System.out.println(temp.get(1)+" pprint1");
+        // System.out.println(temp.get(2)+" pprint2");
+        // System.out.println(idmdp.get(temp.get(1)));
+
+
+        if (temp.get(2)!=null)
+
+        System.out.println("sucess to reach your mail!");
+
+       if ((idmdp.containsKey("admin"))&&(idmdp.containsValue("admin")))
+
+       System.out.println("pass1er!");
+
+       System.out.println(idmdp.get("admin"));
+
+             if (String.valueOf((idmdp.get("admin")).equals("admin")) != null)
+         
+             System.out.println("success to match datas!");
+
+       else 
+       
+       {
+       System.out.println("No match datas!");
+                home();
+            }
+
+
     }
 
 
@@ -485,55 +513,65 @@ try { if (idmdp.get(email).equals(""));
         
 try {
     
-            if ((tabprofil [Integer.parseInt(temp.get(2))][2])!=null)
+            if ((tabprofil [Integer.parseInt(temp.get(3))][2])!=null)
  
     {
-        if ((tabprofil [Integer.parseInt(temp.get(2))][2]).equals(temp.get(1)))
+        if ((tabprofil [Integer.parseInt(temp.get(3))][2]).equals(temp.get(1)))
         {
             System.out.println("PASS");
                 askList("new nom");
-                temp.add(tabprofil [Integer.parseInt(temp.get(2))][0]);
-                tabprofil [Integer.parseInt(temp.get(2))][0] = queryprocess.get(0);
+                temp.add(tabprofil [Integer.parseInt(temp.get(3))][0]);
+                tabprofil [Integer.parseInt(temp.get(3))][0] = queryprocess.get(0);
             
                 askList("new prénom");
-                temp.add(tabprofil [Integer.parseInt(temp.get(2))][1]);
-                tabprofil [Integer.parseInt(temp.get(2))][1] = queryprocess.get(1);
+                temp.add(tabprofil [Integer.parseInt(temp.get(3))][1]);
+                tabprofil [Integer.parseInt(temp.get(3))][1] = queryprocess.get(1);
             
                 askList("new email");
-                temp.add(tabprofil [Integer.parseInt(temp.get(2))][2]);
+                temp.add(tabprofil [Integer.parseInt(temp.get(3))][2]);
                 pronum(queryprocess.get(2));
     
-                if (pronum(queryprocess.get(2))!=-1)
-                {modifierprofil();};
-                tabprofil [Integer.parseInt(temp.get(2))][2] = queryprocess.get(2);
+                if (pronum(queryprocess.get(3))!=-1)
+                {
+                    
+                    try {
+                    System.out.println("Cant add an existing mail!");
+                    Thread.sleep(1000);
+                    modifierprofil();
+                } catch (InterruptedException e) {
+                      modifierprofil();
+                }
+                };
+
+                tabprofil [Integer.parseInt(temp.get(3))][2] = queryprocess.get(2);
 
                 askList("new adressepostal");
-                temp.add(tabprofil [Integer.parseInt(temp.get(2))][3]);
-                tabprofil [Integer.parseInt(temp.get(2))][3] = queryprocess.get(3);
+                temp.add(tabprofil [Integer.parseInt(temp.get(3))][3]);
+                tabprofil [Integer.parseInt(temp.get(3))][3] = queryprocess.get(3);
             
                 askList("new datedenaissance");
-                temp.add(tabprofil [Integer.parseInt(temp.get(2))][4]);
-                tabprofil [Integer.parseInt(temp.get(2))][4] = queryprocess.get(4);
+                temp.add(tabprofil [Integer.parseInt(temp.get(3))][4]);
+                tabprofil [Integer.parseInt(temp.get(3))][4] = queryprocess.get(4);
             
                 askList("new profill");
-                temp.add(tabprofil [Integer.parseInt(temp.get(2))][5]);
-                 tabprofil [Integer.parseInt(temp.get(2))][5] = queryprocess.get(5);
+                temp.add(tabprofil [Integer.parseInt(temp.get(3))][5]);
+                 tabprofil [Integer.parseInt(temp.get(3))][5] = queryprocess.get(5);
             
-                temp.add(tabprofil [Integer.parseInt(temp.get(2))][6]);
+                temp.add(tabprofil [Integer.parseInt(temp.get(3))][6]);
 
                 datedemodification = date.toString();
              
-                temp.add(tabprofil [Integer.parseInt(temp.get(2))][7]);
-                tabprofil [Integer.parseInt(temp.get(2))][7] = datedemodification;
+                temp.add(tabprofil [Integer.parseInt(temp.get(3))][7]);
+                tabprofil [Integer.parseInt(temp.get(3))][7] = datedemodification;
                 
                
             for (j=0; j<8; j++)
-             {profil= profil + tabprofil[Integer.parseInt(temp.get(2))][j]+";";}
-             index = Integer.parseInt(temp.get(2));
+             {profil= profil + tabprofil[Integer.parseInt(temp.get(3))][j]+";";}
+             index = Integer.parseInt(temp.get(3));
 
             oldprofil="";
 
-             for (j=3; j<11; j++)
+             for (j=4; j<12; j++)
              {oldprofil= oldprofil + temp.get(j)+";";}
 
     
@@ -630,19 +668,31 @@ try {
    
         ask("Email of the account currently created: ");
        
-        if (idnum(temp.get(2))!=-1)
-            {home();};
-         
 
-            tabcompte [nbdecpt()][0] = temp.get(2);
+        if (idnum(temp.get(3))!=-1)
+            {
+
+                try {
+                    System.out.println("Cant add an existing mail!");
+                    Thread.sleep(1000);
+                    home();
+                } catch (InterruptedException e) {
+                      home();
+                }
+            
+            };
+         
+            tabcompte [nbdecpt()][0] = temp.get(3);
+            
         
             ask("mdp");
-            tabcompte [nbdecpt()][1] = temp.get(3);
+            tabcompte [nbdecpt()][1] = temp.get(4);
+            idmdp.putIfAbsent(temp.get(3),temp.get(4));
         
-            ask("role");
-            tabcompte [nbdecpt()][2] = temp.get(4);;
+            ask("role MUST contain ADMIN or PAR");
+            tabcompte [nbdecpt()][2] = temp.get(5);
     
-
+    
      index = nbdecpt();
     
      Path r = Paths.get("C:\\Users\\Public\\fichiercompte.txt");
@@ -650,21 +700,25 @@ try {
      BufferedWriter bw = new BufferedWriter(fw);
  
      bw.newLine();
-     bw.write(temp.get(2)+";"+temp.get(3)+";"+temp.get(4));
+     bw.write(temp.get(3)+";"+temp.get(4)+";"+temp.get(5));
      bw.flush();
      bw.close();
 
-     System.out.println("Adding done for "+(temp.get(2)+";"+temp.get(3)+";"+temp.get(4))+" at"+r+" .");
+    // Admin test = new Admin("test","test","test");
+    
+
+     System.out.println("Adding done for "+(temp.get(3)+";"+temp.get(4)+";"+temp.get(5))+" at"+r+" .");
 
     temp.clear();
     idtemp.clear();
     try {
         Thread.sleep(1000);
     } catch (InterruptedException e) {
-          home();
+        // test.home();
+        home();
     }
+    // test.home();
     home();
-    
         }
 
 
@@ -702,7 +756,16 @@ public Admin(String email,  String mdp, String role)
         askList("Email of the profil currently created");
 
         if (pronum(queryprocess.get(0))!=-1)
-        {home();};
+        {
+             try {
+                    System.out.println("Cant add an existing mail!");
+                    Thread.sleep(1000);
+                    home();
+                } catch (InterruptedException e) {
+                      home();
+                }
+        };
+
         id(queryprocess.get(0),"");
         tabprofil [id][2] = queryprocess.get(0);
     
@@ -795,59 +858,67 @@ public Admin(String email,  String mdp, String role)
         
 try {
     
-            if ((tabprofil [Integer.parseInt(temp.get(4))][2])!=null)
+            if ((tabprofil [Integer.parseInt(temp.get(5))][2])!=null)
  
     {
-        if ((tabprofil [Integer.parseInt(temp.get(4))][2]).equals(temp.get(3)))
+        if ((tabprofil [Integer.parseInt(temp.get(5))][2]).equals(temp.get(4)))
         {
             System.out.println("PASS");
                 askList("new nom");
-                temp.add(tabprofil [Integer.parseInt(temp.get(4))][0]);
-                tabprofil [Integer.parseInt(temp.get(4))][0] = queryprocess.get(0);
+                temp.add(tabprofil [Integer.parseInt(temp.get(5))][0]);
+                tabprofil [Integer.parseInt(temp.get(5))][0] = queryprocess.get(0);
             
                 askList("new prénom");
-                temp.add(tabprofil [Integer.parseInt(temp.get(4))][1]);
-                tabprofil [Integer.parseInt(temp.get(4))][1] = queryprocess.get(1);
+                temp.add(tabprofil [Integer.parseInt(temp.get(5))][1]);
+                tabprofil [Integer.parseInt(temp.get(5))][1] = queryprocess.get(1);
             
                 askList("new email");
-                temp.add(tabprofil [Integer.parseInt(temp.get(4))][2]);
+                temp.add(tabprofil [Integer.parseInt(temp.get(5))][2]);
                 pronum(queryprocess.get(2));
     
                 if (pronum(queryprocess.get(2))!=-1)
-                {modifierprofil();};
-                tabprofil [Integer.parseInt(temp.get(4))][2] = queryprocess.get(2);
+                {
+                    try {
+                        System.out.println("Cant add an existing mail!");
+                        Thread.sleep(1000);
+                        modifierprofil();
+                    } catch (InterruptedException e) {
+                          modifierprofil();
+                    }
+                
+                };
+
+                tabprofil [Integer.parseInt(temp.get(5))][2] = queryprocess.get(2);
 
                 askList("new adressepostal");
-                temp.add(tabprofil [Integer.parseInt(temp.get(4))][3]);
-                tabprofil [Integer.parseInt(temp.get(4))][3] = queryprocess.get(3);
+                temp.add(tabprofil [Integer.parseInt(temp.get(5))][3]);
+                tabprofil [Integer.parseInt(temp.get(5))][3] = queryprocess.get(3);
             
                 askList("new datedenaissance");
-                temp.add(tabprofil [Integer.parseInt(temp.get(4))][4]);
-                tabprofil [Integer.parseInt(temp.get(4))][4] = queryprocess.get(4);
+                temp.add(tabprofil [Integer.parseInt(temp.get(5))][4]);
+                tabprofil [Integer.parseInt(temp.get(5))][4] = queryprocess.get(4);
             
                 askList("new profill");
-                temp.add(tabprofil [Integer.parseInt(temp.get(4))][5]);
-                 tabprofil [Integer.parseInt(temp.get(4))][5] = queryprocess.get(5);
+                temp.add(tabprofil [Integer.parseInt(temp.get(5))][5]);
+                 tabprofil [Integer.parseInt(temp.get(5))][5] = queryprocess.get(5);
             
-                temp.add(tabprofil [Integer.parseInt(temp.get(4))][6]);
+                temp.add(tabprofil [Integer.parseInt(temp.get(5))][6]);
 
                 datedemodification = date.toString();
                 
-                temp.add(tabprofil [Integer.parseInt(temp.get(4))][7]);
-                tabprofil [Integer.parseInt(temp.get(4))][7] = datedemodification;
+                temp.add(tabprofil [Integer.parseInt(temp.get(5))][7]);
+                tabprofil [Integer.parseInt(temp.get(5))][7] = datedemodification;
                 
-               
                 
             for (j=0; j<8; j++)
-             {profil= profil + tabprofil[Integer.parseInt(temp.get(4))][j]+";";}
-             index = Integer.parseInt(temp.get(4));
+             {profil= profil + tabprofil[Integer.parseInt(temp.get(5))][j]+";";}
+             index = Integer.parseInt(temp.get(5));
 
             oldprofil="";
 
-             for (j=5; j<13; j++)
+             for (j=6; j<14; j++)
              {oldprofil= oldprofil + temp.get(j)+";";}
 
-        
 
              Path r =  Paths.get("C:\\Users\\Public\\fichierprofil.txt"); 
              Path w =  Paths.get("C:\\Users\\Public\\profilcopyForModification.txt"); 
@@ -931,6 +1002,7 @@ try {
 
 public void home() throws IOException
 {
+
 id("", "");
 idnum("");
 pronum("");
@@ -939,16 +1011,14 @@ temp.clear();
 queryprocess.clear();
 idtemp.clear();
 
-System.out.println("Bienvenue dans l’Annuaire NFA032");
-System.out.println("Administrateur :");
-System.out.println("1.A. Ajouter un Admin");
-System.out.println("1.B. Ajouter un particulier");
-System.out.println("Particulier :");
-System.out.println("Rechercher un ou des particuliers");
+System.out.println("Bienvenue dans l-Annuaire NFA032");
+System.out.println("1.A. Ajouter un Admin// Add an Account");
+System.out.println("1.B. Ajouter un particulier// Add an Account and Profile");
+System.out.println("Rechercher un ou des particuliers// Seek profile");
 System.out.println("2.A Par nom");
 System.out.println("2.B. Par email");
 System.out.println("2.C. Par profil");
-System.out.println("3. Modifier mes informations personnelles");
+System.out.println("3. Modifier mes informations personnelles// Modify a profile");
 System.out.println("Faites votre choix : /ex: 3, 2.A, 1.B ");
 ask("choix");
 
