@@ -197,8 +197,8 @@ ligne = br.readLine();
             tabprofil [0][0] = "par";
             tabprofil [0][1] = "par";
             tabprofil [0][2] = "par";
-            idmdp.putIfAbsent("admin","admin");
-            idmdp.putIfAbsent("par","par");
+            idmdp.put("admin","admin");
+            idmdp.put("par","par");
         
             suppressfiles();
 
@@ -451,6 +451,19 @@ public void login(String email) throws IOException
 
                }  
 
+            } catch (Exception e) { try {
+                System.out.println("No match datas!");
+                Thread.sleep(1000);
+                home();
+    
+    
+            } catch (Exception f) {
+                System.out.println("No match datas!");
+                home();
+            }
+                
+            }
+
 
         if (temp.get(2)!=null)
 
@@ -458,22 +471,18 @@ public void login(String email) throws IOException
 
        if ((idmdp.containsKey(email))&&(idmdp.containsValue(temp.get(1))))
 
-    //    System.out.println("pass1er!");
+       System.out.println(temp.get(0));
+       System.out.println(temp.get(1));
+       System.out.println(idmdp.get(email));
 
-       System.out.println(idmdp.get("admin"));
-
-             if (String.valueOf((idmdp.get(email)).equals(temp.get(1))) != null)
+             if ((idmdp.get(email)).equals(temp.get(1)))
          
              System.out.println("success to match datas!");
 
        else 
        
        {
-       System.out.println("No match datas!");
-                home();
-            }
-
-        } catch (Exception e) { try {
+        try {
             System.out.println("No match datas!");
             Thread.sleep(1000);
             home();
@@ -483,9 +492,9 @@ public void login(String email) throws IOException
             System.out.println("No match datas!");
             home();
         }
-            
-        }
+            }
 
+    
     }
 
 
@@ -687,7 +696,7 @@ try {
         
             ask("mdp: ");
             tabcompte [nbdecpt()][1] = temp.get(4);
-            idmdp.putIfAbsent(temp.get(3),temp.get(4));
+            idmdp.put(temp.get(3),temp.get(4));
         
             ask("role: ");
             tabcompte [nbdecpt()][2] = temp.get(5);
