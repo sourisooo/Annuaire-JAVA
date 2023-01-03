@@ -37,6 +37,7 @@ class Particulier { String nom; String prénom; String email; String adressepost
      List<String> queryprocess = new ArrayList<>();
      List<Boolean> idtemp = new ArrayList<>();
      HashMap<String, String> idmdp = new HashMap<String, String>();
+     HashMap<String, String> idstamped = new HashMap<String, String>();
      
 
 public Particulier(String nom, String prénom, String email, String adressepostal, 
@@ -199,6 +200,8 @@ ligne = br.readLine();
             tabprofil [0][2] = "par";
             idmdp.put("admin","admin");
             idmdp.put("par","par");
+            idstamped.put("admin","admin");
+            idstamped.put("par","par");
         
             suppressfiles();
 
@@ -260,6 +263,32 @@ ligne = br.readLine();
         
            }
 
+
+           public void Createdby(int para, String motRechercher) throws IOException
+           {   int i =0;
+            
+              
+                  for(i=0; i<9999;i++)
+                  {
+           
+                      if ((tabcompte [i][para])!=null)
+           
+              {
+                  if ((tabcompte [i][para]).equals(motRechercher))
+                  {
+                   
+                   temp.add(Integer.toString(i));
+                   // temp.add(Integer.toString(i));
+           
+                  }
+                  else
+                  System.out.println("3RIEN");
+              
+              } 
+           
+                  }    
+           
+              }
 
 
 public void rech(int para, String motRechercher) throws IOException
@@ -421,7 +450,7 @@ public void login(String email) throws IOException
         ask("mdp(admin) or any Account register");
           
         int i =0;
-         
+        double l;
 
         try {
             
@@ -446,6 +475,7 @@ public void login(String email) throws IOException
 
         } catch (Exception e) {
             int k =9999;
+           
             System.out.println("Skipping current line...Please wait..."+(k-i));
           }
 
@@ -692,14 +722,14 @@ try {
             };
          
             tabcompte [nbdecpt()][0] = temp.get(3);
-            
         
             ask("mdp: ");
             tabcompte [nbdecpt()][1] = temp.get(4);
             idmdp.put(temp.get(3),temp.get(4));
-        
+            
             ask("role: ");
             tabcompte [nbdecpt()][2] = temp.get(5);
+            idstamped.put(temp.get(3),temp.get(5));
 
      index = nbdecpt();
     
@@ -786,13 +816,18 @@ public Admin(String email,  String mdp, String role)
         askList("adressepostal");
             tabprofil [id][3] = queryprocess.get(3);
         
-    
-        askList("datedenaissance");
-            tabprofil [id][4] = queryprocess.get(4);
-        
+            tabprofil [id][4] = idstamped.get(temp.get(0));
 
-        askList("profill");
-        tabprofil [id][5] = queryprocess.get(5);
+    
+        // askList("datedenaissance");
+        //     tabprofil [id][4] = queryprocess.get(4);
+        
+            // Createdby(2,"profill");
+            
+            tabprofil [id][5] = null;
+
+        // askList("profill");
+        // tabprofil [id][5] = queryprocess.get(5);
 
             datedajout = date.toString();
             tabprofil [id][6] = datedajout;
@@ -859,8 +894,10 @@ public Admin(String email,  String mdp, String role)
         ask("Name of the profil to modify");
         ask("Email of the profil to modify");
    
-        rechindex(2,temp.get(3));
-        
+        rechindex(2,temp.get(4));
+
+
+
 try {
     
             if ((tabprofil [Integer.parseInt(temp.get(5))][2])!=null)
@@ -899,14 +936,29 @@ try {
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][3]);
                 tabprofil [Integer.parseInt(temp.get(5))][3] = queryprocess.get(3);
             
-                askList("new datedenaissance");
+
+
+                // askList("new datedenaissance");
+                // temp.add(tabprofil [Integer.parseInt(temp.get(5))][4]);
+                // tabprofil [Integer.parseInt(temp.get(5))][4] = queryprocess.get(4);
+            
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][4]);
-                tabprofil [Integer.parseInt(temp.get(5))][4] = queryprocess.get(4);
+
+
             
-                askList("new profill");
+
+                // askList("new profill");
+                // temp.add(tabprofil [Integer.parseInt(temp.get(5))][5]);
+                //  tabprofil [Integer.parseInt(temp.get(5))][5] = queryprocess.get(5);
+                
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][5]);
-                 tabprofil [Integer.parseInt(temp.get(5))][5] = queryprocess.get(5);
-            
+                tabprofil [Integer.parseInt(temp.get(5))][5] = idstamped.get(temp.get(0));
+                
+                // tabprofil [Integer.parseInt(temp.get(5))][5] = idstamped.get(temp.get(0));
+              
+
+
+
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][6]);
 
                 datedemodification = date.toString();
@@ -915,15 +967,35 @@ try {
                 tabprofil [Integer.parseInt(temp.get(5))][7] = datedemodification;
                 
                 
+                System.out.println("STOP");
+
             for (j=0; j<8; j++)
              {profil= profil + tabprofil[Integer.parseInt(temp.get(5))][j]+";";}
              index = Integer.parseInt(temp.get(5));
+
+             System.out.println(temp.get(0)+"admin");
+             System.out.println(temp.get(1)+"admin");
+             System.out.println(temp.get(2)+"0");
+             System.out.println(temp.get(3)+"par");
+             System.out.println(temp.get(4)+"par");
+             System.out.println(temp.get(5)+"0");
+             System.out.println(temp.get(6)+"par");
+             System.out.println(temp.get(7)+"par");
+             System.out.println(temp.get(8)+"par");
+             System.out.println(temp.get(9)+null);
+             System.out.println(temp.get(10)+null);
+             System.out.println(temp.get(11)+"admin");
+             System.out.println(temp.get(12)+null);
+             System.out.println(temp.get(13)+null);
+
+  
 
             oldprofil="";
 
              for (j=6; j<14; j++)
              {oldprofil= oldprofil + temp.get(j)+";";}
 
+             System.out.println("STOP3");
 
              Path r =  Paths.get("C:\\Users\\Public\\fichierprofil.txt"); 
              Path w =  Paths.get("C:\\Users\\Public\\profilcopyForModification.txt"); 
@@ -934,6 +1006,7 @@ try {
           
              String ligne = br.readLine();
          
+
              while(ligne != null) {
              
              if (ligne.equals(oldprofil))
@@ -968,6 +1041,7 @@ try {
                System.out.println("This profil has been TRUELY modified: "+oldprofil);
                System.out.println(profil+" is the new profil! Please check at: "+source);
 
+        
                     }
                         
                     }
@@ -977,7 +1051,7 @@ try {
     
                 } catch (Exception e) {
 
-            System.out.println("Dont have any match for: "+temp.get(2)+"and"+temp.get(3));
+            System.out.println("Dont have any match for: "+temp.get(2)+"and"+temp.get(3)+"index 2 & 3");
 
                     temp.clear();
                     queryprocess.clear();
@@ -1017,8 +1091,8 @@ queryprocess.clear();
 idtemp.clear();
 
 System.out.println("Bienvenue dans l-Annuaire NFA032");
-System.out.println("1.A. Ajouter un Admin// Add an Account");
-System.out.println("1.B. Ajouter un particulier// Add an Account and Profile");
+System.out.println("1.A. Ajouter un Admin// Add an Account to Stramped new profils with your account name: ");
+System.out.println("1.B. Ajouter un particulier// Add an Profile ");
 System.out.println("Rechercher un ou des particuliers// Seek profile");
 System.out.println("2.A Par nom");
 System.out.println("2.B. Par email");
