@@ -2,7 +2,6 @@ package projetpoo;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.Console;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -11,14 +10,11 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Scanner;
 import static java.nio.file.StandardCopyOption.*;
 
 
@@ -341,36 +337,12 @@ temp.add(name);
 
 public void askList(String typeof) throws IOException
 {
-    // System.out.println("Entrez"+typeof+" : ");
-    // Scanner scanner = new Scanner(System.in);
-    // typeof = scanner.nextLine();
-    // queryprocess.add(typeof);
-    // scanner.close();
-
-    //////////////////////////////////////////////////////////////
-
-    // Console console = System.console();
-    // if (console == null) {
-    //     System.out.println("No console: non-interactive mode!");
-    //     System.exit(0);
-    // }
-
-    // System.out.print("Enter your: "+typeof);
-    // String username = console.readLine();
-    // temp.add(username);
-
-        // String passport = console.readLine("Enter your : "+typeof, 2);
-    // queryprocess.add(passport);
-
-
-//////////////////////////////////////////////////////////////////
 
 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 System.out.print("Enter your "+typeof+ " ");
  
 String name = reader.readLine();
 queryprocess.add(name);
-
 
 
 }
@@ -381,7 +353,7 @@ public void recherche() throws IOException
     temp.clear();
     queryprocess.clear();
 
-    ask("Choose //nom//email//profil: ");
+    ask("Choose //nom//email//profil: (ex: Type nom, email or profil)");
     ask("Find this word: ");
 
     switch (temp.get(0)) 
@@ -404,13 +376,14 @@ public void recherche() throws IOException
 
 
 
-
 public void home() throws IOException
 {
-
-temp.clear();
-queryprocess.clear();
-idtemp.clear();
+    id("", "");
+    idnum("");
+    pronum("");
+    temp.clear();
+    queryprocess.clear();
+    idtemp.clear();
 
 System.out.println("Bienvenue dans l’Annuaire NFA032");
 System.out.println("Administrateur :");
@@ -452,7 +425,7 @@ public void login(String email) throws IOException
         
         int i =0;
 
-        for (i=0; i<20;i++)
+        for (i=0; i<9999;i++)
 
         {
             idmdp.put(alist.get(i),blist.get(i));            
@@ -502,18 +475,14 @@ try { if (idmdp.get(email).equals(""));
         idtemp.clear();
     
         ask("Authentification mail(login:par, mdp:par): ");
-        // id(temp.get(0),"");
         login(temp.get(0));
     
-        SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date = new Date();
-    
-        // ask("Name of the profil to modify");
-        // ask("Email of the profil to modify");
-   
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String date = now.format(formatter);
+
         rechindex(2,temp.get(1));
         
-    
 try {
     
             if ((tabprofil [Integer.parseInt(temp.get(2))][2])!=null)
@@ -550,18 +519,14 @@ try {
                 temp.add(tabprofil [Integer.parseInt(temp.get(2))][5]);
                  tabprofil [Integer.parseInt(temp.get(2))][5] = queryprocess.get(5);
             
-                 
-                //  tabprofil [i][6] = null;
                 temp.add(tabprofil [Integer.parseInt(temp.get(2))][6]);
 
                 datedemodification = date.toString();
-                // tabprofil [i][7] = null;
-                
+             
                 temp.add(tabprofil [Integer.parseInt(temp.get(2))][7]);
                 tabprofil [Integer.parseInt(temp.get(2))][7] = datedemodification;
                 
                
-                
             for (j=0; j<8; j++)
              {profil= profil + tabprofil[Integer.parseInt(temp.get(2))][j]+";";}
              index = Integer.parseInt(temp.get(2));
@@ -571,8 +536,7 @@ try {
              for (j=3; j<11; j++)
              {oldprofil= oldprofil + temp.get(j)+";";}
 
-        
-
+    
              Path r =  Paths.get("C:\\Users\\Public\\fichierprofil.txt"); 
              Path w =  Paths.get("C:\\Users\\Public\\profilcopyForModification.txt"); 
              FileReader fr = new FileReader("C:\\Users\\Public\\fichierprofil.txt");
@@ -617,8 +581,6 @@ try {
                System.out.println(profil+" is the new profil! Please check at: "+source);
 
                         
-                        
-                        // System.out.println("this profil has been modified "+oldprofil);
                     }
                         
                     }
@@ -639,7 +601,6 @@ try {
                           home();
                     }
                     home();
-              
               
                 }
 
@@ -732,8 +693,9 @@ public Admin(String email,  String mdp, String role)
         
         login(temp.get(0));
 
-        SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-         Date date = new Date();
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = now.format(formatter);
      
         id= nbdepro();
 
@@ -763,14 +725,9 @@ public Admin(String email,  String mdp, String role)
         askList("profill");
         tabprofil [id][5] = queryprocess.get(5);
 
-            
-
-            // datedajout = date.toString();
-            // tabprofil [id][6] = datedajout;
+            datedajout = date.toString();
+            tabprofil [id][6] = datedajout;
           
-
-            tabprofil [id][6] = null;
-
             datedemodification = null;
             tabprofil [id][7] = null;
          
@@ -794,7 +751,6 @@ public Admin(String email,  String mdp, String role)
         Path target = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
 
         Files.copy(source, target, REPLACE_EXISTING);
-        // Files.move(source, target);
 
         System.out.println("This profil has been created: "+profil+" at"+source);
 
@@ -826,18 +782,17 @@ public Admin(String email,  String mdp, String role)
         idtemp.clear();
     
         ask("Authentification mail(admin): ");
-        // id(temp.get(0),"");
         login(temp.get(0));
     
-        SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date = new Date();
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = now.format(formatter);
     
         ask("Name of the profil to modify");
         ask("Email of the profil to modify");
    
         rechindex(2,temp.get(3));
         
-    
 try {
     
             if ((tabprofil [Integer.parseInt(temp.get(4))][2])!=null)
@@ -874,12 +829,9 @@ try {
                 temp.add(tabprofil [Integer.parseInt(temp.get(4))][5]);
                  tabprofil [Integer.parseInt(temp.get(4))][5] = queryprocess.get(5);
             
-                 
-                //  tabprofil [i][6] = null;
                 temp.add(tabprofil [Integer.parseInt(temp.get(4))][6]);
 
                 datedemodification = date.toString();
-                // tabprofil [i][7] = null;
                 
                 temp.add(tabprofil [Integer.parseInt(temp.get(4))][7]);
                 tabprofil [Integer.parseInt(temp.get(4))][7] = datedemodification;
@@ -940,9 +892,6 @@ try {
                System.out.println("This profil has been TRUELY modified: "+oldprofil);
                System.out.println(profil+" is the new profil! Please check at: "+source);
 
-                        
-                        
-                        // System.out.println("this profil has been modified "+oldprofil);
                     }
                         
                     }
@@ -952,7 +901,7 @@ try {
     
                 } catch (Exception e) {
 
-            System.out.println("Dont have any match for: "+temp.get(2)+"and"+temp.get(2));
+            System.out.println("Dont have any match for: "+temp.get(2)+"and"+temp.get(3));
 
                     temp.clear();
                     queryprocess.clear();
@@ -963,7 +912,6 @@ try {
                           home();
                     }
                     home();
-              
               
                 }
 
@@ -983,7 +931,10 @@ try {
 
 public void home() throws IOException
 {
-  
+id("", "");
+idnum("");
+pronum("");
+
 temp.clear();
 queryprocess.clear();
 idtemp.clear();
