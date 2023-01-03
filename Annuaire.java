@@ -194,12 +194,6 @@ ligne = br.readLine();
             tabcompte [0][0] = "admin";
             tabcompte [0][1] = "admin";
             tabcompte [0][2] = "admin";
-            // tabcompte [1][0] = "adminb";
-            // tabcompte [2][1] = "adminb";
-            // tabcompte [3][2] = "adminb";
-            tabcompte [1][0] = "par";
-            tabcompte [1][1] = "par";
-            tabcompte [1][2] = "par";
             tabprofil [0][0] = "par";
             tabprofil [0][1] = "par";
             tabprofil [0][2] = "par";
@@ -424,11 +418,13 @@ modifierprofil();
 public void login(String email) throws IOException
 {       
     
-        ask("mdp(admin)");
+        ask("mdp(admin) or any Account register");
           
         int i =0;
          
-           
+
+        try {
+            
                for(i=0; i<9999;i++)
                {
         
@@ -441,7 +437,6 @@ public void login(String email) throws IOException
                 temp.add(Integer.toString(i));
 
                 // System.out.println("success");
-                // temp.add("Succes");
         
                }
                else
@@ -454,27 +449,20 @@ public void login(String email) throws IOException
             System.out.println("Skipping current line...Please wait..."+(k-i));
           }
 
-
                }  
-
-
-        // System.out.println(temp.get(0)+" pprint0");
-        // System.out.println(temp.get(1)+" pprint1");
-        // System.out.println(temp.get(2)+" pprint2");
-        // System.out.println(idmdp.get(temp.get(1)));
 
 
         if (temp.get(2)!=null)
 
         System.out.println("sucess to reach your mail!");
 
-       if ((idmdp.containsKey("admin"))&&(idmdp.containsValue("admin")))
+       if ((idmdp.containsKey(email))&&(idmdp.containsValue(temp.get(1))))
 
-       System.out.println("pass1er!");
+    //    System.out.println("pass1er!");
 
        System.out.println(idmdp.get("admin"));
 
-             if (String.valueOf((idmdp.get("admin")).equals("admin")) != null)
+             if (String.valueOf((idmdp.get(email)).equals(temp.get(1))) != null)
          
              System.out.println("success to match datas!");
 
@@ -485,6 +473,18 @@ public void login(String email) throws IOException
                 home();
             }
 
+        } catch (Exception e) { try {
+            System.out.println("No match datas!");
+            Thread.sleep(1000);
+            home();
+
+
+        } catch (Exception f) {
+            System.out.println("No match datas!");
+            home();
+        }
+            
+        }
 
     }
 
@@ -685,14 +685,13 @@ try {
             tabcompte [nbdecpt()][0] = temp.get(3);
             
         
-            ask("mdp");
+            ask("mdp: ");
             tabcompte [nbdecpt()][1] = temp.get(4);
             idmdp.putIfAbsent(temp.get(3),temp.get(4));
         
-            ask("role MUST contain ADMIN or PAR");
+            ask("role: ");
             tabcompte [nbdecpt()][2] = temp.get(5);
-    
-    
+
      index = nbdecpt();
     
      Path r = Paths.get("C:\\Users\\Public\\fichiercompte.txt");
@@ -703,9 +702,7 @@ try {
      bw.write(temp.get(3)+";"+temp.get(4)+";"+temp.get(5));
      bw.flush();
      bw.close();
-
-    // Admin test = new Admin("test","test","test");
-    
+  
 
      System.out.println("Adding done for "+(temp.get(3)+";"+temp.get(4)+";"+temp.get(5))+" at"+r+" .");
 
@@ -714,10 +711,10 @@ try {
     try {
         Thread.sleep(1000);
     } catch (InterruptedException e) {
-        // test.home();
+     
         home();
     }
-    // test.home();
+ 
     home();
         }
 
@@ -809,7 +806,6 @@ public Admin(String email,  String mdp, String role)
         bw.flush();
         bw.close();
 
-        
         Path source = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
         Path target = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
 
