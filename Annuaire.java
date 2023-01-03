@@ -174,6 +174,73 @@ ligne = br.readLine();
         }
 
 
+        public void suppressfiles()
+
+        {
+
+            Path compte = Paths.get("C:\\Users\\Public\\fichiercompte.txt");
+            Path profil = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
+            Path profilcopyForModification = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
+
+            try {
+                (compte.toFile()).delete();
+                (profil.toFile()).delete();
+                (profilcopyForModification.toFile()).delete();
+            } catch (Exception e) {
+                System.out.println("Cant reach files");
+            }
+           
+
+        }
+
+    
+        public void init() throws IOException
+
+        {
+            tabcompte [0][0] = "admin";
+            tabcompte [0][1] = "admin";
+            tabcompte [0][2] = "admin";
+            tabcompte [1][0] = "par";
+            tabcompte [1][1] = "par";
+            tabcompte [1][2] = "par";
+            tabprofil [0][0] = "par";
+            tabprofil [0][1] = "par";
+            tabprofil [0][2] = "par";
+        
+            suppressfiles();
+
+            File compte = new File("C:\\Users\\Public\\fichiercompte.txt");
+            File profil = new File("C:\\Users\\Public\\fichierprofil.txt");
+            File profilcopyForModification = new File("C:\\Users\\Public\\profilcopyForModification.txt");
+        
+            FileWriter icfw = new FileWriter(compte);
+            BufferedWriter icbw = new BufferedWriter(icfw);
+        
+            icbw.write("admin;admin;admin;");
+            icbw.newLine();
+            icbw.write("par;par;par;");
+            icbw.flush();
+            icbw.close();
+            
+            FileWriter ipfw = new FileWriter(profil);
+            BufferedWriter ipbw = new BufferedWriter(ipfw);
+        
+            ipbw.write("par;par;par;null;null;null;null;null;");
+            ipbw.newLine();
+            ipbw.flush();
+            ipbw.close();
+        
+            FileWriter cfw = new FileWriter(profilcopyForModification);
+            BufferedWriter cbw = new BufferedWriter(cfw);
+        
+            cbw.write("par;par;par;null;null;null;null;null;");
+            cbw.newLine();
+            cbw.flush();
+            cbw.close();
+        
+        }
+
+
         public void rechindex(int para, String motRechercher) throws IOException
         {   int i =0;
          
@@ -424,156 +491,169 @@ try { if (idmdp.get(email).equals(""));
 
     public void modifierprofil() throws IOException 
     {  String datedemodification;
-       
+        
         String profil="";
         String oldprofil="";
         int index;
+        int j;
     
         temp.clear();
         queryprocess.clear();
         idtemp.clear();
     
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String date = now.format(formatter);
+        ask("Authentification mail(login:par, mdp:par): ");
+        // id(temp.get(0),"");
+        login(temp.get(0));
     
-        ask("Name of profil to modify: ");
-        ask("Mail of profil to modify: ");
-       
-        pronum(temp.get(1));
+        SimpleDateFormat s = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
     
-     
-            int i=0;
-            int j=0;
+        // ask("Name of the profil to modify");
+        // ask("Email of the profil to modify");
+   
+        rechindex(2,temp.get(1));
         
-            for(i=0; i<9999;i++)
-            {
     
-                if ((tabprofil [i][0]).equals(tabprofil [pronum(temp.get(1))][0]))
+try {
     
-                { if ((tabprofil [i][2]).equals(tabprofil [pronum(temp.get(1))][2]))
+            if ((tabprofil [Integer.parseInt(temp.get(2))][2])!=null)
+ 
+    {
+        if ((tabprofil [Integer.parseInt(temp.get(2))][2]).equals(temp.get(1)))
+        {
+            System.out.println("PASS");
+                askList("new nom");
+                temp.add(tabprofil [Integer.parseInt(temp.get(2))][0]);
+                tabprofil [Integer.parseInt(temp.get(2))][0] = queryprocess.get(0);
+            
+                askList("new prénom");
+                temp.add(tabprofil [Integer.parseInt(temp.get(2))][1]);
+                tabprofil [Integer.parseInt(temp.get(2))][1] = queryprocess.get(1);
+            
+                askList("new email");
+                temp.add(tabprofil [Integer.parseInt(temp.get(2))][2]);
+                pronum(queryprocess.get(2));
     
-                {
-    
-            if (((tabprofil [i][0]).equals(temp.get(0)))&&((tabprofil [i][2]).equals(temp.get(1))))
-            {
-                    askList("new nom");
-                    temp.add(tabprofil [i][0]);
-                    tabprofil [i][0] = queryprocess.get(0);
-                
-                    askList("new prénom");
-                    temp.add(tabprofil [i][1]);
-                    tabprofil [i][1] = queryprocess.get(1);
-                
-                    askList("new email");
-                    temp.add(tabprofil [i][2]);
-                    pronum(queryprocess.get(2));
-        
-                    if (pronum(queryprocess.get(2))!=-1)
-                    {modifierprofil();};
-                    tabprofil [i][2] = queryprocess.get(2);
-                
-                    askList("new adressepostal");
-                    temp.add(tabprofil [i][3]);
-                    tabprofil [i][3] = queryprocess.get(3);
-                
-                    askList("new datedenaissance");
-                    temp.add(tabprofil [i][4]);
-                    tabprofil [i][4] = queryprocess.get(4);
-                
-                    askList("new profill");
-                    temp.add(tabprofil [i][5]);
-                     tabprofil [i][5] = queryprocess.get(5);
-                
-                    temp.add(tabprofil [i][6]);
-    
-                    datedemodification = date.toString();
-                    temp.add(tabprofil [i][7]);
-                    tabprofil [i][7] = datedemodification;
+                if (pronum(queryprocess.get(2))!=-1)
+                {modifierprofil();};
+                tabprofil [Integer.parseInt(temp.get(2))][2] = queryprocess.get(2);
+
+                askList("new adressepostal");
+                temp.add(tabprofil [Integer.parseInt(temp.get(2))][3]);
+                tabprofil [Integer.parseInt(temp.get(2))][3] = queryprocess.get(3);
+            
+                askList("new datedenaissance");
+                temp.add(tabprofil [Integer.parseInt(temp.get(2))][4]);
+                tabprofil [Integer.parseInt(temp.get(2))][4] = queryprocess.get(4);
+            
+                askList("new profill");
+                temp.add(tabprofil [Integer.parseInt(temp.get(2))][5]);
+                 tabprofil [Integer.parseInt(temp.get(2))][5] = queryprocess.get(5);
+            
                  
-        
-                for (j=0; j<8; j++)
-                 {profil= profil + tabprofil[i][j]+";";}
-                 index = i;
-    
-                oldprofil="";
-    
-                 for (j=2; j<10; j++)
-                 {oldprofil= oldprofil + temp.get(j)+";";}
+                //  tabprofil [i][6] = null;
+                temp.add(tabprofil [Integer.parseInt(temp.get(2))][6]);
+
+                datedemodification = date.toString();
+                // tabprofil [i][7] = null;
+                
+                temp.add(tabprofil [Integer.parseInt(temp.get(2))][7]);
+                tabprofil [Integer.parseInt(temp.get(2))][7] = datedemodification;
+                
                
+                
+            for (j=0; j<8; j++)
+             {profil= profil + tabprofil[Integer.parseInt(temp.get(2))][j]+";";}
+             index = Integer.parseInt(temp.get(2));
+
+            oldprofil="";
+
+             for (j=3; j<11; j++)
+             {oldprofil= oldprofil + temp.get(j)+";";}
+
+        
+
+             Path r =  Paths.get("C:\\Users\\Public\\fichierprofil.txt"); 
+             Path w =  Paths.get("C:\\Users\\Public\\profilcopyForModification.txt"); 
+             FileReader fr = new FileReader("C:\\Users\\Public\\fichierprofil.txt");
+             FileWriter fw = new FileWriter("C:\\Users\\Public\\profilcopyForModification.txt");
+             BufferedReader br = new BufferedReader(fr);
+             BufferedWriter bw = new BufferedWriter(fw);
+          
+             String ligne = br.readLine();
+         
+             while(ligne != null) {
              
-                 Path r =  Paths.get("C:\\Users\\Public\\fichierprofil.txt"); 
-                 FileReader fr = new FileReader("C:\\Users\\Public\\fichierprofil.txt");
-                 FileWriter fw = new FileWriter("C:\\Users\\Public\\profilcopyForModification.txt");
-                 BufferedReader br = new BufferedReader(fr);
-                 BufferedWriter bw = new BufferedWriter(fw);
+             if (ligne.equals(oldprofil))
+         
+         {
+             String replace = ligne.replace(oldprofil, profil);
+             bw.write(replace);
+             bw.newLine();
+             bw.flush();
+         }
+         
+         else
+         {
+             bw.write(ligne);
+             bw.newLine();
+         }
+         
+             ligne = br.readLine();
+             
+             }
+             
+             bw.flush();
+             br.close();
+             bw.close();
+         
+
+             Path source = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
+             Path target = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
+
+             Files.copy(source, target, REPLACE_EXISTING);
+       
+               System.out.println("This profil has been TRUELY modified: "+oldprofil);
+               System.out.println(profil+" is the new profil! Please check at: "+source);
+
+                        
+                        
+                        // System.out.println("this profil has been modified "+oldprofil);
+                    }
+                        
+                    }
+                    else
+                    System.out.println("3RIEN");
+        
+    
+                } catch (Exception e) {
+
+            System.out.println("Dont have any match for: "+temp.get(0)+"and"+temp.get(1));
+
+                    temp.clear();
+                    queryprocess.clear();
+                    idtemp.clear();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException f) {
+                          home();
+                    }
+                    home();
               
-                 String ligne = br.readLine();
-             
-                 while(ligne != null) {
-                 
-                 if (ligne.equals(oldprofil))
-             
-             {
-                 String replace = ligne.replace(oldprofil, profil);
-                 bw.write(replace);
-                 bw.newLine();
-                 bw.flush();
-             }
-             
-             else
-             {
-                 bw.write(ligne);
-                 bw.newLine();
-             }
-             
-                 ligne = br.readLine();
-                 
-                 }
-             
-                bw.flush();
-                br.close();
-                bw.close();
+              
+                }
 
-            Path source = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
-            Path target = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
-
-            Files.copy(source, target, REPLACE_EXISTING);
-
-            System.out.println("This profil has been TRUELY modified: "+oldprofil);
-            System.out.println(profil+" is the new profil! Please check at: "+source);
-
-
-                            }
-                            
-                            // System.out.println("this profil has been modified "+oldprofil);
-                            
+        temp.clear();
+        queryprocess.clear();
+        idtemp.clear();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+              home();
+        }
+        home();
     
-            }
-        
-            temp.clear();
-            queryprocess.clear();
-            idtemp.clear();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                  home();
-            }
-            home();
-        
-            }}
-        
-            temp.clear();
-            queryprocess.clear();
-            idtemp.clear();
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                  home();
-            }
-            home();
-    
-       }
+        }
 
 
     public void creationcompte() throws IOException
@@ -739,7 +819,6 @@ public Admin(String email,  String mdp, String role)
         String profil="";
         String oldprofil="";
         int index;
-        int incr;
         int j;
     
         temp.clear();
@@ -758,6 +837,8 @@ public Admin(String email,  String mdp, String role)
    
         rechindex(2,temp.get(3));
         
+    
+try {
     
             if ((tabprofil [Integer.parseInt(temp.get(4))][2])!=null)
  
@@ -869,17 +950,22 @@ public Admin(String email,  String mdp, String role)
                     System.out.println("3RIEN");
         
     
-        temp.clear();
-        queryprocess.clear();
-        idtemp.clear();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-              home();
-        }
-        home();
-    
-    
+                } catch (Exception e) {
+
+            System.out.println("Dont have any match for: "+temp.get(2)+"and"+temp.get(2));
+
+                    temp.clear();
+                    queryprocess.clear();
+                    idtemp.clear();
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException f) {
+                          home();
+                    }
+                    home();
+              
+              
+                }
 
         temp.clear();
         queryprocess.clear();
@@ -891,71 +977,6 @@ public Admin(String email,  String mdp, String role)
         }
         home();
     
-        }
-
-
-
-        public void suppressfiles()
-
-        {
-
-            Path compte = Paths.get("C:\\Users\\Public\\fichiercompte.txt");
-            Path profil = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
-            Path profilcopyForModification = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
-
-            try {
-                (compte.toFile()).delete();
-                (profil.toFile()).delete();
-                (profilcopyForModification.toFile()).delete();
-            } catch (Exception e) {
-                System.out.println("Cant reach files");
-            }
-           
-
-        }
-
-    
-        public void init() throws IOException
-
-        {
-            tabcompte [0][0] = "admin";
-            tabcompte [0][1] = "admin";
-            tabcompte [0][2] = "admin";
-            tabprofil [0][0] = "par";
-            tabprofil [0][1] = "par";
-            tabprofil [0][2] = "par";
-        
-            suppressfiles();
-
-            File compte = new File("C:\\Users\\Public\\fichiercompte.txt");
-            File profil = new File("C:\\Users\\Public\\fichierprofil.txt");
-            File profilcopyForModification = new File("C:\\Users\\Public\\profilcopyForModification.txt");
-        
-            FileWriter icfw = new FileWriter(compte);
-            BufferedWriter icbw = new BufferedWriter(icfw);
-        
-            icbw.write("admin;admin;admin;");
-            icbw.newLine();
-            icbw.write("particulier;particulier;particulier;");
-            icbw.flush();
-            icbw.close();
-            
-            FileWriter ipfw = new FileWriter(profil);
-            BufferedWriter ipbw = new BufferedWriter(ipfw);
-        
-            ipbw.write("par;par;par;null;null;null;null;null;");
-            ipbw.newLine();
-            ipbw.flush();
-            ipbw.close();
-        
-            FileWriter cfw = new FileWriter(profilcopyForModification);
-            BufferedWriter cbw = new BufferedWriter(cfw);
-        
-            cbw.write("par;par;par;null;null;null;null;null;");
-            cbw.newLine();
-            cbw.flush();
-            cbw.close();
-        
         }
 
 
@@ -1008,6 +1029,8 @@ Particulier part= new Particulier("par", "par", "par");
 
 admin.init();
 admin.home();
+
+// part.init();
 // part.home();
 
 }
