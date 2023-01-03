@@ -195,9 +195,12 @@ ligne = br.readLine();
             tabcompte [0][0] = "admin";
             tabcompte [0][1] = "admin";
             tabcompte [0][2] = "admin";
-            tabprofil [0][0] = "par";
+            tabcompte [1][0] = "par";
+            tabcompte [1][1] = "par";
+            tabcompte [1][2] = "par";
+            tabprofil [0][0] = "parNOM";
             tabprofil [0][1] = "par";
-            tabprofil [0][2] = "par";
+            tabprofil [0][2] = "parEMAIL";
             idmdp.put("admin","admin");
             idmdp.put("par","par");
             idstamped.put("admin","admin");
@@ -221,7 +224,7 @@ ligne = br.readLine();
             FileWriter ipfw = new FileWriter(profil);
             BufferedWriter ipbw = new BufferedWriter(ipfw);
         
-            ipbw.write("par;par;par;null;null;null;null;null;");
+            ipbw.write("parNOM;par;parEMAIL;null;null;null;null;null;");
             ipbw.newLine();
             ipbw.flush();
             ipbw.close();
@@ -229,7 +232,7 @@ ligne = br.readLine();
             FileWriter cfw = new FileWriter(profilcopyForModification);
             BufferedWriter cbw = new BufferedWriter(cfw);
         
-            cbw.write("par;par;par;null;null;null;null;null;");
+            cbw.write("parNOM;par;parEMAIL;null;null;null;null;null;");
             cbw.newLine();
             cbw.flush();
             cbw.close();
@@ -541,79 +544,128 @@ public void login(String email) throws IOException
         queryprocess.clear();
         idtemp.clear();
     
-        ask("Authentification mail(login:par, mdp:par): ");
+        ask("Authentification mail(admin): ");
         login(temp.get(0));
     
-            LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String date = now.format(formatter);
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String date = now.format(formatter);
+    
+        // ask("Name of the profil to modify");
+        // ask("Email of the profil to modify");
+   
+        // rechindex(2,temp.get(0));
 
-        rechindex(2,temp.get(1));
-        
+
+        System.out.println(temp.get(0)+"admin");
+        System.out.println(temp.get(1)+"admin");
+        System.out.println(temp.get(2)+"0");
+
+        System.out.println(tabprofil [Integer.parseInt(temp.get(2))][2]);
+        System.out.println(temp.get(2)+"0");
+
+
+        // System.out.println(temp.get(3)+"par");
+        // System.out.println(temp.get(4)+"par");
+        // System.out.println(temp.get(5)+"0");
+        // System.out.println(temp.get(6)+"par");
+        // System.out.println(temp.get(7)+"par");
+        // System.out.println(temp.get(8)+"par");
+        // System.out.println(temp.get(9)+null);
+        // System.out.println(temp.get(10)+null);
+        // System.out.println(temp.get(11)+"admin");
+        // System.out.println(temp.get(12)+null);
+        // System.out.println(temp.get(13)+null);
+
+
+
+
 try {
     
-            if ((tabprofil [Integer.parseInt(temp.get(3))][2])!=null)
+            if ((tabprofil [Integer.parseInt(temp.get(2))][2])!=null)
  
     {
-        if ((tabprofil [Integer.parseInt(temp.get(3))][2]).equals(temp.get(1)))
+        if ((tabprofil [Integer.parseInt(temp.get(2))][2]).equals(temp.get(0)))
         {
             System.out.println("PASS");
                 askList("new nom");
-                temp.add(tabprofil [Integer.parseInt(temp.get(3))][0]);
-                tabprofil [Integer.parseInt(temp.get(3))][0] = queryprocess.get(0);
+                temp.add(tabprofil [Integer.parseInt(temp.get(2))][0]);
+                tabprofil [Integer.parseInt(temp.get(2))][0] = queryprocess.get(0);
             
                 askList("new prénom");
                 temp.add(tabprofil [Integer.parseInt(temp.get(3))][1]);
-                tabprofil [Integer.parseInt(temp.get(3))][1] = queryprocess.get(1);
+                tabprofil [Integer.parseInt(temp.get(2))][1] = queryprocess.get(1);
             
                 askList("new email");
                 temp.add(tabprofil [Integer.parseInt(temp.get(3))][2]);
                 pronum(queryprocess.get(2));
     
-                if (pronum(queryprocess.get(3))!=-1)
+                if (pronum(queryprocess.get(2))!=-1)
                 {
-                    
                     try {
-                    System.out.println("Cant add an existing mail!");
-                    Thread.sleep(1000);
-                    modifierprofil();
-                } catch (InterruptedException e) {
-                      modifierprofil();
-                }
+                        System.out.println("Cant add an existing mail!");
+                        Thread.sleep(1000);
+                        modifierprofil();
+                    } catch (InterruptedException e) {
+                          modifierprofil();
+                    }
+                
                 };
 
                 tabprofil [Integer.parseInt(temp.get(3))][2] = queryprocess.get(2);
 
                 askList("new adressepostal");
-                temp.add(tabprofil [Integer.parseInt(temp.get(3))][3]);
+                temp.add(tabprofil [Integer.parseInt(temp.get(5))][3]);
                 tabprofil [Integer.parseInt(temp.get(3))][3] = queryprocess.get(3);
             
-                askList("new datedenaissance");
+
+
+                // askList("new datedenaissance");
+                // temp.add(tabprofil [Integer.parseInt(temp.get(5))][4]);
+                // tabprofil [Integer.parseInt(temp.get(5))][4] = queryprocess.get(4);
+            
                 temp.add(tabprofil [Integer.parseInt(temp.get(3))][4]);
-                tabprofil [Integer.parseInt(temp.get(3))][4] = queryprocess.get(4);
+
+
             
-                askList("new profill");
+
+                // askList("new profill");
+                // temp.add(tabprofil [Integer.parseInt(temp.get(5))][5]);
+                //  tabprofil [Integer.parseInt(temp.get(5))][5] = queryprocess.get(5);
+                
                 temp.add(tabprofil [Integer.parseInt(temp.get(3))][5]);
-                 tabprofil [Integer.parseInt(temp.get(3))][5] = queryprocess.get(5);
-            
+                tabprofil [Integer.parseInt(temp.get(3))][5] = idstamped.get(temp.get(0));
+                
+                // tabprofil [Integer.parseInt(temp.get(5))][5] = idstamped.get(temp.get(0));
+              
+
+
+
                 temp.add(tabprofil [Integer.parseInt(temp.get(3))][6]);
 
                 datedemodification = date.toString();
-             
+                
                 temp.add(tabprofil [Integer.parseInt(temp.get(3))][7]);
                 tabprofil [Integer.parseInt(temp.get(3))][7] = datedemodification;
                 
-               
+                
+                System.out.println("STOP");
+
             for (j=0; j<8; j++)
              {profil= profil + tabprofil[Integer.parseInt(temp.get(3))][j]+";";}
              index = Integer.parseInt(temp.get(3));
 
+             
+
+  
+
             oldprofil="";
 
-             for (j=4; j<12; j++)
+             for (j=6; j<14; j++)
              {oldprofil= oldprofil + temp.get(j)+";";}
 
-    
+             System.out.println("STOP3");
+
              Path r =  Paths.get("C:\\Users\\Public\\fichierprofil.txt"); 
              Path w =  Paths.get("C:\\Users\\Public\\profilcopyForModification.txt"); 
              FileReader fr = new FileReader("C:\\Users\\Public\\fichierprofil.txt");
@@ -623,6 +675,7 @@ try {
           
              String ligne = br.readLine();
          
+
              while(ligne != null) {
              
              if (ligne.equals(oldprofil))
@@ -657,7 +710,7 @@ try {
                System.out.println("This profil has been TRUELY modified: "+oldprofil);
                System.out.println(profil+" is the new profil! Please check at: "+source);
 
-                        
+        
                     }
                         
                     }
@@ -667,7 +720,7 @@ try {
     
                 } catch (Exception e) {
 
-            System.out.println("Dont have any match for: "+temp.get(0)+"and"+temp.get(1));
+            System.out.println("Dont have any match for: "+temp.get(0)+" and "+temp.get(1)+"index 2 & 3");
 
                     temp.clear();
                     queryprocess.clear();
@@ -1127,11 +1180,11 @@ public class Annuaire {
 Admin admin= new Admin("admin", "admin", "admin");
 Particulier part= new Particulier("par", "par", "par");
 
-admin.init();
-admin.home();
+// admin.init();
+// admin.home();
 
-// part.init();
-// part.home();
+part.init();
+part.home();
 
 }
 }
