@@ -173,6 +173,24 @@ ligne = br.readLine();
         }
 
 
+        public void nomatcheddata() throws IOException
+
+        {
+
+            try {
+                System.out.println("No match datas!");
+                Thread.sleep(1000);
+                home();
+    
+    
+            } catch (Exception f) {
+                System.out.println("No match datas!");
+                home();
+            }
+
+        }
+
+
         public void suppressfiles()
 
         {
@@ -370,11 +388,6 @@ queryprocess.add(name);
 public void recherche() throws IOException
 {   
 
-    try {
-        System.out.println("Welcome "+traker.get(false));
-    } catch (Exception e) {
-       
-    }
  
     temp.clear();
     queryprocess.clear();
@@ -404,11 +417,12 @@ public void recherche() throws IOException
 
 public void home() throws IOException
 {
-    try {
-        System.out.println("Welcome "+traker.get(false));
-    } catch (Exception e) {
-       
-    }
+    if (traker.get(false)==null)
+
+    { System.out.println("Welcome guest!");}
+
+    System.out.println("Welcome "+traker.get(false)+"!");
+    
     
     id("", "");
     idnum("");
@@ -434,19 +448,27 @@ switch (temp.get(0)) {
 case "1.A":  
 System.out.println("Vous ne disposez pas des habilitations requises.");
 home();
+break;
 case "1.B":  
 System.out.println("Vous ne disposez pas des habilitations requises.");
 home();
+break;
 case "2.A":  
 recherche();
+break;
 case "2.B":  
 recherche();
+break;
 case "2.C":  
 recherche();
+break;
 case "3":  
 recherche();
+break;
 // modifierprofil();
 }
+home();
+
 }
 
 
@@ -483,8 +505,6 @@ public void login(String email) throws IOException
                {
               
                 temp.add(Integer.toString(i));
-
-                // System.out.println("success");
         
                }
                else
@@ -500,48 +520,34 @@ public void login(String email) throws IOException
 
                }  
 
-            } catch (Exception e) { try {
-                System.out.println("No match datas!");
-                Thread.sleep(1000);
-                home();
-    
-    
-            } catch (Exception f) {
-                System.out.println("No match datas!");
-                home();
-            }
+            } catch (Exception e) { nomatcheddata();
                 
             }
 
 try {
     
-
-
         if (temp.get(2)!=null)
 
+        {
         System.out.println("success to reach your mail!");
 
        if ((idmdp.containsKey(email))&&(idmdp.containsValue(temp.get(1))))
 
+            
+                {
 
              if ((idmdp.get(email)).equals(temp.get(1)))
-         
+                    
+                    {
+
+
              System.out.println("success to match datas!");
+
+                    }else nomatcheddata();}else nomatcheddata();}
 
        else 
        
-       {
-        try {
-            System.out.println("No match datas!");
-            Thread.sleep(1000);
-            home();
-
-
-        } catch (Exception f) {
-            System.out.println("No match datas!");
-            home();
-        }
-            }
+       {nomatcheddata();}
 
 
         } catch (Exception e) {
@@ -1067,11 +1073,12 @@ try {
 public void home() throws IOException
 {
 
-try {
-    System.out.println("Welcome "+traker.get(false));
-} catch (Exception e) {
-   
-}
+    if (traker.get(false)==null)
+
+    { System.out.println("Welcome guest!");}
+
+    System.out.println("Welcome "+traker.get(false)+"!");
+
 
 id("", "");
 idnum("");
@@ -1095,23 +1102,32 @@ ask("choix");
 switch (temp.get(0)) {
 case "1.A":  
 creationcompte();
+break;
 case "1.B":  
 creationprofil();
+break;
 case "2.A":  
 recherche();
+break;
 case "2.B":  
 recherche();
+break;
 case "2.C":  
 recherche();
+break;
 case "3":  
 modifierprofil();
-}
+break;
 
 }
+
+home();
 }
 
 
-    
+}
+
+
 public class Annuaire {
     public static void main(String[] args) throws IOException {
 
