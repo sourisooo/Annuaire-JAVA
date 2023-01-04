@@ -205,9 +205,8 @@ ligne = br.readLine();
             tabprofil [0][2] = "parEMAIL";
             idmdp.put("admin","admin");
             idmdp.put("par","par");
-            idstamped.put("admin","admin");
-            idstamped.put("par","par");
-        
+ 
+
             suppressfiles();
 
             File compte = new File("C:\\Users\\Public\\fichiercompte.txt");
@@ -774,7 +773,7 @@ try {
         {
 
    
-        ask("Set a name  for you Account email: ");
+        ask("Set a name  for you ACCOUNT email: ");
        
 
         if (idnum(temp.get(3))!=-1)
@@ -806,7 +805,7 @@ try {
         }
         
         
-            ask("Set a password of for the new Account: ");
+            ask("Set a password of for the new ACCOUNT: ");
             tabcompte [nbdecpt()][1] = temp.get(4);
             idmdp.put(temp.get(3),temp.get(4));
             
@@ -829,7 +828,7 @@ try {
      bw.close();
   
 
-     System.out.println("Adding done for "+(newaccount));
+     System.out.println("Adding done for this NEW ACCOUNT "+(newaccount));
 
     temp.clear();
     idtemp.clear();
@@ -865,7 +864,7 @@ public Admin(String email,  String mdp, String role)
         queryprocess.clear();
         idtemp.clear();
       
-        ask("Authentification email(admin)");
+        ask("Authentification email(admin) or any registed ACCOUNT");
         
         login(temp.get(0));
 
@@ -875,7 +874,7 @@ public Admin(String email,  String mdp, String role)
      
         id= nbdepro();
 
-        askList("Choose your Profil name email:(is also going to be your Account email name if no already created)");
+        askList("Choose your PROFIL name email:(is also going to be your ACCOUNT email name if no already created)");
 
         if (pronum(queryprocess.get(0))!=-1)
         {
@@ -902,7 +901,9 @@ public Admin(String email,  String mdp, String role)
         askList("adressepostal");
             tabprofil [id][3] = queryprocess.get(3);
         
-            tabprofil [id][4] = idstamped.get(temp.get(0));
+            idstamped.put("Newdate",temp.get(0));
+            tabprofil [id][4] = "Create by "+idstamped.get("Newdate");
+            idstamped.clear();
   
             tabprofil [id][5] = null;
 
@@ -932,7 +933,7 @@ public Admin(String email,  String mdp, String role)
 
         Files.copy(source, target, REPLACE_EXISTING);
 
-        System.out.println("This profil has been created: "+profil+" at"+source);
+        System.out.println("This NEW PROFILE has been created: "+profil+" at"+source);
 
         idtemp.clear();
 
@@ -981,16 +982,21 @@ public Admin(String email,  String mdp, String role)
 try {
     
             if ((tabprofil [Integer.parseInt(temp.get(5))][2])!=null)
- 
-    {
+           
+
+    {        
+        // System.out.println("mail find");
         if ((tabprofil [Integer.parseInt(temp.get(5))][2]).equals(temp.get(4)))
+        
 
         {
-
+            // System.out.println("mail match");
      if ((tabprofil [Integer.parseInt(temp.get(5))][0]).equals(temp.get(3)))
 
-        {
-            System.out.println("PASS");
+     
+
+        {   
+            // System.out.println("name match");
                 askList("new nom");
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][0]);
                 tabprofil [Integer.parseInt(temp.get(5))][0] = queryprocess.get(0);
@@ -1024,7 +1030,9 @@ try {
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][4]);
                 
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][5]);
-                tabprofil [Integer.parseInt(temp.get(5))][5] = idstamped.get(temp.get(0));
+                idstamped.put("Modifieddate",temp.get(0));
+                tabprofil [Integer.parseInt(temp.get(5))][5] = "Modified by "+idstamped.get("Modifieddate");
+                idstamped.clear();
 
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][6]);
 
