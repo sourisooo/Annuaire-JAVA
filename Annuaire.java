@@ -987,12 +987,13 @@ try {
 public void home() throws IOException
 {
 
-    if (traker.get(false)==null)
+    if (traker.get(false)!=null)
 
-    { System.out.println("Welcome guest!");}
+    { System.out.println("Welcome "+traker.get(false)+"!");}
 
-    System.out.println("Welcome "+traker.get(false)+"!");
+    System.out.println("Welcome guest!");
 
+   
 
 idnum("");
 pronum("");
