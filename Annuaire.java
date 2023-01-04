@@ -39,7 +39,7 @@ class Particulier { String nom; String prénom; String email; String adressepost
      HashMap<String, String> idmdp = new HashMap<String, String>();
      HashMap<String, String> idstamped = new HashMap<String, String>();
      HashMap<String, String> AcctoProfil = new HashMap<String, String>();
-     Boolean hometracker;
+     HashMap<Boolean, String> traker = new HashMap<Boolean, String>();
      
 
 public Particulier(String nom, String prénom, String email, String adressepostal, 
@@ -254,9 +254,8 @@ ligne = br.readLine();
            {
                if ((tabprofil [i][para]).equals(motRechercher))
                {
-                
+
                 temp.add(Integer.toString(i));
-                // temp.add(Integer.toString(i));
         
                }
                else
@@ -354,6 +353,12 @@ queryprocess.add(name);
 
 public void recherche() throws IOException
 {   
+
+    try {
+        System.out.println("Welcome "+traker.get(false));
+    } catch (Exception e) {
+       
+    }
  
     temp.clear();
     queryprocess.clear();
@@ -383,7 +388,13 @@ public void recherche() throws IOException
 
 public void home() throws IOException
 {
+    try {
+        System.out.println("Welcome "+traker.get(false));
+    } catch (Exception e) {
+       
+    }
     
+    traker.clear();
     id("", "");
     idnum("");
     pronum("");
@@ -438,11 +449,10 @@ public void login(String email) throws IOException
 {       
     
 
-
         ask("mdp(admin) or any Account register");
           
         int i =0;
-        double l;
+
 
         try {
             
@@ -486,6 +496,9 @@ public void login(String email) throws IOException
                 
             }
 
+try {
+    
+
 
         if (temp.get(2)!=null)
 
@@ -493,12 +506,6 @@ public void login(String email) throws IOException
 
        if ((idmdp.containsKey(email))&&(idmdp.containsValue(temp.get(1))))
 
-       System.out.println(temp.get(0));
-       System.out.println(temp.get(1));
-       System.out.println(temp.get(2));
-
-       System.out.println(email);
-       System.out.println(idmdp.get(email));
 
              if ((idmdp.get(email)).equals(temp.get(1)))
          
@@ -518,6 +525,11 @@ public void login(String email) throws IOException
             home();
         }
             }
+
+
+        } catch (Exception e) {
+          home();
+        }
 
     
     }
@@ -744,42 +756,25 @@ try {
 
 
     public void creationcompte() throws IOException
-    { int index;
-
-        // temp.clear();
-        // queryprocess.clear();
-        // idtemp.clear();
-
-        if (hometracker=true)
-
-        {
+    {   
+        int index;
+        String newaccount;
 
         temp.clear();
         queryprocess.clear();
         idtemp.clear();
-
-        }
-
-        else
-
-        {
-
-            int j;
-            for (j=0;j<15;j++)
-
-            {
-
-                System.out.println(temp.get(j));
-
-            }
-
-        }
-
+       
        ask("Authentification email(admin) or any register Account: ");
     
         login(temp.get(0));
+
+
+        if (traker.isEmpty()==true)
+
+        {
+
    
-        ask("Email of the account currently created: ");
+        ask("Set a name  for you Account email: ");
        
 
         if (idnum(temp.get(3))!=-1)
@@ -796,8 +791,22 @@ try {
             };
          
             tabcompte [nbdecpt()][0] = temp.get(3);
+            traker.put(false, temp.get(3));
+
+
+        }
+
+        else
+
+        {
+
+            tabcompte [nbdecpt()][0] = traker.get(false);
+            temp.add("fakedata DO NOT delete me!");
+
+        }
         
-            ask("mdp: ");
+        
+            ask("Set a password of for the new Account: ");
             tabcompte [nbdecpt()][1] = temp.get(4);
             idmdp.put(temp.get(3),temp.get(4));
             
@@ -805,19 +814,22 @@ try {
             tabcompte [nbdecpt()][2] = temp.get(5);
             idstamped.put(temp.get(3),temp.get(5));
 
-     index = nbdecpt();
+
+            newaccount = tabcompte [nbdecpt()][0] +";"+ tabcompte [nbdecpt()][1] +";"+ tabcompte [nbdecpt()][2]+";";
+
+            index = nbdecpt();
     
      Path r = Paths.get("C:\\Users\\Public\\fichiercompte.txt");
      FileWriter fw = new FileWriter("C:\\Users\\Public\\fichiercompte.txt", true);
      BufferedWriter bw = new BufferedWriter(fw);
  
      bw.newLine();
-     bw.write(temp.get(3)+";"+temp.get(4)+";"+temp.get(5));
+     bw.write(newaccount);
      bw.flush();
      bw.close();
   
 
-     System.out.println("Adding done for "+(temp.get(3)+";"+temp.get(4)+";"+temp.get(5))+" at"+r+" .");
+     System.out.println("Adding done for "+(newaccount));
 
     temp.clear();
     idtemp.clear();
@@ -829,8 +841,8 @@ try {
     }
  
     home();
-        }
 
+        }
 
 }
 
@@ -840,8 +852,8 @@ class Admin extends Particulier {
 public Admin(String email,  String mdp, String role)
 
 {
-    super( email, mdp, role);
 
+    super( email, mdp, role);
     
 }
 
@@ -852,8 +864,7 @@ public Admin(String email,  String mdp, String role)
         temp.clear();
         queryprocess.clear();
         idtemp.clear();
-        hometracker=false;
-
+      
         ask("Authentification email(admin)");
         
         login(temp.get(0));
@@ -864,7 +875,7 @@ public Admin(String email,  String mdp, String role)
      
         id= nbdepro();
 
-        askList("Email of the profil currently created");
+        askList("Choose your Profil name email:(is also going to be your Account email name if no already created)");
 
         if (pronum(queryprocess.get(0))!=-1)
         {
@@ -892,17 +903,8 @@ public Admin(String email,  String mdp, String role)
             tabprofil [id][3] = queryprocess.get(3);
         
             tabprofil [id][4] = idstamped.get(temp.get(0));
-
-    
-        // askList("datedenaissance");
-        //     tabprofil [id][4] = queryprocess.get(4);
-        
-            // Createdby(2,"profill");
-            
+  
             tabprofil [id][5] = null;
-
-        // askList("profill");
-        // tabprofil [id][5] = queryprocess.get(5);
 
             datedajout = date.toString();
             tabprofil [id][6] = datedajout;
@@ -932,16 +934,20 @@ public Admin(String email,  String mdp, String role)
 
         System.out.println("This profil has been created: "+profil+" at"+source);
 
-        temp.clear();
-        queryprocess.clear();
         idtemp.clear();
 
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
+    
+            traker.put(false, queryprocess.get(0));
+            System.out.println(traker.get(false));
             creationcompte();
         }
 
+  
+        traker.put(false, queryprocess.get(0));
+        System.out.println(traker.get(false));
         creationcompte();
         
     }
@@ -959,8 +965,9 @@ public Admin(String email,  String mdp, String role)
         queryprocess.clear();
         idtemp.clear();
     
-        ask("Authentification mail(admin): ");
+        ask("Authentification mail(admin) or any registed Account: ");
         login(temp.get(0));
+        traker.put(false, temp.get(0));
     
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
@@ -971,14 +978,17 @@ public Admin(String email,  String mdp, String role)
    
         rechindex(2,temp.get(4));
 
-
-
 try {
     
             if ((tabprofil [Integer.parseInt(temp.get(5))][2])!=null)
  
     {
         if ((tabprofil [Integer.parseInt(temp.get(5))][2]).equals(temp.get(4)))
+
+        {
+
+     if ((tabprofil [Integer.parseInt(temp.get(5))][0]).equals(temp.get(3)))
+
         {
             System.out.println("PASS");
                 askList("new nom");
@@ -1023,8 +1033,6 @@ try {
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][7]);
                 tabprofil [Integer.parseInt(temp.get(5))][7] = datedemodification;
                 
-                
-                System.out.println("STOP");
 
             for (j=0; j<8; j++)
              {profil= profil + tabprofil[Integer.parseInt(temp.get(5))][j]+";";}
@@ -1035,7 +1043,6 @@ try {
              for (j=6; j<14; j++)
              {oldprofil= oldprofil + temp.get(j)+";";}
 
-             System.out.println("STOP3");
 
              Path r =  Paths.get("C:\\Users\\Public\\fichierprofil.txt"); 
              Path w =  Paths.get("C:\\Users\\Public\\profilcopyForModification.txt"); 
@@ -1082,7 +1089,7 @@ try {
                System.out.println(profil+" is the new profil! Please check at: "+source);
 
         
-                    }
+                    }}
                         
                     }
                     else
@@ -1122,11 +1129,16 @@ try {
 public void home() throws IOException
 {
 
-hometracker=true;
+try {
+    System.out.println("Welcome "+traker.get(false));
+} catch (Exception e) {
+   
+}
+
 id("", "");
 idnum("");
 pronum("");
-
+traker.clear();
 temp.clear();
 queryprocess.clear();
 idtemp.clear();
