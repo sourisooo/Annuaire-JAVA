@@ -38,7 +38,8 @@ class Particulier { String nom; String prénom; String email; String adressepost
      List<Boolean> idtemp = new ArrayList<>();
      HashMap<String, String> idmdp = new HashMap<String, String>();
      HashMap<String, String> idstamped = new HashMap<String, String>();
-     HashMap<String, String> AcctoProfil = new HashMap<String, String>();
+     HashMap<String, String> oldtonew = new HashMap<String, String>();
+     HashMap<String, String> oldtonewindex = new HashMap<String, String>();
      HashMap<Boolean, String> traker = new HashMap<Boolean, String>();
      
 
@@ -200,11 +201,15 @@ ligne = br.readLine();
             tabcompte [1][0] = "parEMAIL";
             tabcompte [1][1] = "par";
             tabcompte [1][2] = "par";
-            tabprofil [0][0] = "parNOM";
+            tabprofil [0][0] = "par";
             tabprofil [0][1] = "par";
             tabprofil [0][2] = "parEMAIL";
             idmdp.put("admin","admin");
-            idmdp.put("par","par");
+            idmdp.put("parEMAIL","par");
+            oldtonewindex.put("admin","0");
+            oldtonewindex.put("parEMAIL","1");
+            oldtonew.put("admin","admin");
+            oldtonew.put("parEMAIL","parEMAIL");
  
 
             suppressfiles();
@@ -225,7 +230,7 @@ ligne = br.readLine();
             FileWriter ipfw = new FileWriter(profil);
             BufferedWriter ipbw = new BufferedWriter(ipfw);
         
-            ipbw.write("parNOM;par;parEMAIL;null;null;null;null;null;");
+            ipbw.write("par;par;parEMAIL;null;null;null;null;null;");
             ipbw.newLine();
             ipbw.flush();
             ipbw.close();
@@ -233,7 +238,7 @@ ligne = br.readLine();
             FileWriter cfw = new FileWriter(profilcopyForModification);
             BufferedWriter cbw = new BufferedWriter(cfw);
         
-            cbw.write("parNOM;par;parEMAIL;null;null;null;null;null;");
+            cbw.write("par;par;parEMAIL;null;null;null;null;null;");
             cbw.newLine();
             cbw.flush();
             cbw.close();
@@ -393,10 +398,10 @@ public void home() throws IOException
        
     }
     
-    traker.clear();
     id("", "");
     idnum("");
     pronum("");
+    traker.clear();
     temp.clear();
     queryprocess.clear();
     idtemp.clear();
@@ -427,7 +432,8 @@ recherche();
 case "2.C":  
 recherche();
 case "3":  
-modifierprofil();
+recherche();
+// modifierprofil();
 }
 }
 
@@ -477,7 +483,7 @@ public void login(String email) throws IOException
         } catch (Exception e) {
             int k =9999;
         
-            System.out.println("Skipping current line...Please wait..."+(k-i)+Timenow());
+            System.out.println("Skipping current line...Please wait..."+(k-i)+"    "+Timenow());
           }
 
                }  
@@ -501,7 +507,7 @@ try {
 
         if (temp.get(2)!=null)
 
-        System.out.println("sucess to reach your mail!");
+        System.out.println("success to reach your mail!");
 
        if ((idmdp.containsKey(email))&&(idmdp.containsValue(temp.get(1))))
 
@@ -535,225 +541,6 @@ try {
 
 
 
-    public void modifierprofil() throws IOException 
-    {  String datedemodification;
-        
-        String profil="";
-        String oldprofil="";
-        int index;
-        int j;
-    
-        temp.clear();
-        queryprocess.clear();
-        idtemp.clear();
-    
-        ask("Authentification mail(admin): ");
-
-
-        System.out.println(temp.get(0));
-
-        login(temp.get(0));
-    
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String date = now.format(formatter);
-    
-        // ask("Name of the profil to modify");
-        // ask("Email of the profil to modify");
-   
-        // rechindex(2,temp.get(0));
-
-
-        System.out.println(temp.get(0)+"admin");
-        System.out.println(temp.get(1)+"admin");
-        System.out.println(temp.get(2)+"0");
-
-        System.out.println(tabprofil [Integer.parseInt(temp.get(2))][2]);
-        System.out.println(temp.get(2)+"0");
-
-
-        // System.out.println(temp.get(3)+"par");
-        // System.out.println(temp.get(4)+"par");
-        // System.out.println(temp.get(5)+"0");
-        // System.out.println(temp.get(6)+"par");
-        // System.out.println(temp.get(7)+"par");
-        // System.out.println(temp.get(8)+"par");
-        // System.out.println(temp.get(9)+null);
-        // System.out.println(temp.get(10)+null);
-        // System.out.println(temp.get(11)+"admin");
-        // System.out.println(temp.get(12)+null);
-        // System.out.println(temp.get(13)+null);
-
-
-
-
-try {
-    
-            if ((tabprofil [Integer.parseInt(temp.get(2))][2])!=null)
- 
-    {
-        if ((tabprofil [Integer.parseInt(temp.get(2))][2]).equals(temp.get(0)))
-        {
-            System.out.println("PASS");
-                askList("new nom");
-                temp.add(tabprofil [Integer.parseInt(temp.get(2))][0]);
-                tabprofil [Integer.parseInt(temp.get(2))][0] = queryprocess.get(0);
-            
-                askList("new prénom");
-                temp.add(tabprofil [Integer.parseInt(temp.get(3))][1]);
-                tabprofil [Integer.parseInt(temp.get(2))][1] = queryprocess.get(1);
-            
-                askList("new email");
-                temp.add(tabprofil [Integer.parseInt(temp.get(3))][2]);
-                pronum(queryprocess.get(2));
-    
-                if (pronum(queryprocess.get(2))!=-1)
-                {
-                    try {
-                        System.out.println("Cant add an existing mail!");
-                        Thread.sleep(1000);
-                        modifierprofil();
-                    } catch (InterruptedException e) {
-                          modifierprofil();
-                    }
-                
-                };
-
-                tabprofil [Integer.parseInt(temp.get(3))][2] = queryprocess.get(2);
-
-                askList("new adressepostal");
-                temp.add(tabprofil [Integer.parseInt(temp.get(5))][3]);
-                tabprofil [Integer.parseInt(temp.get(3))][3] = queryprocess.get(3);
-            
-
-
-                // askList("new datedenaissance");
-                // temp.add(tabprofil [Integer.parseInt(temp.get(5))][4]);
-                // tabprofil [Integer.parseInt(temp.get(5))][4] = queryprocess.get(4);
-            
-                temp.add(tabprofil [Integer.parseInt(temp.get(3))][4]);
-
-
-            
-
-                // askList("new profill");
-                // temp.add(tabprofil [Integer.parseInt(temp.get(5))][5]);
-                //  tabprofil [Integer.parseInt(temp.get(5))][5] = queryprocess.get(5);
-                
-                temp.add(tabprofil [Integer.parseInt(temp.get(3))][5]);
-                tabprofil [Integer.parseInt(temp.get(3))][5] = idstamped.get(temp.get(0));
-                
-                // tabprofil [Integer.parseInt(temp.get(5))][5] = idstamped.get(temp.get(0));
-              
-
-
-
-                temp.add(tabprofil [Integer.parseInt(temp.get(3))][6]);
-
-                datedemodification = date.toString();
-                
-                temp.add(tabprofil [Integer.parseInt(temp.get(3))][7]);
-                tabprofil [Integer.parseInt(temp.get(3))][7] = datedemodification;
-                
-                
-                System.out.println("STOP");
-
-            for (j=0; j<8; j++)
-             {profil= profil + tabprofil[Integer.parseInt(temp.get(3))][j]+";";}
-             index = Integer.parseInt(temp.get(3));
-
-             
-
-  
-
-            oldprofil="";
-
-             for (j=6; j<14; j++)
-             {oldprofil= oldprofil + temp.get(j)+";";}
-
-             System.out.println("STOP3");
-
-             Path r =  Paths.get("C:\\Users\\Public\\fichierprofil.txt"); 
-             Path w =  Paths.get("C:\\Users\\Public\\profilcopyForModification.txt"); 
-             FileReader fr = new FileReader("C:\\Users\\Public\\fichierprofil.txt");
-             FileWriter fw = new FileWriter("C:\\Users\\Public\\profilcopyForModification.txt");
-             BufferedReader br = new BufferedReader(fr);
-             BufferedWriter bw = new BufferedWriter(fw);
-          
-             String ligne = br.readLine();
-         
-
-             while(ligne != null) {
-             
-             if (ligne.equals(oldprofil))
-         
-         {
-             String replace = ligne.replace(oldprofil, profil);
-             bw.write(replace);
-             bw.newLine();
-             bw.flush();
-         }
-         
-         else
-         {
-             bw.write(ligne);
-             bw.newLine();
-         }
-         
-             ligne = br.readLine();
-             
-             }
-             
-             bw.flush();
-             br.close();
-             bw.close();
-         
-
-             Path source = Paths.get("C:\\Users\\Public\\profilcopyForModification.txt");
-             Path target = Paths.get("C:\\Users\\Public\\fichierprofil.txt");
-
-             Files.copy(source, target, REPLACE_EXISTING);
-       
-               System.out.println("This profil has been TRUELY modified: "+oldprofil);
-               System.out.println(profil+" is the new profil! Please check at: "+source);
-
-        
-                    }
-                        
-                    }
-                    else
-                    System.out.println("3RIEN");
-        
-    
-                } catch (Exception e) {
-
-            System.out.println("Dont have any match for: "+temp.get(0)+" and "+temp.get(1)+"index 2 & 3");
-
-                    temp.clear();
-                    queryprocess.clear();
-                    idtemp.clear();
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException f) {
-                          home();
-                    }
-                    home();
-              
-                }
-
-        temp.clear();
-        queryprocess.clear();
-        idtemp.clear();
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-              home();
-        }
-        home();
-    
-        }
-
-
     public void creationcompte() throws IOException
     {   
         int index;
@@ -763,7 +550,7 @@ try {
         queryprocess.clear();
         idtemp.clear();
        
-       ask("Authentification email(admin) or any register Account: ");
+       ask("Authentification email(admin) or any registered Account: ");
     
         login(temp.get(0));
 
@@ -773,7 +560,7 @@ try {
         {
 
    
-        ask("Set a name  for you ACCOUNT email: ");
+        ask("Set a email for you ACCOUNT : ");
        
 
         if (idnum(temp.get(3))!=-1)
@@ -788,10 +575,13 @@ try {
                 }
             
             };
-         
+            
+            // System.out.println("Case TRAKER ON");
             tabcompte [nbdecpt()][0] = temp.get(3);
             traker.put(false, temp.get(3));
-
+            oldtonew.putIfAbsent(temp.get(3),temp.get(3));
+            oldtonewindex.put(temp.get(3),String.valueOf(nbdecpt()));
+      
 
         }
 
@@ -801,6 +591,8 @@ try {
 
             tabcompte [nbdecpt()][0] = traker.get(false);
             temp.add("fakedata DO NOT delete me!");
+            oldtonew.putIfAbsent(traker.get(false),traker.get(false));
+            oldtonewindex.put(traker.get(false),String.valueOf(nbdecpt()));
 
         }
         
@@ -874,7 +666,7 @@ public Admin(String email,  String mdp, String role)
      
         id= nbdepro();
 
-        askList("Choose your PROFIL name email:(is also going to be your ACCOUNT email name if no already created)");
+        askList("Choose your PROFIL email:(is also going to be your ACCOUNT email if no already created)");
 
         if (pronum(queryprocess.get(0))!=-1)
         {
@@ -974,8 +766,8 @@ public Admin(String email,  String mdp, String role)
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String date = now.format(formatter);
     
-        ask("Name of the profil to modify");
-        ask("Email of the profil to modify");
+        ask("NAME of the profil to modify");
+        ask("EMAIL of the profil to modify");
    
         rechindex(2,temp.get(4));
 
@@ -983,7 +775,6 @@ try {
     
             if ((tabprofil [Integer.parseInt(temp.get(5))][2])!=null)
            
-
     {        
         // System.out.println("mail find");
         if ((tabprofil [Integer.parseInt(temp.get(5))][2]).equals(temp.get(4)))
@@ -994,7 +785,6 @@ try {
      if ((tabprofil [Integer.parseInt(temp.get(5))][0]).equals(temp.get(3)))
 
      
-
         {   
             // System.out.println("name match");
                 askList("new nom");
@@ -1004,7 +794,43 @@ try {
                 askList("new prénom");
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][1]);
                 tabprofil [Integer.parseInt(temp.get(5))][1] = queryprocess.get(1);
-            
+
+
+                if (tabprofil [Integer.parseInt(temp.get(5))][2].equals(oldtonew.get(temp.get(4))))
+
+                {
+                    // System.out.println("CASE MATCH");
+                    askList("new email");
+                    temp.add(tabprofil [Integer.parseInt(temp.get(5))][2]);
+                    pronum(queryprocess.get(2));
+        
+                    if (pronum(queryprocess.get(2))!=-1)
+                    {
+                        try {
+                            System.out.println("Cant add an existing mail!");
+                            Thread.sleep(1000);
+                            modifierprofil();
+                        } catch (InterruptedException e) {
+                              modifierprofil();
+                        }
+                    
+                    };
+                    
+                    tabprofil [Integer.parseInt(temp.get(5))][2] = queryprocess.get(2);
+
+                    tabcompte [Integer.parseInt(oldtonewindex.get(oldtonew.get(temp.get(4))))][0] = queryprocess.get(2);
+                    System.out.println("MAIL Modification have been done one your ACCOUNT, Please check at: C:\\Users\\Public\\fichiercompte.txt");
+
+                    oldtonew.remove(temp.get(4));
+                    oldtonew.put(queryprocess.get(2),queryprocess.get(2));
+
+                }
+
+                else
+
+                {
+
+                // System.out.println("CASE NO MATCH");
                 askList("new email");
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][2]);
                 pronum(queryprocess.get(2));
@@ -1022,6 +848,9 @@ try {
                 };
 
                 tabprofil [Integer.parseInt(temp.get(5))][2] = queryprocess.get(2);
+
+            }
+
 
                 askList("new adressepostal");
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][3]);
