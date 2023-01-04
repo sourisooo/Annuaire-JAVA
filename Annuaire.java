@@ -38,6 +38,8 @@ class Particulier { String nom; String prénom; String email; String adressepost
      List<Boolean> idtemp = new ArrayList<>();
      HashMap<String, String> idmdp = new HashMap<String, String>();
      HashMap<String, String> idstamped = new HashMap<String, String>();
+     HashMap<String, String> AcctoProfil = new HashMap<String, String>();
+     Boolean hometracker;
      
 
 public Particulier(String nom, String prénom, String email, String adressepostal, 
@@ -195,7 +197,7 @@ ligne = br.readLine();
             tabcompte [0][0] = "admin";
             tabcompte [0][1] = "admin";
             tabcompte [0][2] = "admin";
-            tabcompte [1][0] = "par";
+            tabcompte [1][0] = "parEMAIL";
             tabcompte [1][1] = "par";
             tabcompte [1][2] = "par";
             tabprofil [0][0] = "parNOM";
@@ -217,7 +219,7 @@ ligne = br.readLine();
         
             icbw.write("admin;admin;admin;");
             icbw.newLine();
-            icbw.write("par;par;par;");
+            icbw.write("parEMAIL;par;par;");
             icbw.flush();
             icbw.close();
             
@@ -265,33 +267,6 @@ ligne = br.readLine();
                }    
         
            }
-
-
-           public void Createdby(int para, String motRechercher) throws IOException
-           {   int i =0;
-            
-              
-                  for(i=0; i<9999;i++)
-                  {
-           
-                      if ((tabcompte [i][para])!=null)
-           
-              {
-                  if ((tabcompte [i][para]).equals(motRechercher))
-                  {
-                   
-                   temp.add(Integer.toString(i));
-                   // temp.add(Integer.toString(i));
-           
-                  }
-                  else
-                  System.out.println("3RIEN");
-              
-              } 
-           
-                  }    
-           
-              }
 
 
 public void rech(int para, String motRechercher) throws IOException
@@ -447,9 +422,23 @@ modifierprofil();
 }
 
 
+public String Timenow()
+
+{
+    LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+            String date = now.format(formatter);
+           datedajout = date.toString();
+
+           return datedajout;
+}
+
+
 public void login(String email) throws IOException
 {       
     
+
+
         ask("mdp(admin) or any Account register");
           
         int i =0;
@@ -478,8 +467,8 @@ public void login(String email) throws IOException
 
         } catch (Exception e) {
             int k =9999;
-           
-            System.out.println("Skipping current line...Please wait..."+(k-i));
+        
+            System.out.println("Skipping current line...Please wait..."+(k-i)+Timenow());
           }
 
                }  
@@ -506,6 +495,9 @@ public void login(String email) throws IOException
 
        System.out.println(temp.get(0));
        System.out.println(temp.get(1));
+       System.out.println(temp.get(2));
+
+       System.out.println(email);
        System.out.println(idmdp.get(email));
 
              if ((idmdp.get(email)).equals(temp.get(1)))
@@ -545,6 +537,10 @@ public void login(String email) throws IOException
         idtemp.clear();
     
         ask("Authentification mail(admin): ");
+
+
+        System.out.println(temp.get(0));
+
         login(temp.get(0));
     
         LocalDateTime now = LocalDateTime.now();
@@ -750,11 +746,36 @@ try {
     public void creationcompte() throws IOException
     { int index;
 
+        // temp.clear();
+        // queryprocess.clear();
+        // idtemp.clear();
+
+        if (hometracker=true)
+
+        {
+
         temp.clear();
         queryprocess.clear();
         idtemp.clear();
 
-       ask("Authentification email(admin): ");
+        }
+
+        else
+
+        {
+
+            int j;
+            for (j=0;j<15;j++)
+
+            {
+
+                System.out.println(temp.get(j));
+
+            }
+
+        }
+
+       ask("Authentification email(admin) or any register Account: ");
     
         login(temp.get(0));
    
@@ -831,13 +852,14 @@ public Admin(String email,  String mdp, String role)
         temp.clear();
         queryprocess.clear();
         idtemp.clear();
+        hometracker=false;
 
         ask("Authentification email(admin)");
         
         login(temp.get(0));
 
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String date = now.format(formatter);
      
         id= nbdepro();
@@ -941,7 +963,7 @@ public Admin(String email,  String mdp, String role)
         login(temp.get(0));
     
         LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String date = now.format(formatter);
     
         ask("Name of the profil to modify");
@@ -988,29 +1010,11 @@ try {
                 askList("new adressepostal");
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][3]);
                 tabprofil [Integer.parseInt(temp.get(5))][3] = queryprocess.get(3);
-            
-
-
-                // askList("new datedenaissance");
-                // temp.add(tabprofil [Integer.parseInt(temp.get(5))][4]);
-                // tabprofil [Integer.parseInt(temp.get(5))][4] = queryprocess.get(4);
-            
+                        
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][4]);
-
-
-            
-
-                // askList("new profill");
-                // temp.add(tabprofil [Integer.parseInt(temp.get(5))][5]);
-                //  tabprofil [Integer.parseInt(temp.get(5))][5] = queryprocess.get(5);
                 
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][5]);
                 tabprofil [Integer.parseInt(temp.get(5))][5] = idstamped.get(temp.get(0));
-                
-                // tabprofil [Integer.parseInt(temp.get(5))][5] = idstamped.get(temp.get(0));
-              
-
-
 
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][6]);
 
@@ -1025,23 +1029,6 @@ try {
             for (j=0; j<8; j++)
              {profil= profil + tabprofil[Integer.parseInt(temp.get(5))][j]+";";}
              index = Integer.parseInt(temp.get(5));
-
-             System.out.println(temp.get(0)+"admin");
-             System.out.println(temp.get(1)+"admin");
-             System.out.println(temp.get(2)+"0");
-             System.out.println(temp.get(3)+"par");
-             System.out.println(temp.get(4)+"par");
-             System.out.println(temp.get(5)+"0");
-             System.out.println(temp.get(6)+"par");
-             System.out.println(temp.get(7)+"par");
-             System.out.println(temp.get(8)+"par");
-             System.out.println(temp.get(9)+null);
-             System.out.println(temp.get(10)+null);
-             System.out.println(temp.get(11)+"admin");
-             System.out.println(temp.get(12)+null);
-             System.out.println(temp.get(13)+null);
-
-  
 
             oldprofil="";
 
@@ -1135,6 +1122,7 @@ try {
 public void home() throws IOException
 {
 
+hometracker=true;
 id("", "");
 idnum("");
 pronum("");
@@ -1144,7 +1132,7 @@ queryprocess.clear();
 idtemp.clear();
 
 System.out.println("Bienvenue dans l-Annuaire NFA032");
-System.out.println("1.A. Ajouter un Admin// Add an Account to Stramped new profils with your account name: ");
+System.out.println("1.A. Ajouter un Admin// Add an Account to Stamped new profile with your account name: ");
 System.out.println("1.B. Ajouter un particulier// Add an Profile ");
 System.out.println("Rechercher un ou des particuliers// Seek profile");
 System.out.println("2.A Par nom");
@@ -1178,13 +1166,13 @@ public class Annuaire {
     public static void main(String[] args) throws IOException {
 
 Admin admin= new Admin("admin", "admin", "admin");
-Particulier part= new Particulier("par", "par", "par");
+Particulier part= new Particulier("parEMAIL", "par", "par");
 
-// admin.init();
-// admin.home();
+admin.init();
+admin.home();
 
-part.init();
-part.home();
+// part.init();
+// part.home();
 
 }
 }
