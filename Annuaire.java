@@ -41,6 +41,7 @@ class Particulier { String nom; String prénom; String email; String adressepost
      HashMap<String, String> oldtonew = new HashMap<String, String>();
      HashMap<String, String> oldtonewindex = new HashMap<String, String>();
      HashMap<Boolean, String> traker = new HashMap<Boolean, String>();
+     List<String> newAccount = new ArrayList<>();
      
 
 public Particulier(String nom, String prénom, String email, String adressepostal, 
@@ -217,6 +218,7 @@ ligne = br.readLine();
             File compte = new File("C:\\Users\\Public\\fichiercompte.txt");
             File profil = new File("C:\\Users\\Public\\fichierprofil.txt");
             File profilcopyForModification = new File("C:\\Users\\Public\\profilcopyForModification.txt");
+            File comptecopyForModification = new File("C:\\Users\\Public\\comptecopyForModification.txt");
         
             FileWriter icfw = new FileWriter(compte);
             BufferedWriter icbw = new BufferedWriter(icfw);
@@ -243,6 +245,16 @@ ligne = br.readLine();
             cbw.flush();
             cbw.close();
         
+            FileWriter ccfw = new FileWriter(comptecopyForModification);
+            BufferedWriter ccbw = new BufferedWriter(ccfw);
+        
+            ccbw.write("admin;admin;admin;");
+            ccbw.newLine();
+            ccbw.write("parEMAIL;par;par;");
+            ccbw.flush();
+            ccbw.close();
+
+
         }
 
 
@@ -454,7 +466,7 @@ public void login(String email) throws IOException
 {       
     
 
-        ask("mdp(admin) or any Account register");
+        ask("mdp(admin) or ANY REGISTRED PASSWORD register");
           
         int i =0;
 
@@ -550,7 +562,7 @@ try {
         queryprocess.clear();
         idtemp.clear();
        
-       ask("Authentification email(admin) or any registered Account: ");
+       ask("Authentification email(admin) or ANY REGISTRED ACCOUNT: ");
     
         login(temp.get(0));
 
@@ -576,7 +588,7 @@ try {
             
             };
             
-            // System.out.println("Case TRAKER ON");
+            // System.out.println("Case TRAKER OFF");
             tabcompte [nbdecpt()][0] = temp.get(3);
             traker.put(false, temp.get(3));
             oldtonew.putIfAbsent(temp.get(3),temp.get(3));
@@ -588,7 +600,7 @@ try {
         else
 
         {
-
+            // System.out.println("Case TRAKER ON");
             tabcompte [nbdecpt()][0] = traker.get(false);
             temp.add("fakedata DO NOT delete me!");
             oldtonew.putIfAbsent(traker.get(false),traker.get(false));
@@ -597,7 +609,7 @@ try {
         }
         
         
-            ask("Set a password of for the new ACCOUNT: ");
+            ask("Set a PASSWORD of for the new ACCOUNT: ");
             tabcompte [nbdecpt()][1] = temp.get(4);
             idmdp.put(temp.get(3),temp.get(4));
             
@@ -620,7 +632,7 @@ try {
      bw.close();
   
 
-     System.out.println("Adding done for this NEW ACCOUNT "+(newaccount));
+     System.out.println("Adding done for this NEW ACCOUNT: "+(newaccount)+"Please check at: "+r);
 
     temp.clear();
     idtemp.clear();
@@ -656,7 +668,7 @@ public Admin(String email,  String mdp, String role)
         queryprocess.clear();
         idtemp.clear();
       
-        ask("Authentification email(admin) or any registed ACCOUNT");
+        ask("Authentification email(admin) or ANY REGISTRED ACCOUNT");
         
         login(temp.get(0));
 
@@ -666,7 +678,7 @@ public Admin(String email,  String mdp, String role)
      
         id= nbdepro();
 
-        askList("Choose your PROFIL email:(is also going to be your ACCOUNT email if no already created)");
+        askList("Choose your PROFIL email:(it is also going to be your ACCOUNT email if it isnt already created)");
 
         if (pronum(queryprocess.get(0))!=-1)
         {
@@ -751,6 +763,8 @@ public Admin(String email,  String mdp, String role)
         
         String profil="";
         String oldprofil="";
+        String account="";
+        String oldaccount="";
         int index;
         int j;
     
@@ -758,7 +772,7 @@ public Admin(String email,  String mdp, String role)
         queryprocess.clear();
         idtemp.clear();
     
-        ask("Authentification mail(admin) or any registed Account: ");
+        ask("Authentification mail(admin) or ANY REGISTRED Account: ");
         login(temp.get(0));
         traker.put(false, temp.get(0));
     
@@ -766,8 +780,8 @@ public Admin(String email,  String mdp, String role)
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String date = now.format(formatter);
     
-        ask("NAME of the profil to modify");
-        ask("EMAIL of the profil to modify");
+        ask("NAME of the PROFILE to modify: ");
+        ask("EMAIL of the PROFILE to modify: ");
    
         rechindex(2,temp.get(4));
 
@@ -800,14 +814,14 @@ try {
 
                 {
                     // System.out.println("CASE MATCH");
-                    askList("new email");
+                    askList("new EMAIL");
                     temp.add(tabprofil [Integer.parseInt(temp.get(5))][2]);
                     pronum(queryprocess.get(2));
         
                     if (pronum(queryprocess.get(2))!=-1)
                     {
                         try {
-                            System.out.println("Cant add an existing mail!");
+                            System.out.println("Cant add because of this mail has already been created in PROFILE data!");
                             Thread.sleep(1000);
                             modifierprofil();
                         } catch (InterruptedException e) {
@@ -815,14 +829,87 @@ try {
                         }
                     
                     };
+
+
+                    if (idnum(queryprocess.get(2))!=-1)
+                    {
+        
+                        try {
+                            System.out.println("Cant add because of this EMAIL has already been created in ACCOUNT data!");
+                            Thread.sleep(1000);
+                            modifierprofil();
+                        } catch (InterruptedException e) {
+                            modifierprofil();
+                        }
                     
+                    };
+                    
+                    newAccount.clear();
+                    newAccount.add(tabcompte [Integer.parseInt(oldtonewindex.get(oldtonew.get(temp.get(4))))][0]);
+                    newAccount.add(tabcompte [Integer.parseInt(oldtonewindex.get(oldtonew.get(temp.get(4))))][1]);
+                    newAccount.add(tabcompte [Integer.parseInt(oldtonewindex.get(oldtonew.get(temp.get(4))))][2]);
+
+                     oldaccount = newAccount.get(0)+";"+newAccount.get(1)+";"+newAccount.get(2)+";";
+
                     tabprofil [Integer.parseInt(temp.get(5))][2] = queryprocess.get(2);
 
                     tabcompte [Integer.parseInt(oldtonewindex.get(oldtonew.get(temp.get(4))))][0] = queryprocess.get(2);
-                    System.out.println("MAIL Modification have been done one your ACCOUNT, Please check at: C:\\Users\\Public\\fichiercompte.txt");
+                    // System.out.println("EMAIL modification have been done one your ACCOUNT, Please check at: C:\\Users\\Public\\fichiercompte.txt");
+
+                    newAccount.add(tabcompte [Integer.parseInt(oldtonewindex.get(oldtonew.get(temp.get(4))))][0]);
+                    newAccount.add(tabcompte [Integer.parseInt(oldtonewindex.get(oldtonew.get(temp.get(4))))][1]);
+                    newAccount.add(tabcompte [Integer.parseInt(oldtonewindex.get(oldtonew.get(temp.get(4))))][2]);
+
+                    account = newAccount.get(3)+";"+newAccount.get(4)+";"+newAccount.get(5)+";";
+
+                    Path r =  Paths.get("C:\\Users\\Public\\fichiercompte.txt"); 
+                    Path w =  Paths.get("C:\\Users\\Public\\comptecopyForModification.txt"); 
+                    FileReader fr = new FileReader("C:\\Users\\Public\\fichiercompte.txt");
+                    FileWriter fw = new FileWriter("C:\\Users\\Public\\comptecopyForModification.txt");
+                    BufferedReader br = new BufferedReader(fr);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                 
+                    String ligne = br.readLine();
+                
+       
+                    while(ligne != null) {
+                    
+                    if (ligne.equals(oldaccount))
+                
+                {
+                    String replace = ligne.replace(oldaccount, account);
+                    bw.write(replace);
+                    bw.newLine();
+                    bw.flush();
+                }
+                
+                else
+                {
+                    bw.write(ligne);
+                    bw.newLine();
+                }
+                
+                    ligne = br.readLine();
+                    
+                    }
+                    
+                    bw.flush();
+                    br.close();
+                    bw.close();
+                
+       
+                    Path source = Paths.get("C:\\Users\\Public\\comptecopyForModification.txt");
+                    Path target = Paths.get("C:\\Users\\Public\\fichiercompte.txt");
+       
+                    Files.copy(source, target, REPLACE_EXISTING);
+              
+                      System.out.println("This compte has been TRUELY modified: "+oldaccount+" to this: ");
+                      System.out.println(account+" is the new compte! Please check at: "+target);
+
 
                     oldtonew.remove(temp.get(4));
                     oldtonew.put(queryprocess.get(2),queryprocess.get(2));
+                    newAccount.clear();
 
                 }
 
@@ -831,14 +918,28 @@ try {
                 {
 
                 // System.out.println("CASE NO MATCH");
-                askList("new email");
+                askList("new EMAIL");
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][2]);
                 pronum(queryprocess.get(2));
     
                 if (pronum(queryprocess.get(2))!=-1)
                 {
                     try {
-                        System.out.println("Cant add an existing mail!");
+                        System.out.println("Cant add because of an this EMAIL has already been created in PROFILE data!");
+                        Thread.sleep(1000);
+                        modifierprofil();
+                    } catch (InterruptedException e) {
+                          modifierprofil();
+                    }
+                
+                };
+
+
+                if (idnum(queryprocess.get(2))!=-1)
+                {
+    
+                    try {
+                        System.out.println("Cant add because of this EMAIL has already been created in ACCOUNT data!");
                         Thread.sleep(1000);
                         modifierprofil();
                     } catch (InterruptedException e) {
@@ -922,7 +1023,7 @@ try {
 
              Files.copy(source, target, REPLACE_EXISTING);
        
-               System.out.println("This profil has been TRUELY modified: "+oldprofil);
+               System.out.println("This profil has been TRUELY modified: "+oldprofil+" to this: ");
                System.out.println(profil+" is the new profil! Please check at: "+source);
 
         
@@ -981,13 +1082,13 @@ queryprocess.clear();
 idtemp.clear();
 
 System.out.println("Bienvenue dans l-Annuaire NFA032");
-System.out.println("1.A. Ajouter un Admin// Add an Account to Stamped new profile with your account name: ");
-System.out.println("1.B. Ajouter un particulier// Add an Profile ");
-System.out.println("Rechercher un ou des particuliers// Seek profile");
+System.out.println("1.A. Ajouter un Admin// Add an ACCOUNT to Stamped new PROFILE with your account name: ");
+System.out.println("1.B. Ajouter un particulier// Add a PROFILE ");
+System.out.println("Rechercher un ou des particuliers// Seek registred PROFILE");
 System.out.println("2.A Par nom");
 System.out.println("2.B. Par email");
 System.out.println("2.C. Par profil");
-System.out.println("3. Modifier mes informations personnelles// Modify a profile");
+System.out.println("3. Modifier mes informations personnelles// Modify ANY PROFILE");
 System.out.println("Faites votre choix : /ex: 3, 2.A, 1.B ");
 ask("choix");
 
