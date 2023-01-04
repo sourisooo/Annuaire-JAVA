@@ -20,17 +20,12 @@ import static java.nio.file.StandardCopyOption.*;
 
 class Particulier { String nom; String prénom; String email; String adressepostal; 
     String datedenaissance; String profill; String datedajout; String datedemodification;
-     String mdp;
-     String role;
+    
 
      String [][] tabprofil = new String[9999][8];
      String [][] tabcompte = new String[9999][3];
      String [] tabmail = new String [9999];
-     String [] tabmdp = new String [9999];
-     String [] tabid = new String [9999];
      List<String> alist = new ArrayList<>();
-     List<String> blist = new ArrayList<>();
-     List<String> clist = new ArrayList<>();
      List<String> zlist = new ArrayList<>();
      String [] tabpro = new String [9999];
      List<String> temp = new ArrayList<>();
@@ -47,47 +42,13 @@ class Particulier { String nom; String prénom; String email; String adressepost
 public Particulier(String nom, String prénom, String email, String adressepostal, 
 String datedenaissance, String profill, String datedajout, String datedemodification)
     {
-    this.nom = nom;
-    this.prénom = prénom; 
-    this.email = email;
-    this.adressepostal = adressepostal;
-    this.datedenaissance = datedenaissance;
-    profill="";
-    datedajout="";
-    datedemodification="";
+   
     }
 
 public Particulier(String email, String mdp, String role)
 
 {
-    this.email = email;
-    this.mdp = mdp; 
-    this.role = role;
-}
-
-public void id (String mail, String mdp)
-{
-int i=0;
-
-for (i=0;i<9999;i++)
-{
-    tabmail [i] = tabcompte [i][0]; 
-    tabmdp [i] = tabcompte [i][1]; 
-    tabid [i] = tabcompte [i][2]; 
-}
-
-for (String str:tabmail) {
-    alist.add(str);
- }
-
- for (String str:tabmdp) {
-    blist.add(str);
- }
-
- for (String str:tabid) {
-    clist.add(str);
- }
-
+ 
 }
 
 
@@ -341,29 +302,7 @@ public void rech(int para, String motRechercher) throws IOException
 
 public void ask(String typeof) throws IOException
 {
-    // System.out.println("Entrez"+typeof+" : ");
-    // Scanner scanner = new Scanner(System.in);
-    // typeof = scanner.nextLine();
-    // temp.add(typeof);
-    // scanner.close();
-
-////////////////////////////////////////////////////////
-
-    // Console console = System.console();
-    // if (console == null) {
-    //     System.out.println("No console: non-interactive mode!");
-    //     System.exit(0);
-    // }
-     
-    // System.out.print("Enter your"+typeof);
-    // String username = console.readLine();
-    // temp.add(username);
-
-    // String passport = console.readLine("Enter your  "+typeof, 2);
-    // temp.add(passport);
-
-/////////////////////////////////////////////////////////
-
+ 
 BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 System.out.print("Enter your "+typeof+" ");
  
@@ -424,7 +363,6 @@ public void home() throws IOException
     System.out.println("Welcome "+traker.get(false)+"!");
     
     
-    id("", "");
     idnum("");
     pronum("");
     traker.clear();
@@ -697,7 +635,7 @@ public Admin(String email,  String mdp, String role)
                 }
         };
 
-        id(queryprocess.get(0),"");
+
         tabprofil [id][2] = queryprocess.get(0);
     
         askList("nom");
@@ -825,30 +763,11 @@ try {
                     pronum(queryprocess.get(2));
         
                     if (pronum(queryprocess.get(2))!=-1)
-                    {
-                        try {
-                            System.out.println("Cant add because of this mail has already been created in PROFILE data!");
-                            Thread.sleep(1000);
-                            modifierprofil();
-                        } catch (InterruptedException e) {
-                              modifierprofil();
-                        }
-                    
-                    };
+                    {canthavetwoidenticalemail();};
 
 
                     if (idnum(queryprocess.get(2))!=-1)
-                    {
-        
-                        try {
-                            System.out.println("Cant add because of this EMAIL has already been created in ACCOUNT data!");
-                            Thread.sleep(1000);
-                            modifierprofil();
-                        } catch (InterruptedException e) {
-                            modifierprofil();
-                        }
-                    
-                    };
+                    {canthavetwoidenticalemail();};
                     
                     newAccount.clear();
                     newAccount.add(tabcompte [Integer.parseInt(oldtonewindex.get(oldtonew.get(temp.get(4))))][0]);
@@ -929,30 +848,10 @@ try {
                 pronum(queryprocess.get(2));
     
                 if (pronum(queryprocess.get(2))!=-1)
-                {
-                    try {
-                        System.out.println("Cant add because of an this EMAIL has already been created in PROFILE data!");
-                        Thread.sleep(1000);
-                        modifierprofil();
-                    } catch (InterruptedException e) {
-                          modifierprofil();
-                    }
-                
-                };
-
+                {canthavetwoidenticalemail();};
 
                 if (idnum(queryprocess.get(2))!=-1)
-                {
-    
-                    try {
-                        System.out.println("Cant add because of this EMAIL has already been created in ACCOUNT data!");
-                        Thread.sleep(1000);
-                        modifierprofil();
-                    } catch (InterruptedException e) {
-                          modifierprofil();
-                    }
-                
-                };
+                {canthavetwoidenticalemail();};
 
                 tabprofil [Integer.parseInt(temp.get(5))][2] = queryprocess.get(2);
 
@@ -1069,6 +968,21 @@ try {
         }
 
 
+        public void canthavetwoidenticalemail() throws IOException
+
+        {
+
+            try {
+                System.out.println("Cant add because of this mail has already been created in PROFILE or ACCOUNT database!");
+                Thread.sleep(1000);
+                modifierprofil();
+            } catch (InterruptedException e) {
+                  modifierprofil();
+            }
+
+
+        }
+
 
 public void home() throws IOException
 {
@@ -1080,7 +994,6 @@ public void home() throws IOException
     System.out.println("Welcome "+traker.get(false)+"!");
 
 
-id("", "");
 idnum("");
 pronum("");
 traker.clear();
