@@ -30,9 +30,7 @@ class Particulier { String nom; String prénom; String email; String adressepost
      String [] tabpro = new String [9999];
      List<String> temp = new ArrayList<>();
      List<String> queryprocess = new ArrayList<>();
-     List<Boolean> idtemp = new ArrayList<>();
      HashMap<String, String> idmdp = new HashMap<String, String>();
-     HashMap<String, String> idstamped = new HashMap<String, String>();
      HashMap<String, String> oldtonew = new HashMap<String, String>();
      HashMap<String, String> oldtonewindex = new HashMap<String, String>();
      HashMap<Boolean, String> traker = new HashMap<Boolean, String>();
@@ -356,57 +354,7 @@ public void recherche() throws IOException
 
 public void home() throws IOException
 {
-    if (traker.get(false)==null)
-
-    { System.out.println("Welcome guest!");}
-
-    System.out.println("Welcome "+traker.get(false)+"!");
-    
-    
-    idnum("");
-    pronum("");
-    traker.clear();
-    temp.clear();
-    queryprocess.clear();
-    idtemp.clear();
-     
-    System.out.println("Bienvenue dans l-Annuaire NFA032");
-    System.out.println("1.A. Ajouter un Admin// Add an Account");
-    System.out.println("1.B. Ajouter un particulier// Add an Account and Profile");
-    System.out.println("Rechercher un ou des particuliers// Seek profile");
-    System.out.println("2.A Par nom");
-    System.out.println("2.B. Par email");
-    System.out.println("2.C. Par profil");
-    System.out.println("3. Modifier mes informations personnelles// Modify a profile");
-    System.out.println("Faites votre choix : /ex: 3, 2.A, 1.B ");
-
-    ask("choix");
-
-switch (temp.get(0)) {
-case "1.A":  
-System.out.println("Vous ne disposez pas des habilitations requises.");
-home();
-break;
-case "1.B":  
-System.out.println("Vous ne disposez pas des habilitations requises.");
-home();
-break;
-case "2.A":  
-recherche();
-break;
-case "2.B":  
-recherche();
-break;
-case "2.C":  
-recherche();
-break;
-case "3":  
-recherche();
-break;
-// modifierprofil();
-}
-home();
-
+  
 }
 
 
@@ -504,7 +452,6 @@ try {
 
         temp.clear();
         queryprocess.clear();
-        idtemp.clear();
        
        ask("Authentification email(admin) or ANY REGISTRED ACCOUNT: ");
     
@@ -559,8 +506,7 @@ try {
             
             ask("role: ");
             tabcompte [nbdecpt()][2] = temp.get(5);
-            idstamped.put(temp.get(3),temp.get(5));
-
+       
 
             newaccount = tabcompte [nbdecpt()][0] +";"+ tabcompte [nbdecpt()][1] +";"+ tabcompte [nbdecpt()][2]+";";
 
@@ -579,7 +525,7 @@ try {
      System.out.println("Adding done for this NEW ACCOUNT: "+(newaccount)+"Please check at: "+r);
 
     temp.clear();
-    idtemp.clear();
+
     try {
         Thread.sleep(1000);
     } catch (InterruptedException e) {
@@ -610,7 +556,7 @@ public Admin(String email,  String mdp, String role)
 
         temp.clear();
         queryprocess.clear();
-        idtemp.clear();
+    
       
         ask("Authentification email(admin) or ANY REGISTRED ACCOUNT");
         
@@ -649,10 +595,9 @@ public Admin(String email,  String mdp, String role)
         askList("adressepostal");
             tabprofil [id][3] = queryprocess.get(3);
         
-            idstamped.put("Newdate",temp.get(0));
-            tabprofil [id][4] = "Create by "+idstamped.get("Newdate");
-            idstamped.clear();
-  
+
+            tabprofil [id][4] = "Create by "+temp.get(0);
+         
             tabprofil [id][5] = null;
 
             datedajout = date.toString();
@@ -683,7 +628,7 @@ public Admin(String email,  String mdp, String role)
 
         System.out.println("This NEW PROFILE has been created: "+profil+" at"+source);
 
-        idtemp.clear();
+      
 
         try {
             Thread.sleep(1000);
@@ -714,7 +659,7 @@ public Admin(String email,  String mdp, String role)
     
         temp.clear();
         queryprocess.clear();
-        idtemp.clear();
+   
     
         ask("Authentification mail(admin) or ANY REGISTRED Account: ");
         login(temp.get(0));
@@ -865,9 +810,9 @@ try {
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][4]);
                 
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][5]);
-                idstamped.put("Modifieddate",temp.get(0));
-                tabprofil [Integer.parseInt(temp.get(5))][5] = "Modified by "+idstamped.get("Modifieddate");
-                idstamped.clear();
+         
+                tabprofil [Integer.parseInt(temp.get(5))][5] = "Modified by "+temp.get(0);
+      
 
                 temp.add(tabprofil [Integer.parseInt(temp.get(5))][6]);
 
@@ -945,7 +890,7 @@ try {
 
                     temp.clear();
                     queryprocess.clear();
-                    idtemp.clear();
+            
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException f) {
@@ -957,7 +902,7 @@ try {
 
         temp.clear();
         queryprocess.clear();
-        idtemp.clear();
+   
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -1000,7 +945,7 @@ pronum("");
 traker.clear();
 temp.clear();
 queryprocess.clear();
-idtemp.clear();
+
 
 System.out.println("Bienvenue dans l-Annuaire NFA032");
 System.out.println("1.A. Ajouter un Admin// Add an ACCOUNT to Stamped new PROFILE with your account name: ");
