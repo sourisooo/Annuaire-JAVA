@@ -134,6 +134,20 @@ ligne = br.readLine();
       
         }
 
+        public void canthavetwoidenticalemailhome() throws IOException
+
+        {
+
+            try {
+                System.out.println("Cant add because of this mail has already been created in PROFILE or ACCOUNT database!");
+                Thread.sleep(1000);
+                home();
+            } catch (InterruptedException e) {
+                  home();
+            }
+
+
+        }
 
         public void nomatcheddata() throws IOException
 
@@ -376,6 +390,9 @@ public void login(String email) throws IOException
         temp.add("fakedata DO NOT delete me!");
 
 
+        try {
+            
+    
         if ((mdpid.get(temp.get(1))).equals(email))
 
         {
@@ -400,6 +417,10 @@ public void login(String email) throws IOException
        
        {nomatcheddata();}
 
+
+    } catch (Exception e) {
+        {nomatcheddata();}
+    }
     
     }
 
@@ -427,17 +448,10 @@ public void login(String email) throws IOException
        
 
         if (idnum(temp.get(3))!=-1)
-            {
+         {canthavetwoidenticalemailhome();};
 
-                try {
-                    System.out.println("Cant add an existing mail!");
-                    Thread.sleep(1000);
-                    home();
-                } catch (InterruptedException e) {
-                      home();
-                }
-            
-            };
+            if (pronum(temp.get(3))!=-1)
+            {canthavetwoidenticalemailhome();};
             
             // System.out.println("Case TRAKER OFF");
             tabcompte [nbdecpt()][0] = temp.get(3);
@@ -543,15 +557,10 @@ public Admin(String email,  String mdp, String role)
         askList("Choose your PROFIL email:(it is also going to be your ACCOUNT email if it isnt already created)");
 
         if (pronum(queryprocess.get(0))!=-1)
-        {
-             try {
-                    System.out.println("Cant add an existing mail!");
-                    Thread.sleep(1000);
-                    home();
-                } catch (InterruptedException e) {
-                      home();
-                }
-        };
+        {canthavetwoidenticalemailhome();};
+
+        if (idnum(queryprocess.get(0))!=-1)
+        {canthavetwoidenticalemailhome();};
 
 
         tabprofil [id][2] = queryprocess.get(0);
@@ -682,7 +691,6 @@ try {
                     if (pronum(queryprocess.get(2))!=-1)
                     {canthavetwoidenticalemail();};
 
-
                     if (idnum(queryprocess.get(2))!=-1)
                     {canthavetwoidenticalemail();};
                     
@@ -745,7 +753,7 @@ try {
        
                     Files.copy(source, target, REPLACE_EXISTING);
               
-                      System.out.println("This compte has been TRUELY modified: "+oldaccount+" to this: ");
+                      System.out.println("This compte has been modified: "+oldaccount+" to this: ");
                       System.out.println(account+" is the new compte! Please check at: "+target);
 
 
@@ -845,7 +853,7 @@ try {
 
              Files.copy(source, target, REPLACE_EXISTING);
        
-               System.out.println("This profil has been TRUELY modified: "+oldprofil+" to this: ");
+               System.out.println("This profil has been modified: "+oldprofil+" to this: ");
                System.out.println(profil+" is the new profil! Please check at: "+source);
 
         
@@ -853,12 +861,12 @@ try {
                         
                     }
                     else
-                    System.out.println("3RIEN");
+                    System.out.println("");
         
     
                 } catch (Exception e) {
 
-            System.out.println("Dont have any match for: "+temp.get(2)+"and"+temp.get(3)+"index 2 & 3");
+            System.out.println("Dont have any match for: "+temp.get(3)+"and"+temp.get(4)+"index 3 & 4");
 
                     temp.clear();
                     queryprocess.clear();
