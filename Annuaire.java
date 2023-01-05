@@ -25,12 +25,15 @@ class Particulier { String nom; String prénom; String email; String adressepost
      String [][] tabprofil = new String[9999][8];
      String [][] tabcompte = new String[9999][3];
      String [] tabmail = new String [9999];
+     String [] tabpro = new String [9999];
      List<String> alist = new ArrayList<>();
      List<String> zlist = new ArrayList<>();
-     String [] tabpro = new String [9999];
      List<String> temp = new ArrayList<>();
      List<String> queryprocess = new ArrayList<>();
      HashMap<String, String> idmdp = new HashMap<String, String>();
+     HashMap<String, String> mdpid = new HashMap<String, String>();
+     List<String> idmdpindex = new ArrayList<>();
+     List<String> mdpidindex = new ArrayList<>();
      HashMap<String, String> oldtonew = new HashMap<String, String>();
      HashMap<String, String> oldtonewindex = new HashMap<String, String>();
      HashMap<Boolean, String> traker = new HashMap<Boolean, String>();
@@ -184,12 +187,17 @@ ligne = br.readLine();
             tabprofil [0][2] = "parEMAIL";
             idmdp.put("admin","admin");
             idmdp.put("parEMAIL","par");
+            mdpid.put("admin","admin");
+            mdpid.put("par","parEMAIL");
+            idmdpindex.add("admin");
+            mdpidindex.add("admin");
+            idmdpindex.add("par");
+            mdpidindex.add("parEMAIL");
             oldtonewindex.put("admin","0");
             oldtonewindex.put("parEMAIL","1");
             oldtonew.put("admin","admin");
             oldtonew.put("parEMAIL","parEMAIL");
  
-
             suppressfiles();
 
             File compte = new File("C:\\Users\\Public\\fichiercompte.txt");
@@ -252,7 +260,7 @@ ligne = br.readLine();
         
                }
                else
-               System.out.println("3RIEN");
+               System.out.print("");
            
            } 
         
@@ -279,7 +287,7 @@ public void rech(int para, String motRechercher) throws IOException
 
        }
        else
-       System.out.println("3RIEN");
+       System.out.println("No result found");
    
    } 
 
@@ -358,71 +366,28 @@ public void home() throws IOException
 }
 
 
-public String Timenow()
-
-{
-    LocalDateTime now = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
-            String date = now.format(formatter);
-           datedajout = date.toString();
-
-           return datedajout;
-}
-
 
 public void login(String email) throws IOException
 {       
     
 
-        ask("mdp(admin) or ANY REGISTRED PASSWORD register");
+        ask("mdp(admin) or ANY REGISTRED PASSWORD: ");
           
-        int i =0;
+        temp.add("fakedata DO NOT delete me!");
 
 
-        try {
-            
-               for(i=0; i<9999;i++)
-               {
-        
-                  try {
-                    
-           {
-               if ((tabcompte[i][0]).equals(email))
-               {
-              
-                temp.add(Integer.toString(i));
-        
-               }
-               else
-               System.out.println("3RIENIF");
-           
-           } 
-
-        } catch (Exception e) {
-            int k =9999;
-        
-            System.out.println("Skipping current line...Please wait..."+(k-i)+"    "+Timenow());
-          }
-
-               }  
-
-            } catch (Exception e) { nomatcheddata();
-                
-            }
-
-try {
-    
-        if (temp.get(2)!=null)
+        if ((mdpid.get(temp.get(1))).equals(email))
 
         {
         System.out.println("success to reach your mail!");
 
-       if ((idmdp.containsKey(email))&&(idmdp.containsValue(temp.get(1))))
-
+       
+       if ((idmdp.get(email)).equals(temp.get(1)))
             
                 {
+                    System.out.println("success to reach your MDP!");
 
-             if ((idmdp.get(email)).equals(temp.get(1)))
+             if ((idmdpindex.indexOf(temp.get(1)))==(mdpidindex.indexOf(email)))
                     
                     {
 
@@ -434,11 +399,6 @@ try {
        else 
        
        {nomatcheddata();}
-
-
-        } catch (Exception e) {
-          home();
-        }
 
     
     }
@@ -484,6 +444,14 @@ try {
             traker.put(false, temp.get(3));
             oldtonew.putIfAbsent(temp.get(3),temp.get(3));
             oldtonewindex.put(temp.get(3),String.valueOf(nbdecpt()));
+            
+
+            ask("Set a PASSWORD of for the new ACCOUNT: ");
+            tabcompte [nbdecpt()][1] = temp.get(4);
+            idmdp.put(temp.get(3),temp.get(4));
+            mdpid.put(temp.get(4),temp.get(3));
+            idmdpindex.add(temp.get(4));
+            mdpidindex.add(temp.get(3));
       
 
         }
@@ -496,14 +464,18 @@ try {
             temp.add("fakedata DO NOT delete me!");
             oldtonew.putIfAbsent(traker.get(false),traker.get(false));
             oldtonewindex.put(traker.get(false),String.valueOf(nbdecpt()));
+            
+
+            ask("Set a PASSWORD of for the new ACCOUNT: ");
+            tabcompte [nbdecpt()][1] = temp.get(4);
+            idmdp.put(traker.get(false),temp.get(4));
+            mdpid.put(temp.get(4),traker.get(false));
+            idmdpindex.add(temp.get(4));
+            mdpidindex.add(traker.get(false));
 
         }
         
         
-            ask("Set a PASSWORD of for the new ACCOUNT: ");
-            tabcompte [nbdecpt()][1] = temp.get(4);
-            idmdp.put(temp.get(3),temp.get(4));
-            
             ask("role: ");
             tabcompte [nbdecpt()][2] = temp.get(5);
        
@@ -596,7 +568,7 @@ public Admin(String email,  String mdp, String role)
             tabprofil [id][3] = queryprocess.get(3);
         
 
-            tabprofil [id][4] = "Create by "+temp.get(0);
+            tabprofil [id][4] = "Created by "+temp.get(0);
          
             tabprofil [id][5] = null;
 
